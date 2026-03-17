@@ -1,4 +1,5 @@
 import { Icon, IconName } from '@/components/Icon';
+import { Video, ResizeMode } from 'expo-av';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import React, { useRef, useState } from 'react';
@@ -48,7 +49,7 @@ const VIDEO_WISHES: {
   id: string;
   title: string;
   desc: string;
-  videoUri: string;
+  videoUri: string | number;
   gradient: readonly [string, string, string];
   tag: string;
 }[] = [
@@ -56,7 +57,7 @@ const VIDEO_WISHES: {
     id: '1',
     title: 'Celebrate Academic Success',
     desc: "Recognise their dedication with a personal celebrity video message. Whether it's cracking an entrance exam or walking the graduation stage, make the achievement unforgettable.",
-    videoUri: '',
+    videoUri: require('../../assets/videos/graduation-wish.mp4'),
     gradient: ['#3B82F6', '#0EA5E9', '#06B6D4'],
     tag: 'Graduation',
   },
@@ -141,25 +142,50 @@ function QuickAction({ action }: { action: typeof QUICK_ACTIONS[0] }) {
 
 function VideoWishCard({ wish }: { wish: typeof VIDEO_WISHES[0] }) {
   const { colors } = useTheme();
+  const [isMuted, setIsMuted] = useState(true);
+
+  const source = wish.videoUri
+    ? (typeof wish.videoUri === 'number' ? wish.videoUri : { uri: wish.videoUri as string })
+    : null;
+
   return (
     <View style={[styles.videoWishCard, { backgroundColor: colors.card, ...shadows.md }]}>
-      <LinearGradient
-        colors={wish.gradient}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        style={styles.videoThumb}
-      >
-        {!wish.videoUri && (
+      {source ? (
+        <Pressable onPress={() => setIsMuted(m => !m)} style={styles.videoThumbContainer}>
+          <Video
+            source={source as any}
+            style={styles.videoThumb}
+            resizeMode={ResizeMode.COVER}
+            shouldPlay
+            isLooping
+            isMuted={isMuted}
+          />
+          <View style={[styles.videoTag, { backgroundColor: colors.background + '59' }]}>
+            <Text style={{ fontFamily: 'Inter_600SemiBold', fontSize: 11, color: colors.secondaryForeground, letterSpacing: 0.5 }}>
+              {wish.tag}
+            </Text>
+          </View>
+          <View style={[styles.videoMuteBtn, { backgroundColor: colors.background + '59' }]}>
+            <Icon name={isMuted ? 'volume-x' : 'volume-2'} size={14} color={colors.secondaryForeground} />
+          </View>
+        </Pressable>
+      ) : (
+        <LinearGradient
+          colors={wish.gradient}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.videoThumb}
+        >
           <View style={[styles.videoPlayBtn, { opacity: 0.92 }]}>
             <Icon name="play-circle" size={52} color={colors.secondaryForeground} />
           </View>
-        )}
-        <View style={[styles.videoTag, { backgroundColor: colors.background + '59' }]}>
-          <Text style={{ fontFamily: 'Inter_600SemiBold', fontSize: 11, color: colors.secondaryForeground, letterSpacing: 0.5 }}>
-            {wish.tag}
-          </Text>
-        </View>
-      </LinearGradient>
+          <View style={[styles.videoTag, { backgroundColor: colors.background + '59' }]}>
+            <Text style={{ fontFamily: 'Inter_600SemiBold', fontSize: 11, color: colors.secondaryForeground, letterSpacing: 0.5 }}>
+              {wish.tag}
+            </Text>
+          </View>
+        </LinearGradient>
+      )}
 
       <View style={styles.videoWishContent}>
         <Text style={{ fontFamily: 'PlayfairDisplay_700Bold', fontSize: 18, lineHeight: 26, color: colors.foreground, marginBottom: 8 }}>
@@ -472,6 +498,10 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     overflow: 'hidden',
   },
+  videoThumbContainer: {
+    width: '100%',
+    height: 188,
+  },
   videoThumb: {
     width: '100%',
     height: 188,
@@ -489,6 +519,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: 999,
+  },
+  videoMuteBtn: {
+    position: 'absolute',
+    bottom: 12,
+    right: 12,
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   videoWishContent: {
     padding: 16,

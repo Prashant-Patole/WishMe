@@ -15,7 +15,7 @@ export type IconName =
   | 'scissors' | 'search' | 'send' | 'settings' | 'share-2' | 'shield'
   | 'shopping-bag' | 'sliders' | 'smartphone' | 'star' | 'sun' | 'tag'
   | 'trash-2' | 'upload' | 'user' | 'users' | 'video' | 'volume-2'
-  | 'x' | 'zap';
+  | 'volume-x' | 'x' | 'zap';
 
 interface IconProps {
   name: IconName;
@@ -442,6 +442,13 @@ const ICONS: Record<string, DrawFn> = {
     <>
       <Polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" {...a(c,w)} />
       <Path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" {...a(c,w)} />
+    </>
+  ),
+  'volume-x': (c, w) => (
+    <>
+      <Polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" {...a(c,w)} />
+      <Line x1="23" y1="9" x2="17" y2="15" {...a(c,w)} />
+      <Line x1="17" y1="9" x2="23" y2="15" {...a(c,w)} />
     </>
   ),
   'x': (c, w) => (
