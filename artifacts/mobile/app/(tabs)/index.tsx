@@ -316,7 +316,7 @@ const styles = StyleSheet.create({
   sectionHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 },
   quickActionsGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' },
   quickAction: {
-    width: '31.5%',
+    width: '31%',
     alignItems: 'center',
     padding: 14,
     borderRadius: 16,
