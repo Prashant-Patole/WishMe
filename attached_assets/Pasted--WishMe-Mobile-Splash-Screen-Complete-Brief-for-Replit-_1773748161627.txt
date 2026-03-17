@@ -1,0 +1,188 @@
+
+
+# WishMe Mobile Splash Screen — Complete Brief for Replit
+
+---
+
+## Overview
+
+The splash screen is a 5-screen onboarding flow shown **only on mobile** and **only to unauthenticated users**. It covers the full viewport (`fixed inset-0 z-[9999]`) and sits on top of everything.
+
+---
+
+## Flow (5 Screens)
+
+| Screen | Index | Content |
+|--------|-------|---------|
+| **0 — Video Intro** | 0 | Auto-plays `/intro-video.mp4` (muted, full-screen cover). Auto-advances when video ends, or after 5s timeout as fallback. |
+| **1 — Wish a Friend** | 1 | Background image + title + description + Continue button |
+| **2 — Wish a Celebrity** | 2 | Same layout, different image/text |
+| **3 — Make Promotion Ads** | 3 | Same layout, different image/text |
+| **4 — UGC Videos** | 4 | Same layout, button says "Skip" instead of "Continue" |
+
+---
+
+## Image Locations (Downloadable from Published App)
+
+All 4 splash images and the logo can be downloaded from:
+
+- **Logo**: `https://wishmefinal.lovable.app/wish-me-logo.png`
+- **Intro Video**: `https://wishmefinal.lovable.app/intro-video.mp4`
+
+The 4 splash background images are bundled assets (not in `/public`), so download them from the source repo paths:
+
+| Screen | File Path in Repo |
+|--------|------------------|
+| Wish a Friend | `src/assets/splash-wish-friend-updated.jpg` |
+| Wish a Celebrity | `src/assets/splash-celebrity-updated.jpg` |
+| Make Promotion Ads | `src/assets/splash-promotion-updated.jpg` |
+| UGC Videos | `src/assets/splash-ugc-updated.jpg` |
+
+To download: Use the Lovable editor's file browser → click on each image file → download.
+
+---
+
+## Screen Data
+
+```json
+[
+  {
+    "index": 1,
+    "title": "Wish a Friend",
+    "description": "Send personalized video wishes to your loved ones",
+    "image": "splash-wish-friend-updated.jpg"
+  },
+  {
+    "index": 2,
+    "title": "Wish a Celebrity",
+    "description": "Get personalized video messages from your favorite celebrities",
+    "image": "splash-celebrity-updated.jpg"
+  },
+  {
+    "index": 3,
+    "title": "Make Promotion Ads",
+    "description": "Create professional promotion videos with celebrity endorsements",
+    "image": "splash-promotion-updated.jpg"
+  },
+  {
+    "index": 4,
+    "title": "UGC Videos",
+    "description": "User-generated content videos with celebrity collaborations",
+    "image": "splash-ugc-updated.jpg"
+  }
+]
+```
+
+---
+
+## Layout Structure (Each Image Screen 1–4)
+
+```text
+┌──────────────────────────────┐
+│ [Logo]          [1/4] [Skip] │  ← Top bar (absolute positioned)
+│                              │
+│                              │
+│    FULL-SCREEN BACKGROUND    │  ← Image: object-cover, object-center
+│         IMAGE                │
+│                              │
+│                              │
+│ ┌──────────────────────────┐ │
+│ │  Gradient overlay bottom │ │  ← bg-gradient-to-t from dark
+│ │                          │ │
+│ │     "Wish a Friend"      │ │  ← 4xl bold, drop-shadow
+│ │   description text here  │ │  ← lg, 90% opacity
+│ │                          │ │
+│ │   [   Continue    ]      │ │  ← Full-width primary button, h-12
+│ └──────────────────────────┘ │
+└──────────────────────────────┘
+```
+
+---
+
+## Animations Used
+
+### 1. Screen Transition (whole screen)
+- **Class**: `animate-in fade-in-50 duration-700`
+- **Effect**: Each screen fades in from 50% opacity over 700ms
+
+### 2. Background Image Zoom
+- **Class**: `animate-in zoom-in-95 duration-1000`
+- **Effect**: Image starts at 95% scale and zooms to 100% over 1000ms (subtle Ken Burns feel)
+
+### 3. Logo Fade-in
+- **Class**: `animate-in fade-in duration-700`
+- **Effect**: Logo fades in over 700ms
+
+### 4. Title & Description Slide-up
+- **Class**: `animate-in slide-in-from-bottom-8 duration-700 delay-300`
+- **Effect**: Text slides up 8 units (32px) while fading in, starts after 300ms delay
+
+### 5. Button Fade-in (delayed)
+- **Class**: `animate-in fade-in duration-700 delay-700`
+- **Effect**: Button fades in after 700ms delay (appears after title)
+
+### 6. Loading Spinner (while images preload)
+- **Class**: `animate-spin` on a circular border element
+- **Effect**: Standard spinning loader with `border-4 border-primary border-t-transparent`
+
+### 7. Skip Button Hover
+- **Class**: `transition-all duration-300`
+- **Effect**: Background goes from 30% to 50% opacity, border becomes more visible
+
+---
+
+## Gradient Overlays on Images
+
+Two overlays on each background image:
+
+1. **Bottom-to-top gradient**: `bg-gradient-to-t from-background/98 via-background/20 to-background/40`
+   - Nearly opaque at bottom (98%), transparent middle, slightly dark top (40%)
+2. **Radial vignette**: `bg-gradient-radial from-transparent via-transparent to-background/30`
+   - Subtle edge darkening
+
+**Bottom content area**: `bg-gradient-to-t from-background/98 via-background/95 to-transparent backdrop-blur-sm`
+
+---
+
+## Visibility Logic
+
+```
+IF device is NOT mobile → HIDE splash
+IF user is authenticated → HIDE splash
+Screen 0: Play intro video → auto-advance on video end (or 5s timeout)
+Screens 1-4: User taps "Continue" to advance
+Screen 4: "Skip" button dismisses splash
+"Skip" button (top-right): Dismisses at any point
+```
+
+---
+
+## Key Styling Details
+
+| Element | Style |
+|---------|-------|
+| Container | `fixed inset-0 z-[9999] bg-background` (full screen, highest z-index) |
+| Logo | `h-10 w-auto drop-shadow-lg` (40px height) |
+| Progress pill | `rounded-full bg-background/40 backdrop-blur-md border border-foreground/10` |
+| Skip button | `rounded-full bg-background/30 backdrop-blur-md text-xs` |
+| Title | `text-4xl font-bold` with `drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]` |
+| Description | `text-lg font-medium` with `drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)]` |
+| Continue button | `w-full h-12 text-base` with `shadow-xl shadow-primary/20` |
+
+---
+
+## Image Preloading
+
+All 4 images are preloaded in a `useEffect` on mount using `new Image()`. A loading spinner shows until all images are ready. This prevents blank flashes during transitions.
+
+---
+
+## For Replit Implementation
+
+Use this as your React Native / Flutter equivalent:
+- Screen 0 → Video player component (auto-play, muted)
+- Screens 1–4 → PageView/Swiper with full-screen background images
+- Bottom sheet → Positioned at bottom with gradient overlay
+- Animations → Use `react-native-reanimated` (RN) or built-in animations (Flutter) for fade-in, slide-up, and zoom effects
+- Store "has seen onboarding" in AsyncStorage/SharedPreferences to only show once
+

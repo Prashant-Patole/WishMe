@@ -20,13 +20,17 @@ import {
   DancingScript_600SemiBold,
   DancingScript_700Bold,
 } from '@expo-google-fonts/dancing-script';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+
+import OnboardingSplash from '@/components/OnboardingSplash';
 
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { AuthProvider } from '@/contexts/AuthContext';
@@ -87,6 +91,8 @@ export default function RootLayout() {
     DancingScript_700Bold,
   });
 
+  const [showOnboarding, setShowOnboarding] = useState(true);
+
   useEffect(() => {
     if (fontsLoaded || fontError) {
       SplashScreen.hideAsync();
@@ -106,6 +112,11 @@ export default function RootLayout() {
                   <RootSafeArea>
                     <RootLayoutNav />
                   </RootSafeArea>
+                  {showOnboarding && (
+                    <View style={StyleSheet.absoluteFillObject}>
+                      <OnboardingSplash onComplete={() => setShowOnboarding(false)} />
+                    </View>
+                  )}
                 </KeyboardProvider>
               </GestureHandlerRootView>
             </QueryClientProvider>
