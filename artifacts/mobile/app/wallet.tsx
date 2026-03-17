@@ -1,4 +1,4 @@
-import { Icon } from '@/components/Icon';
+import { Icon, IconName } from '@/components/Icon';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
@@ -20,7 +20,7 @@ import { shadows } from '@/constants/theme';
 
 const ADD_AMOUNTS = [500, 1000, 2000, 5000, 10000];
 
-const TRANSACTIONS = [
+const TRANSACTIONS: { id: string; type: string; label: string; amount: number; date: string; icon: IconName }[] = [
   { id: '1', type: 'deposit', label: 'Added via UPI', amount: 1000, date: 'Today, 2:30 PM', icon: 'arrow-down-left' },
   { id: '2', type: 'deduction', label: 'Booking - Ranveer Singh', amount: -2499, date: 'Yesterday, 6:15 PM', icon: 'arrow-up-right' },
   { id: '3', type: 'deposit', label: 'Referral Commission', amount: 175, date: '3 days ago', icon: 'gift' },
@@ -39,7 +39,7 @@ function TransactionItem({ tx }: { tx: typeof TRANSACTIONS[0] }) {
   return (
     <View style={[styles.txItem, { backgroundColor: colors.card }]}>
       <View style={[styles.txIcon, { backgroundColor: iconColor + '15' }]}>
-        <Icon name={tx.icon as any} size={18} color={iconColor} />
+        <Icon name={tx.icon} size={18} color={iconColor} />
       </View>
       <View style={{ flex: 1 }}>
         <Text style={[fontVariants.captionMedium, { color: colors.foreground }]}>{tx.label}</Text>

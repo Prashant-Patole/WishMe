@@ -1,4 +1,4 @@
-import { Icon } from '@/components/Icon';
+import { Icon, IconName } from '@/components/Icon';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
@@ -22,7 +22,7 @@ import { radius, shadows } from '@/constants/theme';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
-const TABS = [
+const TABS: { id: string; label: string; icon: IconName; cost: number }[] = [
   { id: 'tts', label: 'Text to Speech', icon: 'mic', cost: 50 },
   { id: 'music', label: 'AI Music', icon: 'music', cost: 200 },
   { id: 'sfx', label: 'Sound Effects', icon: 'zap', cost: 100 },
@@ -35,7 +35,7 @@ const VOICES = ['Aria (Female, Hindi)', 'Dev (Male, Hindi)', 'Priya (Female, Eng
 
 const GENRES = ['Bollywood', 'Classical', 'Pop', 'Hip-Hop', 'Electronic', 'Folk', 'Jazz'];
 
-const HISTORY = [
+const HISTORY: { id: string; type: string; title: string; duration: string; date: string; icon: IconName }[] = [
   { id: '1', type: 'AI Music', title: 'Birthday Song for Mom', duration: '2:34', date: '2 days ago', icon: 'music' },
   { id: '2', type: 'TTS', title: 'Wedding speech narration', duration: '1:12', date: '5 days ago', icon: 'mic' },
   { id: '3', type: 'Sound Effect', title: 'Thunderstorm ambience', duration: '0:45', date: '1 week ago', icon: 'zap' },
@@ -289,7 +289,7 @@ export default function MusicStudioScreen() {
               },
             ]}
           >
-            <Icon name={tab.icon as any} size={13} color={activeTab === tab.id ? '#fff' : colors.mutedForeground} />
+            <Icon name={tab.icon} size={13} color={activeTab === tab.id ? '#fff' : colors.mutedForeground} />
             <Text style={[fontVariants.captionMedium, { color: activeTab === tab.id ? '#fff' : colors.mutedForeground }]}>
               {tab.label}
             </Text>
@@ -314,7 +314,7 @@ export default function MusicStudioScreen() {
             {(activeTab === 'sfx' || activeTab === 'vocal' || activeTab === 'convert' || activeTab === 'isolate') && (
               <View style={[styles.card, { backgroundColor: colors.card, alignItems: 'center', paddingVertical: 40 }]}>
                 <LinearGradient colors={['#B44CFF', '#FF6B33']} style={{ width: 64, height: 64, borderRadius: 32, alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
-                  <Icon name={currentTab.icon as any} size={28} color="#fff" />
+                  <Icon name={currentTab.icon} size={28} color="#fff" />
                 </LinearGradient>
                 <Text style={[fontVariants.h4, { color: colors.foreground, marginBottom: 8 }]}>{currentTab.label}</Text>
                 <Text style={[fontVariants.body, { color: colors.mutedForeground, textAlign: 'center' }]}>
@@ -336,7 +336,7 @@ export default function MusicStudioScreen() {
             {HISTORY.map((h) => (
               <View key={h.id} style={[styles.historyItem, { backgroundColor: colors.card, ...shadows.sm }]}>
                 <View style={[styles.historyIcon, { backgroundColor: colors.primary + '20' }]}>
-                  <Icon name={h.icon as any} size={16} color={colors.primary} />
+                  <Icon name={h.icon} size={16} color={colors.primary} />
                 </View>
                 <View style={{ flex: 1 }}>
                   <Text style={[fontVariants.captionMedium, { color: colors.foreground }]} numberOfLines={1}>{h.title}</Text>

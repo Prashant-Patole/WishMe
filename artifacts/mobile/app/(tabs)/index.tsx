@@ -1,4 +1,4 @@
-import { Icon } from '@/components/Icon';
+import { Icon, IconName } from '@/components/Icon';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import React, { useRef, useState } from 'react';
@@ -35,7 +35,7 @@ const CELEBRITIES = [
   { id: '4', name: 'Alia Bhatt', category: 'Actor', rating: 4.7, reviews: 876, price: 3499, image: 'https://picsum.photos/seed/alia/200/200', verified: true },
 ];
 
-const QUICK_ACTIONS = [
+const QUICK_ACTIONS: { id: string; icon: IconName; label: string; color: string; route: string }[] = [
   { id: 'wish-friend', icon: 'video', label: 'Wish a\nFriend', color: '#FF6B33', route: '/celebrities' },
   { id: 'wish-celebrity', icon: 'heart', label: 'Wish a\nCelebrity', color: '#E8527A', route: '/wish-celebrity' },
   { id: 'ai-music', icon: 'music', label: 'AI Music\nStudio', color: '#B44CFF', route: '/(tabs)/music' },
@@ -96,7 +96,7 @@ function QuickAction({ action }: { action: typeof QUICK_ACTIONS[0] }) {
       style={[styles.quickAction, { backgroundColor: colors.card, ...shadows.sm }]}
     >
       <View style={[styles.quickActionIcon, { backgroundColor: action.color + '20' }]}>
-        <Icon name={action.icon as any} size={22} color={action.color} />
+        <Icon name={action.icon} size={22} color={action.color} />
       </View>
       <Text style={[fontVariants.caption, { color: colors.foreground, textAlign: 'center', marginTop: 6 }]}>
         {action.label}
@@ -105,14 +105,14 @@ function QuickAction({ action }: { action: typeof QUICK_ACTIONS[0] }) {
   );
 }
 
-function HowItWorksStep({ num, icon, title, desc }: { num: number; icon: string; title: string; desc: string }) {
+function HowItWorksStep({ num, icon, title, desc }: { num: number; icon: IconName; title: string; desc: string }) {
   const { colors } = useTheme();
   return (
     <View style={styles.howStep}>
       <LinearGradient colors={['#FF6B33', '#B44CFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={styles.howNum}>
         <Text style={{ color: '#fff', fontFamily: 'Inter_700Bold', fontSize: 14 }}>{num}</Text>
       </LinearGradient>
-      <Icon name={icon as any} size={28} color={colors.primary} style={{ marginBottom: 8 }} />
+      <Icon name={icon} size={28} color={colors.primary} style={{ marginBottom: 8 }} />
       <Text style={[fontVariants.bodySemibold, { color: colors.foreground, textAlign: 'center', marginBottom: 4 }]}>{title}</Text>
       <Text style={[fontVariants.caption, { color: colors.mutedForeground, textAlign: 'center' }]}>{desc}</Text>
     </View>

@@ -1,4 +1,4 @@
-import { Icon } from '@/components/Icon';
+import { Icon, IconName } from '@/components/Icon';
 import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -24,7 +24,7 @@ import { shadows } from '@/constants/theme';
 const STEPS = ['Request', 'Delivery', 'Script', 'Review', 'Checkout'];
 
 const OCCASIONS = ['Birthday', 'Anniversary', 'Wedding', 'Baby Shower', 'Graduation', 'Farewell', 'Business', 'Other'];
-const DELIVERY = [
+const DELIVERY: { id: string; label: string; desc: string; price: number; icon: IconName }[] = [
   { id: 'standard', label: 'Standard', desc: '3-5 business days', price: 0, icon: 'package' },
   { id: 'express', label: 'Express', desc: 'Within 24 hours', price: 499, icon: 'zap' },
 ];
@@ -162,7 +162,7 @@ export default function BookingScreen() {
             {DELIVERY.map((d) => (
               <Pressable key={d.id} onPress={() => setDeliveryType(d.id)} style={[styles.deliveryCard, { backgroundColor: colors.card, borderColor: deliveryType === d.id ? colors.primary : colors.border, borderWidth: deliveryType === d.id ? 2 : 1, ...shadows.sm }]}>
                 <View style={[styles.deliveryIcon, { backgroundColor: colors.primary + '15' }]}>
-                  <Icon name={d.icon as any} size={22} color={colors.primary} />
+                  <Icon name={d.icon} size={22} color={colors.primary} />
                 </View>
                 <View style={{ flex: 1 }}>
                   <Text style={[fontVariants.bodySemibold, { color: colors.foreground }]}>{d.label}</Text>
@@ -253,11 +253,11 @@ export default function BookingScreen() {
 
             <View style={{ gap: 12 }}>
               {[
-                { id: 'wallet', icon: 'credit-card', label: 'WishMe Wallet', desc: `Balance: ₹${user?.walletBalance?.toLocaleString() ?? 0}`, available: (user?.walletBalance ?? 0) >= total },
-                { id: 'razorpay', icon: 'smartphone', label: 'Razorpay', desc: 'UPI, Cards, Net Banking', available: true },
+                { id: 'wallet' as const, icon: 'credit-card' as IconName, label: 'WishMe Wallet', desc: `Balance: ₹${user?.walletBalance?.toLocaleString() ?? 0}`, available: (user?.walletBalance ?? 0) >= total },
+                { id: 'razorpay' as const, icon: 'smartphone' as IconName, label: 'Razorpay', desc: 'UPI, Cards, Net Banking', available: true },
               ].map((pm) => (
-                <Pressable key={pm.id} onPress={() => setPaymentMethod(pm.id as any)} style={[styles.payCard, { backgroundColor: colors.card, borderColor: paymentMethod === pm.id ? colors.primary : colors.border, borderWidth: paymentMethod === pm.id ? 2 : 1, opacity: pm.available ? 1 : 0.5 }]}>
-                  <Icon name={pm.icon as any} size={22} color={paymentMethod === pm.id ? colors.primary : colors.mutedForeground} />
+                <Pressable key={pm.id} onPress={() => setPaymentMethod(pm.id)} style={[styles.payCard, { backgroundColor: colors.card, borderColor: paymentMethod === pm.id ? colors.primary : colors.border, borderWidth: paymentMethod === pm.id ? 2 : 1, opacity: pm.available ? 1 : 0.5 }]}>
+                  <Icon name={pm.icon} size={22} color={paymentMethod === pm.id ? colors.primary : colors.mutedForeground} />
                   <View style={{ flex: 1 }}>
                     <Text style={[fontVariants.bodySemibold, { color: colors.foreground }]}>{pm.label}</Text>
                     <Text style={[fontVariants.caption, { color: pm.available ? colors.mutedForeground : colors.destructive }]}>{pm.desc}</Text>

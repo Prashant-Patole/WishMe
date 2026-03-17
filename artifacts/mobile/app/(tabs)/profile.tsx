@@ -1,4 +1,4 @@
-import { Icon } from '@/components/Icon';
+import { Icon, IconName } from '@/components/Icon';
 import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
@@ -64,12 +64,12 @@ function CompletionBar({ pct }: { pct: number }) {
   );
 }
 
-function MenuItem({ icon, label, value, onPress, destructive }: { icon: string; label: string; value?: string; onPress?: () => void; destructive?: boolean }) {
+function MenuItem({ icon, label, value, onPress, destructive }: { icon: IconName; label: string; value?: string; onPress?: () => void; destructive?: boolean }) {
   const { colors } = useTheme();
   return (
     <Pressable onPress={onPress} style={({ pressed }) => [styles.menuItem, { backgroundColor: colors.card, opacity: pressed ? 0.7 : 1 }]}>
       <View style={[styles.menuIconWrap, { backgroundColor: destructive ? colors.destructive + '15' : colors.primary + '15' }]}>
-        <Icon name={icon as any} size={18} color={destructive ? colors.destructive : colors.primary} />
+        <Icon name={icon} size={18} color={destructive ? colors.destructive : colors.primary} />
       </View>
       <Text style={[fontVariants.bodyMedium, { color: destructive ? colors.destructive : colors.foreground, flex: 1 }]}>
         {label}

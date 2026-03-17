@@ -1,4 +1,4 @@
-import { Icon } from '@/components/Icon';
+import { Icon, IconName } from '@/components/Icon';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
@@ -16,12 +16,12 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '@/contexts/ThemeContext';
 import { fontVariants } from '@/constants/fonts';
 
-function SettingRow({ icon, label, value, onToggle, type = 'toggle', onPress }: { icon: string; label: string; value?: boolean | string; onToggle?: (v: boolean) => void; type?: 'toggle' | 'nav'; onPress?: () => void }) {
+function SettingRow({ icon, label, value, onToggle, type = 'toggle', onPress }: { icon: IconName; label: string; value?: boolean | string; onToggle?: (v: boolean) => void; type?: 'toggle' | 'nav'; onPress?: () => void }) {
   const { colors } = useTheme();
   return (
     <Pressable onPress={onPress} style={[styles.row, { backgroundColor: colors.card }]}>
       <View style={[styles.rowIcon, { backgroundColor: colors.primary + '15' }]}>
-        <Icon name={icon as any} size={18} color={colors.primary} />
+        <Icon name={icon} size={18} color={colors.primary} />
       </View>
       <Text style={[fontVariants.bodyMedium, { color: colors.foreground, flex: 1 }]}>{label}</Text>
       {type === 'toggle' && typeof value === 'boolean' && (

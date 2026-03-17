@@ -1,4 +1,4 @@
-import { Icon } from '@/components/Icon';
+import { Icon, IconName } from '@/components/Icon';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
@@ -17,7 +17,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { fontVariants } from '@/constants/fonts';
 import { shadows } from '@/constants/theme';
 
-const WISH_ORDERS = [
+const WISH_ORDERS: { id: string; type: string; for: string; status: string; price: number; date: string; icon: IconName }[] = [
   { id: '1', type: 'Photo Wish', for: 'Mom - Birthday', status: 'completed', price: 29, date: '3 days ago', icon: 'image' },
   { id: '2', type: 'Greeting Card', for: 'Dad - Anniversary', status: 'completed', price: 0, date: '1 week ago', icon: 'mail' },
   { id: '3', type: 'AI Music', for: 'Wedding Song', status: 'completed', price: 200, date: '2 weeks ago', icon: 'music' },
@@ -33,7 +33,7 @@ function OrderCard({ order }: { order: typeof WISH_ORDERS[0] }) {
   return (
     <View style={[styles.card, { backgroundColor: colors.card, ...shadows.sm }]}>
       <View style={[styles.cardIcon, { backgroundColor: iconColor + '20' }]}>
-        <Icon name={order.icon as any} size={22} color={iconColor} />
+        <Icon name={order.icon} size={22} color={iconColor} />
       </View>
       <View style={{ flex: 1 }}>
         <Text style={[fontVariants.bodySemibold, { color: colors.foreground }]}>{order.type}</Text>

@@ -1,4 +1,4 @@
-import { Icon } from '@/components/Icon';
+import { Icon, IconName } from '@/components/Icon';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import React from 'react';
@@ -22,7 +22,7 @@ const UPCOMING = [
   { id: '3', person: 'Raj (Friend)', occasion: 'Birthday', date: 'in 28 days', daysLeft: 28, gradient: ['#22C55E', '#15803D'] as const },
 ];
 
-const ALL_OCCASIONS = [
+const ALL_OCCASIONS: { id: string; label: string; icon: IconName; color: string }[] = [
   { id: 'birthday', label: 'Birthday', icon: 'gift', color: '#FF6B33' },
   { id: 'anniversary', label: 'Anniversary', icon: 'heart', color: '#E8527A' },
   { id: 'wedding', label: 'Wedding', icon: 'users', color: '#B44CFF' },
@@ -82,7 +82,7 @@ export default function OccasionsScreen() {
               {ALL_OCCASIONS.map((o) => (
                 <Pressable key={o.id} onPress={() => router.push('/celebrities')} style={[styles.occasionCard, { backgroundColor: colors.card, ...shadows.sm }]}>
                   <View style={[styles.occasionIcon, { backgroundColor: o.color + '20' }]}>
-                    <Icon name={o.icon as any} size={22} color={o.color} />
+                    <Icon name={o.icon} size={22} color={o.color} />
                   </View>
                   <Text style={[fontVariants.captionMedium, { color: colors.foreground, textAlign: 'center', marginTop: 8 }]}>{o.label}</Text>
                 </Pressable>

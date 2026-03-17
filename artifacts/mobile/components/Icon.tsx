@@ -4,18 +4,18 @@ import { ViewStyle } from 'react-native';
 
 export type IconName =
   | 'alert-circle' | 'arrow-down-left' | 'arrow-left' | 'arrow-right'
-  | 'arrow-up' | 'arrow-up-right' | 'award' | 'bell' | 'bookmark'
-  | 'camera' | 'check' | 'check-circle' | 'chevron-down' | 'chevron-right'
-  | 'chevron-up' | 'chrome' | 'clock' | 'copy' | 'credit-card'
-  | 'dollar-sign' | 'download' | 'edit' | 'external-link' | 'eye'
-  | 'eye-off' | 'file-text' | 'filter' | 'gift' | 'grid' | 'heart'
-  | 'help-circle' | 'home' | 'image' | 'inbox' | 'info' | 'lock'
-  | 'log-out' | 'mail' | 'map-pin' | 'maximize' | 'message-circle'
-  | 'mic' | 'moon' | 'more-vertical' | 'music' | 'package' | 'paperclip'
-  | 'phone' | 'play' | 'plus' | 'rotate-ccw' | 'search' | 'send'
-  | 'settings' | 'share-2' | 'shield' | 'shopping-bag' | 'smartphone'
-  | 'star' | 'sun' | 'tag' | 'trash-2' | 'trending-up' | 'user'
-  | 'users' | 'video' | 'volume-2' | 'wallet' | 'x' | 'zap';
+  | 'arrow-up' | 'arrow-up-right' | 'award' | 'bell' | 'briefcase'
+  | 'calendar' | 'camera' | 'check' | 'check-circle' | 'chevron-right'
+  | 'clock' | 'copy' | 'credit-card' | 'dollar-sign' | 'download'
+  | 'edit' | 'edit-2' | 'eye' | 'eye-off' | 'file-text' | 'gift'
+  | 'heart' | 'help-circle' | 'home' | 'image' | 'inbox' | 'info'
+  | 'lock' | 'log-out' | 'mail' | 'map-pin' | 'message-circle' | 'mic'
+  | 'moon' | 'more-vertical' | 'music' | 'package' | 'paperclip' | 'phone'
+  | 'play' | 'play-circle' | 'plus' | 'refresh-cw' | 'rotate-ccw'
+  | 'scissors' | 'search' | 'send' | 'settings' | 'share-2' | 'shield'
+  | 'shopping-bag' | 'sliders' | 'smartphone' | 'star' | 'sun' | 'tag'
+  | 'trash-2' | 'upload' | 'user' | 'users' | 'video' | 'volume-2'
+  | 'x' | 'zap';
 
 interface IconProps {
   name: IconName;
