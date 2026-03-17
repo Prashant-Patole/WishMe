@@ -11,7 +11,7 @@ export type IconName =
   | 'heart' | 'help-circle' | 'home' | 'image' | 'inbox' | 'info'
   | 'lock' | 'log-out' | 'mail' | 'map-pin' | 'message-circle' | 'mic'
   | 'moon' | 'more-vertical' | 'music' | 'package' | 'paperclip' | 'phone'
-  | 'play' | 'play-circle' | 'plus' | 'refresh-cw' | 'rotate-ccw'
+  | 'pause' | 'play' | 'play-circle' | 'plus' | 'refresh-cw' | 'rotate-ccw'
   | 'scissors' | 'search' | 'send' | 'settings' | 'share-2' | 'shield'
   | 'shopping-bag' | 'sliders' | 'smartphone' | 'star' | 'sun' | 'tag'
   | 'trash-2' | 'upload' | 'user' | 'users' | 'video' | 'volume-2'
@@ -288,6 +288,12 @@ const ICONS: Record<string, DrawFn> = {
   ),
   'phone': (c, w) => (
     <Path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.28h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" {...a(c,w)} />
+  ),
+  'pause': (c, w) => (
+    <>
+      <Rect x="6" y="4" width="4" height="16" {...a(c,w)} />
+      <Rect x="14" y="4" width="4" height="16" {...a(c,w)} />
+    </>
   ),
   'play': (c, w) => (
     <Polygon points="5 3 19 12 5 21 5 3" {...a(c,w)} />

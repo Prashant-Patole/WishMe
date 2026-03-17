@@ -144,6 +144,7 @@ function QuickAction({ action }: { action: typeof QUICK_ACTIONS[0] }) {
 function VideoWishCard({ wish, isVisible = false }: { wish: typeof VIDEO_WISHES[0]; isVisible?: boolean }) {
   const { colors } = useTheme();
   const [isMuted, setIsMuted] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(true);
 
   const source: AVPlaybackSource | null = wish.videoUri
     ? (typeof wish.videoUri === 'number' ? wish.videoUri : { uri: wish.videoUri as string })
@@ -152,24 +153,30 @@ function VideoWishCard({ wish, isVisible = false }: { wish: typeof VIDEO_WISHES[
   return (
     <View style={[styles.videoWishCard, { backgroundColor: colors.card, ...shadows.md }]}>
       {source ? (
-        <Pressable onPress={() => setIsMuted(m => !m)} style={styles.videoThumbContainer}>
+        <View style={styles.videoThumbContainer}>
           <Video
             source={source}
             style={styles.videoThumb}
             resizeMode={ResizeMode.COVER}
-            shouldPlay={isVisible}
+            shouldPlay={isVisible && isPlaying}
             isLooping
             isMuted={isMuted}
           />
+          <Pressable
+            onPress={() => setIsPlaying(p => !p)}
+            style={[styles.videoPlayPauseBtn, { backgroundColor: colors.background + '59' }]}
+          >
+            <Icon name={isPlaying ? 'pause' : 'play-circle'} size={28} color={colors.secondaryForeground} />
+          </Pressable>
           <View style={[styles.videoTag, { backgroundColor: colors.background + '59' }]}>
             <Text style={{ fontFamily: 'Inter_600SemiBold', fontSize: 11, color: colors.secondaryForeground, letterSpacing: 0.5 }}>
               {wish.tag}
             </Text>
           </View>
-          <View style={[styles.videoMuteBtn, { backgroundColor: colors.background + '59' }]}>
+          <Pressable onPress={() => setIsMuted(m => !m)} style={[styles.videoMuteBtn, { backgroundColor: colors.background + '59' }]}>
             <Icon name={isMuted ? 'volume-x' : 'volume-2'} size={14} color={colors.secondaryForeground} />
-          </View>
-        </Pressable>
+          </Pressable>
+        </View>
       ) : (
         <LinearGradient
           colors={wish.gradient}
@@ -530,6 +537,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: 999,
+  },
+  videoPlayPauseBtn: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    width: 52,
+    height: 52,
+    borderRadius: 26,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: -26,
+    marginLeft: -26,
   },
   videoMuteBtn: {
     position: 'absolute',
