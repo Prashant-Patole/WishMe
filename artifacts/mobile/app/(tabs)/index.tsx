@@ -44,6 +44,40 @@ const QUICK_ACTIONS: { id: string; icon: IconName; label: string; color: string;
   { id: 'voice-call', icon: 'phone', label: 'Voice\nCall', color: '#FF6B33', route: '/(tabs)/voice-call' },
 ];
 
+const VIDEO_WISHES: {
+  id: string;
+  title: string;
+  desc: string;
+  videoUri: string;
+  gradient: readonly [string, string, string];
+  tag: string;
+}[] = [
+  {
+    id: '1',
+    title: 'Celebrate Academic Success',
+    desc: "Recognise their dedication with a personal celebrity video message. Whether it's cracking an entrance exam or walking the graduation stage, make the achievement unforgettable.",
+    videoUri: '',
+    gradient: ['#3B82F6', '#0EA5E9', '#06B6D4'],
+    tag: 'Graduation',
+  },
+  {
+    id: '2',
+    title: 'Make Birthdays Special',
+    desc: 'Turn any birthday into a moment they will talk about forever. A surprise celebrity video wish is the most personal, heartfelt gift you can give.',
+    videoUri: '',
+    gradient: ['#FF6B33', '#E8527A', '#FF8C42'],
+    tag: 'Birthday',
+  },
+  {
+    id: '3',
+    title: 'Honor Love & Commitment',
+    desc: 'Celebrate their special bond with personalized video wishes. Create beautiful memories with custom anniversary messages that touch hearts.',
+    videoUri: '',
+    gradient: ['#B44CFF', '#7B2FFF', '#E8527A'],
+    tag: 'Anniversary',
+  },
+];
+
 function BannerCard({ banner }: { banner: typeof BANNERS[0] }) {
   return (
     <LinearGradient
@@ -102,6 +136,49 @@ function QuickAction({ action }: { action: typeof QUICK_ACTIONS[0] }) {
         {action.label}
       </Text>
     </Pressable>
+  );
+}
+
+function VideoWishCard({ wish }: { wish: typeof VIDEO_WISHES[0] }) {
+  const { colors } = useTheme();
+  return (
+    <View style={[styles.videoWishCard, { backgroundColor: colors.card, ...shadows.md }]}>
+      <LinearGradient
+        colors={wish.gradient}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.videoThumb}
+      >
+        <View style={styles.videoPlayBtn}>
+          <Icon name="play-circle" size={52} color="rgba(255,255,255,0.92)" />
+        </View>
+        <View style={styles.videoTag}>
+          <Text style={{ fontFamily: 'Inter_600SemiBold', fontSize: 11, color: '#fff', letterSpacing: 0.5 }}>
+            {wish.tag}
+          </Text>
+        </View>
+      </LinearGradient>
+
+      <View style={styles.videoWishContent}>
+        <Text style={{ fontFamily: 'PlayfairDisplay_700Bold', fontSize: 18, lineHeight: 26, color: colors.foreground, marginBottom: 8 }}>
+          {wish.title}
+        </Text>
+        <Text style={[fontVariants.caption, { color: colors.mutedForeground, lineHeight: 20, marginBottom: 16 }]} numberOfLines={4}>
+          {wish.desc}
+        </Text>
+        <Pressable onPress={() => router.push('/celebrities')}>
+          <LinearGradient
+            colors={['#FF6B33', '#B44CFF']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.wishBtn}
+          >
+            <Icon name="video" size={15} color="#fff" />
+            <Text style={{ color: '#fff', fontFamily: 'Inter_600SemiBold', fontSize: 14 }}>Create Your Wish</Text>
+          </LinearGradient>
+        </Pressable>
+      </View>
+    </View>
   );
 }
 
@@ -223,6 +300,27 @@ export default function HomeScreen() {
             keyExtractor={(c) => c.id}
             contentContainerStyle={{ gap: 12 }}
             renderItem={({ item }) => <CelebCard celeb={item} />}
+          />
+        </View>
+
+        {/* Personalized Video Wishes */}
+        <View style={{ marginTop: 28 }}>
+          <View style={{ paddingHorizontal: 20, marginBottom: 14 }}>
+            <Text style={[fontVariants.h4, { color: colors.foreground, marginBottom: 6 }]}>
+              Personalized Video Wishes
+            </Text>
+            <Text style={[fontVariants.caption, { color: colors.mutedForeground }]}>
+              Create unforgettable moments with custom video messages for every special occasion
+            </Text>
+          </View>
+          <FlatList
+            data={VIDEO_WISHES}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={(w) => w.id}
+            contentContainerStyle={{ paddingHorizontal: 20, gap: 14 }}
+            decelerationRate="fast"
+            renderItem={({ item }) => <VideoWishCard wish={item} />}
           />
         </View>
 
@@ -366,5 +464,40 @@ const styles = StyleSheet.create({
     borderRadius: 26,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  videoWishCard: {
+    width: SCREEN_WIDTH - 60,
+    borderRadius: 20,
+    overflow: 'hidden',
+  },
+  videoThumb: {
+    width: '100%',
+    height: 188,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  videoPlayBtn: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  videoTag: {
+    position: 'absolute',
+    bottom: 12,
+    left: 12,
+    backgroundColor: 'rgba(0,0,0,0.35)',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 999,
+  },
+  videoWishContent: {
+    padding: 16,
+  },
+  wishBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    paddingVertical: 13,
+    borderRadius: 12,
   },
 });
