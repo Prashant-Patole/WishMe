@@ -1,4 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AVPlaybackStatus, ResizeMode, Video } from 'expo-av';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -17,8 +16,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { fontSize } from '@/constants/fonts';
 import { radius, shadows } from '@/constants/theme';
 import { useTheme } from '@/contexts/ThemeContext';
-
-const STORAGE_KEY = 'wishme_onboarding_done';
 
 const LOGO = require('../assets/images/wishme-logo.png');
 const INTRO_VIDEO = require('../assets/videos/intro-wish.mp4');
@@ -95,8 +92,7 @@ export default function OnboardingSplash({ onComplete }: Props) {
     ]).start();
   }, []);
 
-  const dismiss = useCallback(async () => {
-    await AsyncStorage.setItem(STORAGE_KEY, 'true');
+  const dismiss = useCallback(() => {
     onComplete();
   }, [onComplete]);
 
@@ -113,13 +109,7 @@ export default function OnboardingSplash({ onComplete }: Props) {
   advanceRef.current = advance;
 
   useEffect(() => {
-    AsyncStorage.getItem(STORAGE_KEY).then((val) => {
-      if (val === 'true') {
-        onComplete();
-      } else {
-        setIsReady(true);
-      }
-    });
+    setIsReady(true);
   }, []);
 
   useEffect(() => {
