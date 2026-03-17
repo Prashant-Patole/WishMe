@@ -140,15 +140,15 @@ export default function OnboardingSplash({ onComplete }: Props) {
   advanceRef.current = advance;
 
   const advanceFromVideo = useCallback(() => {
-    console.log(`[Splash] advanceFromVideo hasGuard=${hasAdvancedFromVideo.current}`);
     if (hasAdvancedFromVideo.current) return;
     hasAdvancedFromVideo.current = true;
+    console.log(`[Splash] advanceFromVideo prev=${screenIndex}`);
     if (videoTimeoutRef.current) {
       clearTimeout(videoTimeoutRef.current);
       videoTimeoutRef.current = null;
     }
     advanceRef.current();
-  }, []);
+  }, [screenIndex]);
 
   useEffect(() => {
     const cancelled = { value: false };
