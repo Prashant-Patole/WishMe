@@ -1,0 +1,369 @@
+import { Feather } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
+import { router } from 'expo-router';
+import React, { useRef, useState } from 'react';
+import {
+  Dimensions,
+  FlatList,
+  Image,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+import { useAuth } from '@/contexts/AuthContext';
+import { useTheme } from '@/contexts/ThemeContext';
+import { fontVariants, fontSize } from '@/constants/fonts';
+import { radius, shadows } from '@/constants/theme';
+
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
+
+const BANNERS = [
+  { id: '1', title: 'Get a Birthday Wish\nfrom Your Idol', subtitle: 'Starting from ₹999', gradient: ['#FF6B33', '#E8527A', '#B44CFF'] as const },
+  { id: '2', title: 'AI Music Studio\nNow Live!', subtitle: 'Generate songs in seconds', gradient: ['#B44CFF', '#7B2FFF', '#4B0082'] as const },
+  { id: '3', title: 'Book a Voice Call\nwith Celebrities', subtitle: 'Live 1-on-1 sessions', gradient: ['#FF6B33', '#FF8C42', '#FFB347'] as const },
+];
+
+const CELEBRITIES = [
+  { id: '1', name: 'Ranveer Singh', category: 'Actor', rating: 4.9, reviews: 1240, price: 2499, image: 'https://picsum.photos/seed/ranveer/200/200', verified: true },
+  { id: '2', name: 'Shreya Ghoshal', category: 'Singer', rating: 4.8, reviews: 983, price: 1999, image: 'https://picsum.photos/seed/shreya/200/200', verified: true },
+  { id: '3', name: 'Virat Kohli', category: 'Athlete', rating: 4.9, reviews: 2100, price: 4999, image: 'https://picsum.photos/seed/virat/200/200', verified: true },
+  { id: '4', name: 'Alia Bhatt', category: 'Actor', rating: 4.7, reviews: 876, price: 3499, image: 'https://picsum.photos/seed/alia/200/200', verified: true },
+];
+
+const QUICK_ACTIONS = [
+  { id: 'wish-friend', icon: 'video', label: 'Wish a\nFriend', color: '#FF6B33', route: '/celebrities' },
+  { id: 'wish-celebrity', icon: 'heart', label: 'Wish a\nCelebrity', color: '#E8527A', route: '/wish-celebrity' },
+  { id: 'ai-music', icon: 'music', label: 'AI Music\nStudio', color: '#B44CFF', route: '/(tabs)/music' },
+  { id: 'photo-wish', icon: 'image', label: 'Photo\nWish', color: '#FF8C42', route: '/photo-wish' },
+  { id: 'greeting', icon: 'mail', label: 'Greeting\nCards', color: '#7B2FFF', route: '/greeting-cards' },
+  { id: 'voice-call', icon: 'phone', label: 'Voice\nCall', color: '#FF6B33', route: '/(tabs)/voice-call' },
+];
+
+function BannerCard({ banner }: { banner: typeof BANNERS[0] }) {
+  return (
+    <LinearGradient
+      colors={banner.gradient}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
+      style={styles.bannerCard}
+    >
+      <Text style={styles.bannerTitle}>{banner.title}</Text>
+      <Text style={styles.bannerSubtitle}>{banner.subtitle}</Text>
+      <View style={styles.bannerButton}>
+        <Text style={styles.bannerButtonText}>Book Now</Text>
+        <Feather name="arrow-right" size={14} color="#FF6B33" />
+      </View>
+    </LinearGradient>
+  );
+}
+
+function CelebCard({ celeb }: { celeb: typeof CELEBRITIES[0] }) {
+  const { colors, isDark } = useTheme();
+  return (
+    <Pressable
+      onPress={() => router.push(`/celebrity/${celeb.id}`)}
+      style={[styles.celebCard, { backgroundColor: colors.card, ...shadows.md }]}
+    >
+      <Image source={{ uri: celeb.image }} style={styles.celebImage} />
+      {celeb.verified && (
+        <View style={[styles.verifiedBadge, { backgroundColor: colors.primary }]}>
+          <Feather name="check" size={10} color="#fff" />
+        </View>
+      )}
+      <View style={styles.celebInfo}>
+        <Text style={[fontVariants.captionMedium, { color: colors.foreground }]} numberOfLines={1}>{celeb.name}</Text>
+        <Text style={[fontVariants.caption, { color: colors.mutedForeground, fontSize: 11 }]}>{celeb.category}</Text>
+        <View style={styles.ratingRow}>
+          <Feather name="star" size={10} color="#FFB800" />
+          <Text style={[fontVariants.caption, { color: colors.mutedForeground, fontSize: 11 }]}> {celeb.rating}</Text>
+        </View>
+        <Text style={[fontVariants.captionMedium, { color: colors.primary, fontSize: 12 }]}>₹{celeb.price}</Text>
+      </View>
+    </Pressable>
+  );
+}
+
+function QuickAction({ action }: { action: typeof QUICK_ACTIONS[0] }) {
+  const { colors } = useTheme();
+  return (
+    <Pressable
+      onPress={() => router.push(action.route as any)}
+      style={[styles.quickAction, { backgroundColor: colors.card, ...shadows.sm }]}
+    >
+      <View style={[styles.quickActionIcon, { backgroundColor: action.color + '20' }]}>
+        <Feather name={action.icon as any} size={22} color={action.color} />
+      </View>
+      <Text style={[fontVariants.caption, { color: colors.foreground, textAlign: 'center', marginTop: 6 }]}>
+        {action.label}
+      </Text>
+    </Pressable>
+  );
+}
+
+function HowItWorksStep({ num, icon, title, desc }: { num: number; icon: string; title: string; desc: string }) {
+  const { colors } = useTheme();
+  return (
+    <View style={styles.howStep}>
+      <LinearGradient colors={['#FF6B33', '#B44CFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={styles.howNum}>
+        <Text style={{ color: '#fff', fontFamily: 'Inter_700Bold', fontSize: 14 }}>{num}</Text>
+      </LinearGradient>
+      <Feather name={icon as any} size={28} color={colors.primary} style={{ marginBottom: 8 }} />
+      <Text style={[fontVariants.bodySemibold, { color: colors.foreground, textAlign: 'center', marginBottom: 4 }]}>{title}</Text>
+      <Text style={[fontVariants.caption, { color: colors.mutedForeground, textAlign: 'center' }]}>{desc}</Text>
+    </View>
+  );
+}
+
+export default function HomeScreen() {
+  const { colors, isDark, gradients } = useTheme();
+  const { user } = useAuth();
+  const insets = useSafeAreaInsets();
+  const [bannerIndex, setBannerIndex] = useState(0);
+
+  const topPad = Platform.OS === 'web' ? 67 : insets.top;
+  const heroBg = isDark ? gradients.heroDark : gradients.heroLight;
+
+  return (
+    <View style={{ flex: 1, backgroundColor: colors.background }}>
+      <ScrollView
+        style={{ flex: 1 }}
+        contentContainerStyle={{ paddingBottom: 100 }}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Header */}
+        <LinearGradient colors={heroBg as any} style={[styles.header, { paddingTop: topPad + 16 }]}>
+          <View style={styles.headerRow}>
+            <View>
+              <Text style={[fontVariants.caption, { color: colors.mutedForeground }]}>
+                {user ? `Welcome back,` : 'Welcome to'}
+              </Text>
+              <Text style={[fontVariants.h3, { color: colors.foreground }]}>
+                {user?.firstName ? `${user.firstName} 👋` : 'WishMe ✨'}
+              </Text>
+            </View>
+            <View style={styles.headerActions}>
+              <Pressable
+                onPress={() => router.push('/wallet')}
+                style={[styles.walletPill, { backgroundColor: colors.primary + '20' }]}
+              >
+                <Text style={[fontVariants.captionMedium, { color: colors.primary }]}>
+                  ₹{user?.walletBalance?.toLocaleString() ?? '0'}
+                </Text>
+              </Pressable>
+              <Pressable onPress={() => router.push('/messages')} style={[styles.iconBtn, { backgroundColor: colors.card }]}>
+                <Feather name="message-circle" size={20} color={colors.foreground} />
+              </Pressable>
+            </View>
+          </View>
+
+          {/* Search Bar */}
+          <Pressable
+            onPress={() => router.push('/celebrities')}
+            style={[styles.searchBar, { backgroundColor: colors.card, ...shadows.sm }]}
+          >
+            <Feather name="search" size={18} color={colors.mutedForeground} />
+            <Text style={[fontVariants.body, { color: colors.mutedForeground, flex: 1 }]}>
+              Search celebrities…
+            </Text>
+            <Feather name="sliders" size={18} color={colors.mutedForeground} />
+          </Pressable>
+        </LinearGradient>
+
+        {/* Banners */}
+        <View style={{ marginTop: 20 }}>
+          <FlatList
+            data={BANNERS}
+            horizontal
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={(b) => b.id}
+            onMomentumScrollEnd={(e) =>
+              setBannerIndex(Math.round(e.nativeEvent.contentOffset.x / (SCREEN_WIDTH - 48)))
+            }
+            contentContainerStyle={{ paddingHorizontal: 20, gap: 12 }}
+            renderItem={({ item }) => <BannerCard banner={item} />}
+          />
+          <View style={styles.dots}>
+            {BANNERS.map((_, i) => (
+              <View
+                key={i}
+                style={[styles.dot, { backgroundColor: i === bannerIndex ? colors.primary : colors.border }]}
+              />
+            ))}
+          </View>
+        </View>
+
+        {/* Quick Actions */}
+        <View style={styles.section}>
+          <Text style={[fontVariants.h4, { color: colors.foreground, marginBottom: 16 }]}>What do you want to do?</Text>
+          <View style={styles.quickActionsGrid}>
+            {QUICK_ACTIONS.map((a) => (
+              <QuickAction key={a.id} action={a} />
+            ))}
+          </View>
+        </View>
+
+        {/* Featured Celebrities */}
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <Text style={[fontVariants.h4, { color: colors.foreground }]}>Featured Celebrities</Text>
+            <Pressable onPress={() => router.push('/celebrities')}>
+              <Text style={[fontVariants.captionMedium, { color: colors.primary }]}>See all</Text>
+            </Pressable>
+          </View>
+          <FlatList
+            data={CELEBRITIES}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={(c) => c.id}
+            contentContainerStyle={{ gap: 12 }}
+            renderItem={({ item }) => <CelebCard celeb={item} />}
+          />
+        </View>
+
+        {/* How It Works */}
+        <View style={[styles.section, styles.howItWorks, { backgroundColor: colors.backgroundSecondary }]}>
+          <Text style={[fontVariants.h3, { color: colors.foreground, textAlign: 'center', marginBottom: 4 }]}>
+            How It Works
+          </Text>
+          <Text style={[fontVariants.caption, { color: colors.mutedForeground, textAlign: 'center', marginBottom: 24 }]}>
+            Get a personal message in 3 easy steps
+          </Text>
+          <View style={styles.howSteps}>
+            <HowItWorksStep num={1} icon="search" title="Find Your Star" desc="Browse 500+ celebrities across categories" />
+            <HowItWorksStep num={2} icon="edit-2" title="Share Details" desc="Tell them what you need and who it's for" />
+            <HowItWorksStep num={3} icon="video" title="Get Your Wish" desc="Receive a personalized video message" />
+          </View>
+        </View>
+
+        {/* Referral Banner */}
+        <View style={styles.section}>
+          <LinearGradient
+            colors={['#B44CFF', '#7B2FFF']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.referralBanner}
+          >
+            <View style={{ flex: 1 }}>
+              <Text style={[fontVariants.h4, { color: '#fff', marginBottom: 4 }]}>Earn with WishMe</Text>
+              <Text style={[fontVariants.caption, { color: 'rgba(255,255,255,0.8)' }]}>
+                Refer friends & earn up to 10% commission
+              </Text>
+            </View>
+            <Pressable
+              onPress={() => router.push('/referrals')}
+              style={styles.referralBtn}
+            >
+              <Text style={[fontVariants.captionMedium, { color: '#B44CFF' }]}>Refer Now</Text>
+            </Pressable>
+          </LinearGradient>
+        </View>
+      </ScrollView>
+
+      {/* Floating AI Assistant */}
+      <Pressable
+        onPress={() => router.push('/messages')}
+        style={[styles.fab, { backgroundColor: colors.primary, ...shadows.lg }]}
+      >
+        <Feather name="zap" size={22} color="#fff" />
+      </Pressable>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  header: { paddingHorizontal: 20, paddingBottom: 20 },
+  headerRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 },
+  headerActions: { flexDirection: 'row', gap: 8, alignItems: 'center' },
+  walletPill: { paddingHorizontal: 12, paddingVertical: 6, borderRadius: 999 },
+  iconBtn: { width: 38, height: 38, borderRadius: 19, alignItems: 'center', justifyContent: 'center' },
+  searchBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderRadius: 12,
+  },
+  bannerCard: {
+    width: SCREEN_WIDTH - 48,
+    borderRadius: 20,
+    padding: 24,
+    justifyContent: 'flex-end',
+    minHeight: 160,
+  },
+  bannerTitle: { fontFamily: 'PlayfairDisplay_700Bold', fontSize: 22, color: '#fff', lineHeight: 30, marginBottom: 6 },
+  bannerSubtitle: { fontFamily: 'Inter_400Regular', fontSize: 14, color: 'rgba(255,255,255,0.85)', marginBottom: 16 },
+  bannerButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: '#fff',
+    alignSelf: 'flex-start',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 999,
+  },
+  bannerButtonText: { fontFamily: 'Inter_600SemiBold', fontSize: 13, color: '#FF6B33' },
+  dots: { flexDirection: 'row', justifyContent: 'center', gap: 6, marginTop: 12 },
+  dot: { width: 6, height: 6, borderRadius: 3 },
+  section: { paddingHorizontal: 20, marginTop: 28 },
+  sectionHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 },
+  quickActionsGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
+  quickAction: {
+    width: (SCREEN_WIDTH - 64) / 3,
+    alignItems: 'center',
+    padding: 16,
+    borderRadius: 16,
+  },
+  quickActionIcon: { width: 52, height: 52, borderRadius: 16, alignItems: 'center', justifyContent: 'center' },
+  celebCard: { width: 130, borderRadius: 16, overflow: 'hidden' },
+  celebImage: { width: 130, height: 120 },
+  verifiedBadge: {
+    position: 'absolute',
+    top: 8,
+    right: 8,
+    width: 18,
+    height: 18,
+    borderRadius: 9,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1.5,
+    borderColor: '#fff',
+  },
+  celebInfo: { padding: 10, gap: 2 },
+  ratingRow: { flexDirection: 'row', alignItems: 'center' },
+  howItWorks: { borderRadius: 24, paddingVertical: 28, marginHorizontal: 20, paddingHorizontal: 24 },
+  howSteps: { flexDirection: 'row', gap: 8 },
+  howStep: { flex: 1, alignItems: 'center', paddingHorizontal: 4 },
+  howNum: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 12,
+  },
+  referralBanner: { borderRadius: 20, padding: 20, flexDirection: 'row', alignItems: 'center', gap: 16 },
+  referralBtn: {
+    backgroundColor: '#fff',
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    borderRadius: 999,
+  },
+  fab: {
+    position: 'absolute',
+    right: 20,
+    bottom: 90,
+    width: 52,
+    height: 52,
+    borderRadius: 26,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});

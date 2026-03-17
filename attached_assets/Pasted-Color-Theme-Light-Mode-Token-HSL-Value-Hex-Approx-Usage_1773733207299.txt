@@ -1,0 +1,84 @@
+Color Theme
+Light Mode
+Token	HSL Value	Hex Approx	Usage
+--background	0 0% 100%	#FFFFFF	Main background
+--background-secondary	220 18% 97%	#F5F6F8	Secondary background
+--foreground	220 20% 10%	#151921	Main text
+--card	0 0% 100%	#FFFFFF	Card background
+--card-secondary	220 18% 97%	#F5F6F8	Secondary card
+--card-foreground	220 20% 10%	#151921	Card text
+--primary	16 100% 60%	#FF6B33	Orange primary (buttons, links)
+--primary-dark	16 100% 50%	#FF5500	Darker orange
+--primary-foreground	0 0% 100%	#FFFFFF	Text on primary
+--secondary	280 90% 65%	#B44CFF	Purple secondary
+--secondary-dark	280 90% 55%	#9B1FFF	Darker purple
+--secondary-foreground	0 0% 100%	#FFFFFF	Text on secondary
+--accent	280 90% 65%	#B44CFF	Purple accent
+--accent-foreground	0 0% 100%	#FFFFFF	Text on accent
+--muted	220 18% 94%	#EDEEF1	Muted backgrounds
+--muted-foreground	220 10% 46%	#6B7085	Muted text
+--destructive	0 84% 60%	#EF4444	Error/delete red
+--border	220 18% 88%	#DCDFE5	Borders
+--input	220 18% 92%	#E6E8EC	Input backgrounds
+--ring	16 100% 60%	#FF6B33	Focus ring
+Dark Mode
+Token	HSL Value	Hex Approx	Usage
+--background	220 35% 18%	#1E283E	Deep navy background
+--background-secondary	220 35% 22%	#253049	Secondary navy
+--foreground	220 15% 95%	#F0F1F4	Main text
+--card	222 28% 14%	#1A2035	Card background
+--card-secondary	222 26% 17%	#20293E	Secondary card
+--card-foreground	220 15% 95%	#F0F1F4	Card text
+--primary	16 100% 65%	#FF7F4D	Orange primary
+--primary-dark	16 100% 55%	#FF6119	Darker orange
+--primary-foreground	220 25% 12%	#171D2B	Text on primary
+--secondary	280 90% 70%	#C266FF	Purple secondary
+--secondary-dark	280 90% 60%	#A633FF	Darker purple
+--secondary-foreground	220 15% 95%	#F0F1F4	Text on secondary
+--accent	280 90% 70%	#C266FF	Purple accent
+--accent-foreground	220 25% 12%	#171D2B	Text on accent
+--muted	222 26% 18%	#1F2940	Muted backgrounds
+--muted-foreground	220 10% 60%	#919199	Muted text
+--destructive	0 84% 60%	#EF4444	Error/delete red
+--border	222 26% 20%	#252F47	Borders
+--input	222 28% 14%	#1A2035	Input backgrounds
+--ring	16 100% 65%	#FF7F4D	Focus ring
+Gradients
+Name	Value
+Primary Gradient (Light)	linear-gradient(90deg, #FF6B33 0%, #E8527A 50%, #B44CFF 100%) — Orange → Pink → Purple
+Primary Gradient (Dark)	linear-gradient(90deg, #FF7F4D 0%, #EC5F83 50%, #C266FF 100%)
+Hero Gradient (Light)	linear-gradient(135deg, #F5F6F8 0%, #F8F0FF 50%, #FFF5F0 100%)
+Hero Gradient (Dark)	linear-gradient(135deg, #141A29 0%, #1F1530 30%, #161D2B 70%, #1C1430 100%)
+Sidebar Colors (Dark)
+Token	HSL	Hex Approx
+--sidebar-background	222 30% 12%	#171E30
+--sidebar-foreground	220 15% 90%	#DFE1E8
+--sidebar-primary	16 100% 65%	#FF7F4D
+--sidebar-accent	222 28% 18%	#1F2940
+--sidebar-border	222 26% 18%	#1F2940
+Typography
+Font Families
+Primary:    "Inter", system-ui, sans-serif     — All UI text
+Display:    "Playfair Display", serif          — Headlines, hero titles
+Script:     "Dancing Script", cursive          — Decorative/accent text
+Google Fonts import URL:
+
+https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&family=Dancing+Script:wght@400;500;600;700&display=swap
+Font Weights Used
+Inter: 300 (light), 400 (regular), 500 (medium), 600 (semibold), 700 (bold), 800 (extrabold)
+Playfair Display: 400, 500, 600, 700, 800
+Dancing Script: 400, 500, 600, 700
+Size Scale (Tailwind defaults)
+Class	Size
+text-xs	12px
+text-sm	14px
+text-base	16px
+text-lg	18px
+text-xl	20px
+text-2xl	24px
+text-3xl	30px
+text-4xl	36px
+text-5xl	48px
+Border Radius
+--radius: 0.75rem (12px)
+lg: 12px | md: 10px | sm: 8px

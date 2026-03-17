@@ -1,96 +1,122 @@
-# Workspace
+# WishMe — Celebrity Engagement Platform
 
 ## Overview
+WishMe is a full-featured Expo mobile app targeting the Indian celebrity engagement market. Users can book personalized video/voice messages from celebrities, use an AI music studio, manage a wallet (INR), refer friends for commission, and upgrade their subscription plan.
 
-pnpm workspace monorepo using TypeScript. Each package manages its own dependencies.
+## Architecture
 
-## Stack
+### Monorepo Structure (pnpm workspaces)
+- `artifacts/mobile/` — Main Expo mobile app (React Native + Expo Router)
+- `artifacts/api-server/` — Express API server (port 8080)
+- `artifacts/mockup-sandbox/` — Vite preview server for component mockups
 
-- **Monorepo tool**: pnpm workspaces
-- **Node.js version**: 24
-- **Package manager**: pnpm
-- **TypeScript version**: 5.9
-- **API framework**: Express 5
-- **Database**: PostgreSQL + Drizzle ORM
-- **Validation**: Zod (`zod/v4`), `drizzle-zod`
-- **API codegen**: Orval (from OpenAPI spec)
-- **Build**: esbuild (CJS bundle)
+### Mobile App Stack
+- **Framework**: Expo 54 + Expo Router v6 (file-based routing)
+- **Navigation**: 5-tab bar — Home, Celebrities, Voice Call (center FAB), AI Music, Profile
+- **Styling**: Global design system (no hardcoded hex/fonts anywhere)
+- **State**: React Context (ThemeContext + AuthContext) + TanStack Query
+- **Storage**: AsyncStorage (auth, theme preference)
+- **Fonts**: Inter (UI), Playfair Display (headlines), Dancing Script (decorative)
+- **Icons**: @expo/vector-icons (Feather)
+- **Gradients**: expo-linear-gradient
+- **Haptics**: expo-haptics
 
-## Structure
+## Design System
 
-```text
-artifacts-monorepo/
-├── artifacts/              # Deployable applications
-│   └── api-server/         # Express API server
-├── lib/                    # Shared libraries
-│   ├── api-spec/           # OpenAPI spec + Orval codegen config
-│   ├── api-client-react/   # Generated React Query hooks
-│   ├── api-zod/            # Generated Zod schemas from OpenAPI
-│   └── db/                 # Drizzle ORM schema + DB connection
-├── scripts/                # Utility scripts (single workspace package)
-│   └── src/                # Individual .ts scripts, run via `pnpm --filter @workspace/scripts run <script>`
-├── pnpm-workspace.yaml     # pnpm workspace (artifacts/*, lib/*, lib/integrations/*, scripts)
-├── tsconfig.base.json      # Shared TS options (composite, bundler resolution, es2022)
-├── tsconfig.json           # Root TS project references
-└── package.json            # Root package with hoisted devDeps
-```
+### Color Tokens
+- Light primary: `#FF6B33` / Dark primary: `#FF7F4D`
+- Secondary purple: `#B44CFF` / `#C266FF`
+- Backgrounds, cards, text all from `constants/theme.ts`
+- All colors accessed via `useTheme().colors` — zero hardcoded hex in components
 
-## TypeScript & Composite Projects
+### Font Families
+- `Inter_*` — All UI text, buttons, labels, body
+- `PlayfairDisplay_*` — Hero headings, display text, prices
+- `DancingScript_*` — Decorative accents (logo, greetings)
+- Loaded in `app/_layout.tsx` via `useFonts()`
+- All variants exported from `constants/fonts.ts` as `fontVariants.*`
 
-Every package extends `tsconfig.base.json` which sets `composite: true`. The root `tsconfig.json` lists all packages as project references. This means:
+### Theme
+- Light/dark/system modes persisted to AsyncStorage
+- `contexts/ThemeContext.tsx` — `useTheme()` hook
+- `contexts/AuthContext.tsx` — local auth with wallet
 
-- **Always typecheck from the root** — run `pnpm run typecheck` (which runs `tsc --build --emitDeclarationOnly`). This builds the full dependency graph so that cross-package imports resolve correctly. Running `tsc` inside a single package will fail if its dependencies haven't been built yet.
-- **`emitDeclarationOnly`** — we only emit `.d.ts` files during typecheck; actual JS bundling is handled by esbuild/tsx/vite...etc, not `tsc`.
-- **Project references** — when package A depends on package B, A's `tsconfig.json` must list B in its `references` array. `tsc --build` uses this to determine build order and skip up-to-date packages.
+## Screens Built
 
-## Root Scripts
+### Tabs (5)
+- `(tabs)/index.tsx` — Home: banners, quick actions, celebrity grid, referral CTA, AI assistant FAB
+- `(tabs)/celebrities.tsx` — Search/filter grid with category chips (12 celebrities)
+- `(tabs)/voice-call.tsx` — Celebrity voice call booking with availability
+- `(tabs)/music.tsx` — AI Music Studio (TTS, AI Music, SFX, Voice Clone, Convert, Isolate)
+- `(tabs)/profile.tsx` — Plan badge, completion bar, wallet, referrals, menu, sign out
 
-- `pnpm run build` — runs `typecheck` first, then recursively runs `build` in all packages that define it
-- `pnpm run typecheck` — runs `tsc --build --emitDeclarationOnly` using project references
+### Auth Flow
+- `(auth)/login.tsx` — Email/password login
+- `(auth)/signup.tsx` — Signup with password strength meter
+- `(auth)/verify-otp.tsx` — 6-digit OTP verification
+- `(auth)/select-plan.tsx` — Free/Silver/Gold/Platinum plan cards
+- `(auth)/complete-profile.tsx` — Multi-step profile wizard
 
-## Packages
+### Features
+- `celebrity/[id].tsx` — Celebrity detail: hero image, About/Services/Reviews tabs
+- `booking/[id].tsx` — 5-step booking flow: Request → Delivery → Script → Review → Checkout
+- `wallet.tsx` — Wallet balance, add money, transaction history
+- `messages.tsx` — Conversation list
+- `chat/[id].tsx` — Real-time chat UI
+- `bookings.tsx` — Booking history with status filters
+- `referrals.tsx` — Referral code sharing, 2-level commission tracking
+- `loved-ones.tsx` — CRUD for family/friends with birthday reminders
+- `photo-wish.tsx` — AI-generated photo wishes with templates
+- `greeting-cards.tsx` — Free greeting card generator
+- `wish-celebrity.tsx` — Send public wishes to celebrities
+- `wish-orders.tsx` — History of all wish-type orders
+- `occasions.tsx` — Upcoming occasion reminders & browse by occasion
+- `settings.tsx` — Dark mode, notifications, security
 
-### `artifacts/api-server` (`@workspace/api-server`)
+## Business Logic
 
-Express 5 API server. Routes live in `src/routes/` and use `@workspace/api-zod` for request and response validation and `@workspace/db` for persistence.
+### Plans & Commissions
+| Plan     | Price   | L1 Referral | L2 Referral | Booking Discount |
+|----------|---------|-------------|-------------|-----------------|
+| Free     | ₹0      | 5%          | 2%          | 0%              |
+| Silver   | ₹299/mo | 7%          | 3%          | 5%              |
+| Gold     | ₹599/mo | 8%          | 4%          | 10%             |
+| Platinum | ₹999/mo | 10%         | 5%          | 15%             |
 
-- Entry: `src/index.ts` — reads `PORT`, starts Express
-- App setup: `src/app.ts` — mounts CORS, JSON/urlencoded parsing, routes at `/api`
-- Routes: `src/routes/index.ts` mounts sub-routers; `src/routes/health.ts` exposes `GET /health` (full path: `/api/health`)
-- Depends on: `@workspace/db`, `@workspace/api-zod`
-- `pnpm --filter @workspace/api-server run dev` — run the dev server
-- `pnpm --filter @workspace/api-server run build` — production esbuild bundle (`dist/index.cjs`)
-- Build bundles an allowlist of deps (express, cors, pg, drizzle-orm, zod, etc.) and externalizes the rest
+### Wallet (INR)
+- Signup bonus: ₹500
+- Top-up via Razorpay (simulated)
+- Deductions for bookings and AI generation
+- Transaction history with type filters
 
-### `lib/db` (`@workspace/db`)
+### AI Music Studio Pricing
+| Feature       | Cost  |
+|---------------|-------|
+| Text to Speech | ₹50  |
+| AI Music       | ₹200 |
+| Sound Effects  | ₹100 |
+| Voice Clone    | ₹300 |
+| Voice Convert  | ₹150 |
+| Audio Isolate  | ₹150 |
 
-Database layer using Drizzle ORM with PostgreSQL. Exports a Drizzle client instance and schema models.
+## Packages Installed
+- `@expo-google-fonts/inter` — UI font
+- `@expo-google-fonts/playfair-display` — Display font
+- `@expo-google-fonts/dancing-script` — Script/decorative font
+- `expo-linear-gradient` — Gradient backgrounds and buttons
+- `expo-haptics` — Haptic feedback
+- `expo-image-picker` — Photo uploads
+- `expo-clipboard` — Referral code copy
+- `@react-native-async-storage/async-storage` — Persistence
+- `@supabase/supabase-js` — Installed (not yet wired to backend)
+- `@tanstack/react-query` — Data fetching/caching
+- `react-native-gesture-handler` — Gestures
+- `react-native-reanimated` — Animations
+- `react-native-safe-area-context` — Safe areas
 
-- `src/index.ts` — creates a `Pool` + Drizzle instance, exports schema
-- `src/schema/index.ts` — barrel re-export of all models
-- `src/schema/<modelname>.ts` — table definitions with `drizzle-zod` insert schemas (no models definitions exist right now)
-- `drizzle.config.ts` — Drizzle Kit config (requires `DATABASE_URL`, automatically provided by Replit)
-- Exports: `.` (pool, db, schema), `./schema` (schema only)
-
-Production migrations are handled by Replit when publishing. In development, we just use `pnpm --filter @workspace/db run push`, and we fallback to `pnpm --filter @workspace/db run push-force`.
-
-### `lib/api-spec` (`@workspace/api-spec`)
-
-Owns the OpenAPI 3.1 spec (`openapi.yaml`) and the Orval config (`orval.config.ts`). Running codegen produces output into two sibling packages:
-
-1. `lib/api-client-react/src/generated/` — React Query hooks + fetch client
-2. `lib/api-zod/src/generated/` — Zod schemas
-
-Run codegen: `pnpm --filter @workspace/api-spec run codegen`
-
-### `lib/api-zod` (`@workspace/api-zod`)
-
-Generated Zod schemas from the OpenAPI spec (e.g. `HealthCheckResponse`). Used by `api-server` for response validation.
-
-### `lib/api-client-react` (`@workspace/api-client-react`)
-
-Generated React Query hooks and fetch client from the OpenAPI spec (e.g. `useHealthCheck`, `healthCheck`).
-
-### `scripts` (`@workspace/scripts`)
-
-Utility scripts package. Each script is a `.ts` file in `src/` with a corresponding npm script in `package.json`. Run scripts via `pnpm --filter @workspace/scripts run <script>`. Scripts can import any workspace package (e.g., `@workspace/db`) by adding it as a dependency in `scripts/package.json`.
+## Development Notes
+- Web insets: 67px top, 34px bottom on `Platform.OS === 'web'`
+- Auth is local AsyncStorage only (no backend wired yet)
+- All celebrity data is mocked — ready for Supabase integration
+- AI generation is simulated with `setTimeout` — ready for ElevenLabs/Suno API wiring
+- Razorpay payment is simulated — ready for real SDK integration

@@ -1,0 +1,224 @@
+Build a mobile app called "WishMe" — a celebrity engagement and personalized content platform (like Cameo, but for the Indian market). Currency is INR (₹). Backend is Supabase (already exists — connect to it). Here are ALL user-facing features:
+
+🔐 AUTHENTICATION
+Email + Password signup/login
+Email OTP verification after signup (6-digit code sent via edge function)
+Password strength meter during signup
+Plan selection after signup (Free, Silver, Gold, Platinum — each has different referral commission rates)
+Profile completion flow (first name, last name, phone, address, DOB)
+Referral code support during signup (optional field)
+🏠 HOME PAGE
+Splash screen animation on first visit (mobile)
+Hero section with promotional banners
+Featured video messages carousel (celebrity videos)
+Admin-curated video gallery
+Featured celebrities grid
+"How It Works" section (3-step explainer)
+Business section, AI Music section, Referral section
+Video ads banner
+👤 USER DASHBOARD
+Welcome card with wallet balance display (₹)
+Quick action buttons grid:
+Wish a Friend (book celebrity video)
+Wish a Celebrity (send wish TO a celebrity)
+AI Music Studio
+Photo Wish (AI photo styling)
+Greeting Cards (AI generated)
+Voice Call (live call with celebrity)
+For Business (UGC ads)
+Image Promotions
+Celebrity browser with search, category filter (Actors, Musicians, Influencers, Athletes, Politicians), price range filter
+Grid/List view toggle
+Pagination (12 per page)
+Profile completion alert
+Unread messages alert
+🌟 CELEBRITY BROWSING & PROFILES
+Browse all active celebrities (/celebrities)
+Each celebrity card shows: image, name, category, rating (stars), review count, verification badge, starting price
+Celebrity profile page (/celebrity/:id) with:
+Bio, stats (followers, bookings completed, response time)
+Media gallery (photos/videos)
+Public events list
+Services & pricing
+Reviews tab
+"Book Now" button per service
+Subscription option (₹ yearly/monthly — required before booking some services)
+📹 BOOKING A CELEBRITY SERVICE
+Multi-step booking flow (/booking/:celebrityId):
+Request Details — occasion, recipient name, message, special instructions
+Delivery Type — standard or express
+Creative Guidelines — style preferences
+Script Builder — write or AI-generate script
+Review — summary of everything
+Checkout — payment via Wallet or Razorpay
+Service types: personalized_video, birthday_wish, business_shoutout, ugc_ad, voice_call, live_event
+Plan-based discounts (Silver 5%, Gold 10%, Platinum 15%)
+Booking creates record in bookings table, then celebrity fulfills it
+💰 WALLET SYSTEM
+View current balance
+Add money via Razorpay (INR payment gateway)
+Transaction history with filters (all, deposits, deductions, refunds)
+Real-time balance updates via Supabase realtime subscriptions
+Used for: booking payments, music generation, photo wishes, greeting cards, etc.
+🎵 AI MUSIC STUDIO (/music-studio)
+Full music creation suite with these tabs:
+
+Text to Speech — type text, choose voice, generate audio (ElevenLabs)
+Voice Conversion — upload audio, convert to different voice
+Sound Effects — describe a sound, AI generates it
+Audio Isolation — upload track, isolate vocals/instruments
+AI Music — generate full songs with lyrics or instrumental (MusicAPI/Suno)
+Voice Cloning — upload voice sample, create custom voice
+Image + Music Video — upload image, generate music, create video
+Each feature costs wallet credits (configurable per feature)
+Generation history with playback and download
+🖼️ PHOTO WISH (/photo-wish)
+Upload a photo
+Select occasion (Birthday, Wedding, Anniversary, etc.)
+Enter recipient name, message, sender name
+Choose text style (Elegant, Bold, Playful, Minimal, Festive)
+AI generates styled image with text overlay
+Costs wallet credits
+Download generated image
+Generation history
+💌 GREETING CARDS (/greeting-cards)
+AI-generated greeting cards
+Select occasion, enter message
+AI generates card design
+Download or share
+📷 IMAGE PROMOTIONS (/image-promotions)
+Create AI-generated promotional images
+For business branding purposes
+🎬 UGC VIDEOS & ADS
+/ugc-videos — User-generated content videos
+/ugc-ads — AI-generated UGC-style advertisement videos using celebrity avatars
+⭐ WISH A CELEBRITY (/wish-a-celebrity)
+Browse celebrities you're subscribed to
+Send a personalized wish TO a celebrity for their occasion
+Enter occasion, message, optional photo/video upload
+AI generates greeting card to send
+Payment via wallet or Razorpay
+Track order status in Wish Orders
+🎂 WISH A FRIEND (Book Celebrity Video)
+/wish-booking/:celebrityId — Book a personalized video from celebrity for a friend
+Enter occasion, recipient, message
+AI message suggestions
+Voice input support
+Payment via wallet or Razorpay
+📞 CELEBRITY VOICE CALL (/celebrity-voice-call)
+Book a live voice call with a celebrity
+Uses VAPI for voice call infrastructure
+👨‍👩‍👧 LOVED ONES (/loved-ones)
+CRUD for contacts (family/friends)
+Fields: name, email, phone, DOB, relationship, notes
+Add occasions per person (Birthday, Anniversary, etc.)
+CSV import support
+Used for occasion alerts & quick booking
+🔔 OCCASIONS & ALERTS
+/occasions — Browse upcoming occasions
+/occasion-alerts — Set reminders for loved ones' occasions
+/occasions/:occasionId/book — Book a celebrity for an occasion
+Supports AI video generation or greeting card for the occasion
+💬 MESSAGES (/messages)
+Real-time chat with celebrities (Supabase Realtime)
+Conversation list with unread count badges
+Message bubbles with timestamps
+Emoji picker
+Voice message input
+Celebrity auto-reply (AI-powered)
+Typing indicators
+❤️ FAVORITES / FOLLOWING (/following)
+Subscribe to celebrities (paid subscription)
+Payment via wallet or Razorpay
+View subscribed celebrities list
+Required for some features (Wish a Celebrity, Occasion booking)
+📋 BOOKINGS (/bookings)
+View all past orders across tabs:
+Celebrity Bookings (video/shoutout)
+Greeting Cards
+AI Music
+Image + Music
+Occasion Bookings
+Wishes (to celebrities)
+Photo Wishes
+Celebrity Calls
+Text to Speech
+Sound Effects
+Voice Conversions
+Audio Isolations
+Each shows status (pending/processing/completed/failed), media preview, download
+📦 WISH ORDERS (/wish-orders)
+Track wishes sent to celebrities
+Status: pending → paid → card_generated → sent → delivered
+View generated cards, download
+🔗 REFERRALS (/referrals)
+Unique referral code per user
+Copy/share referral link
+2-level referral system:
+Level 1 (direct): 5-10% commission (based on plan)
+Level 2 (indirect): 2-5% commission (based on plan)
+View referred users list
+Transaction history with earnings
+Stats: total referrals, total/pending earnings
+💵 COMMISSION (/commission)
+Track commission earnings from referrals and celebrity bookings
+Withdrawal requests
+👤 PROFILE (/profile)
+View/edit personal info (name, email, phone, DOB)
+Profile photo upload
+Address management (multiple addresses)
+Bank details (for commission withdrawal)
+PAN card / KYC document upload
+Password change
+Profile completion percentage indicator
+⚙️ SETTINGS (/settings)
+Theme toggle (light/dark)
+Notification preferences
+Privacy settings
+🤖 AI ASSISTANT (floating chat bubble)
+Always-visible chat bubble on bottom-right
+AI-powered assistant for:
+Navigation help
+Booking guidance
+FAQ answers
+Feature discovery
+Conversation history
+Quick action chips
+Suggestion chips
+🎙️ VOICE ASSISTANT (Google-powered)
+Voice command support
+Speech-to-text for forms
+Waveform visualizer during listening
+📱 MOBILE BOTTOM NAV
+5 tabs: Dashboard/Home, Voice Call, Celebrities, AI Music, Profile/Sign In
+Hamburger menu (⋮) with full navigation list
+Unread message badge on DMs
+🗂️ DATABASE TABLES (User-relevant)
+profiles — user data, wallet_balance, plan, referral_code
+celebrities — celebrity profiles with pricing
+bookings — all service bookings
+conversations / messages — real-time chat
+wallet_transactions — deposits, deductions, refunds
+user_favorites — celebrity subscriptions
+loved_ones — contacts with occasions
+music_generations — AI music history
+photo_wishes — photo wish history
+greeting_card_generations — card history
+wish_celebrity_orders — wishes to celebrities
+referral_transactions — commission tracking
+occasion_alerts — reminders
+celebrity_reviews — ratings & reviews
+user_plans — subscription plan details
+platform_settings — configurable prices/features
+💳 PAYMENT
+Razorpay integration (INR)
+Wallet top-up → Razorpay checkout
+Direct payment for bookings/subscriptions
+Refund on failed AI generations
+🔑 KEY TECHNICAL DETAILS
+Backend: Supabase (Postgres + Edge Functions + Realtime + Storage)
+Auth: Supabase Auth with custom email OTP
+Storage: Backblaze B2 for media, Supabase Storage for uploads
+AI APIs: OpenAI (chat/scripts), ElevenLabs (TTS/music/voice), HeyGen (video avatars), Suno/MusicAPI (music), VAPI (voice calls)
+Payments: Razorpay (India)
+Real-time: Supabase Realtime for messages, wallet balance, booking status
