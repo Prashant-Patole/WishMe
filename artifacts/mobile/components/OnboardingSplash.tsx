@@ -187,6 +187,10 @@ export default function OnboardingSplash({ onComplete }: Props) {
                   if (videoTimeoutRef.current) clearTimeout(videoTimeoutRef.current);
                   videoTimeoutRef.current = setTimeout(() => advanceRef.current(), 5000);
                 }}
+                onError={() => {
+                  if (videoTimeoutRef.current) clearTimeout(videoTimeoutRef.current);
+                  advanceRef.current();
+                }}
                 onPlaybackStatusUpdate={(status: AVPlaybackStatus) => {
                   if (status.isLoaded && status.didJustFinish) {
                     if (videoTimeoutRef.current) clearTimeout(videoTimeoutRef.current);
