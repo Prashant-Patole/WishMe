@@ -151,6 +151,12 @@ export default function OnboardingSplash({ onComplete }: Props) {
   }, []);
 
   useEffect(() => {
+    if (!isReady || screenIndex !== 0 || Platform.OS === 'web') return;
+    const fallback = setTimeout(() => advanceRef.current(), 8000);
+    return () => clearTimeout(fallback);
+  }, [isReady, screenIndex]);
+
+  useEffect(() => {
     if (!isReady || screenIndex === 0) return;
     runEntryAnimations();
   }, [screenIndex, isReady]);
@@ -183,6 +189,10 @@ export default function OnboardingSplash({ onComplete }: Props) {
                 }}
                 onPlaybackStatusUpdate={(status: AVPlaybackStatus) => {
                   if (status.isLoaded && status.didJustFinish) {
+                    if (videoTimeoutRef.current) clearTimeout(videoTimeoutRef.current);
+                    advanceRef.current();
+                  }
+                  if (!status.isLoaded && status.error) {
                     if (videoTimeoutRef.current) clearTimeout(videoTimeoutRef.current);
                     advanceRef.current();
                   }
