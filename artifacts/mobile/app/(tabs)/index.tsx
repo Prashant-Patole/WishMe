@@ -1,8 +1,8 @@
 import { Icon, IconName } from '@/components/Icon';
-import { Video, ResizeMode } from 'expo-av';
+import { Video, ResizeMode, AVPlaybackSource } from 'expo-av';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import {
   Dimensions,
   FlatList,
@@ -13,6 +13,7 @@ import {
   StyleSheet,
   Text,
   View,
+  ViewToken,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -140,11 +141,11 @@ function QuickAction({ action }: { action: typeof QUICK_ACTIONS[0] }) {
   );
 }
 
-function VideoWishCard({ wish }: { wish: typeof VIDEO_WISHES[0] }) {
+function VideoWishCard({ wish, isVisible = false }: { wish: typeof VIDEO_WISHES[0]; isVisible?: boolean }) {
   const { colors } = useTheme();
   const [isMuted, setIsMuted] = useState(true);
 
-  const source = wish.videoUri
+  const source: AVPlaybackSource | null = wish.videoUri
     ? (typeof wish.videoUri === 'number' ? wish.videoUri : { uri: wish.videoUri as string })
     : null;
 
@@ -153,10 +154,10 @@ function VideoWishCard({ wish }: { wish: typeof VIDEO_WISHES[0] }) {
       {source ? (
         <Pressable onPress={() => setIsMuted(m => !m)} style={styles.videoThumbContainer}>
           <Video
-            source={source as any}
+            source={source}
             style={styles.videoThumb}
             resizeMode={ResizeMode.COVER}
-            shouldPlay
+            shouldPlay={isVisible}
             isLooping
             isMuted={isMuted}
           />
@@ -229,6 +230,12 @@ export default function HomeScreen() {
   const { user } = useAuth();
   const insets = useSafeAreaInsets();
   const [bannerIndex, setBannerIndex] = useState(0);
+  const [visibleWishIds, setVisibleWishIds] = useState<Set<string>>(new Set(['1']));
+
+  const wishViewConfig = useRef({ viewAreaCoveragePercentThreshold: 50 });
+  const onWishViewable = useCallback(({ viewableItems }: { viewableItems: ViewToken[] }) => {
+    setVisibleWishIds(new Set(viewableItems.map(i => String(i.key))));
+  }, []);
 
   const topPad = Platform.OS === 'web' ? 67 : insets.top;
   const heroBg = isDark ? gradients.heroDark : gradients.heroLight;
@@ -348,7 +355,11 @@ export default function HomeScreen() {
             keyExtractor={(w) => w.id}
             contentContainerStyle={{ paddingHorizontal: 20, gap: 14 }}
             decelerationRate="fast"
-            renderItem={({ item }) => <VideoWishCard wish={item} />}
+            onViewableItemsChanged={onWishViewable}
+            viewabilityConfig={wishViewConfig.current}
+            renderItem={({ item }) => (
+              <VideoWishCard wish={item} isVisible={visibleWishIds.has(item.id)} />
+            )}
           />
         </View>
 
