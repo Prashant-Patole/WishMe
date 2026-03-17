@@ -20,6 +20,7 @@ import {
   DancingScript_600SemiBold,
   DancingScript_700Bold,
 } from '@expo-google-fonts/dancing-script';
+import { Feather } from '@expo/vector-icons';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -61,6 +62,7 @@ function RootLayoutNav() {
 
 export default function RootLayout() {
   const [fontsLoaded, fontError] = useFonts({
+    ...Feather.font,
     Inter_300Light,
     Inter_400Regular,
     Inter_500Medium,
