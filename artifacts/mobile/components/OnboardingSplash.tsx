@@ -49,8 +49,7 @@ const SLIDES = [
   },
 ];
 
-const ALL_ASSETS = [
-  INTRO_VIDEO,
+const IMAGE_ASSETS = [
   require('../assets/splash/splash1.jpeg'),
   require('../assets/splash/splash2.jpeg'),
   require('../assets/splash/splash3.jpeg'),
@@ -78,66 +77,93 @@ export default function OnboardingSplash({ onComplete }: Props) {
 
   const videoTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const advanceRef = useRef<() => void>(() => undefined);
+  const hasAdvancedFromVideo = useRef(false);
 
-  const runEntryAnimations = useCallback(() => {
-    screenOpacity.setValue(0);
-    imageScale.setValue(0.95);
-    contentOpacity.setValue(0);
-    contentSlide.setValue(32);
-    btnOpacity.setValue(0);
+  const fadeGateAndReady = useCallback(
+    (source: string, cancelled: { value: boolean }) => {
+      console.log(`[Splash] isReady=true (${source})`);
+      Animated.timing(gateOpacity, {
+        toValue: 0,
+        duration: 400,
+        useNativeDriver: true,
+      }).start(() => {
+        if (!cancelled.value) setIsReady(true);
+      });
+    },
+    [],
+  );
 
-    Animated.parallel([
-      Animated.timing(screenOpacity, { toValue: 1, duration: 700, useNativeDriver: true }),
-      Animated.timing(imageScale, { toValue: 1, duration: 1000, useNativeDriver: true }),
-      Animated.sequence([
-        Animated.delay(300),
-        Animated.parallel([
-          Animated.timing(contentOpacity, { toValue: 1, duration: 700, useNativeDriver: true }),
-          Animated.timing(contentSlide, { toValue: 0, duration: 700, useNativeDriver: true }),
+  const runEntryAnimations = useCallback(
+    (index: number) => {
+      console.log(`[Splash] slide ${index} entry animations`);
+      screenOpacity.setValue(0);
+      imageScale.setValue(0.95);
+      contentOpacity.setValue(0);
+      contentSlide.setValue(32);
+      btnOpacity.setValue(0);
+
+      Animated.parallel([
+        Animated.timing(screenOpacity, { toValue: 1, duration: 700, useNativeDriver: true }),
+        Animated.timing(imageScale, { toValue: 1, duration: 1000, useNativeDriver: true }),
+        Animated.sequence([
+          Animated.delay(300),
+          Animated.parallel([
+            Animated.timing(contentOpacity, { toValue: 1, duration: 700, useNativeDriver: true }),
+            Animated.timing(contentSlide, { toValue: 0, duration: 700, useNativeDriver: true }),
+          ]),
         ]),
-      ]),
-      Animated.sequence([
-        Animated.delay(700),
-        Animated.timing(btnOpacity, { toValue: 1, duration: 700, useNativeDriver: true }),
-      ]),
-    ]).start();
-  }, []);
+        Animated.sequence([
+          Animated.delay(700),
+          Animated.timing(btnOpacity, { toValue: 1, duration: 700, useNativeDriver: true }),
+        ]),
+      ]).start();
+    },
+    [],
+  );
 
   const dismiss = useCallback(() => {
+    console.log('[Splash] dismiss → onComplete');
     onComplete();
   }, [onComplete]);
 
   const advance = useCallback(() => {
     setScreenIndex((prev) => {
+      const next = prev >= SLIDES.length ? prev : prev + 1;
+      console.log(`[Splash] advance prev=${prev} next=${next}`);
       if (prev >= SLIDES.length) {
         dismiss();
-        return prev;
       }
-      return prev + 1;
+      return next;
     });
   }, [dismiss]);
 
   advanceRef.current = advance;
 
+  const advanceFromVideo = useCallback(() => {
+    console.log(`[Splash] advanceFromVideo hasGuard=${hasAdvancedFromVideo.current}`);
+    if (hasAdvancedFromVideo.current) return;
+    hasAdvancedFromVideo.current = true;
+    if (videoTimeoutRef.current) {
+      clearTimeout(videoTimeoutRef.current);
+      videoTimeoutRef.current = null;
+    }
+    advanceRef.current();
+  }, []);
+
   useEffect(() => {
-    let cancelled = false;
-    Asset.loadAsync(ALL_ASSETS)
+    const cancelled = { value: false };
+    console.log('[Splash] preload start (images only)');
+    Asset.loadAsync(IMAGE_ASSETS)
       .then(() => {
-        if (!cancelled) {
-          Animated.timing(gateOpacity, {
-            toValue: 0,
-            duration: 400,
-            useNativeDriver: true,
-          }).start(() => {
-            if (!cancelled) setIsReady(true);
-          });
-        }
+        console.log('[Splash] preload success');
+        if (!cancelled.value) fadeGateAndReady('preload ok', cancelled);
       })
-      .catch(() => {
-        if (!cancelled) setIsReady(true);
+      .catch((err: unknown) => {
+        console.log('[Splash] preload error:', err);
+        if (!cancelled.value) fadeGateAndReady('preload failed, continuing', cancelled);
       });
     return () => {
-      cancelled = true;
+      cancelled.value = true;
     };
   }, []);
 
@@ -152,13 +178,17 @@ export default function OnboardingSplash({ onComplete }: Props) {
 
   useEffect(() => {
     if (!isReady || screenIndex !== 0 || Platform.OS === 'web') return;
-    const fallback = setTimeout(() => advanceRef.current(), 8000);
+    console.log('[Splash] 8s fallback timer armed');
+    const fallback = setTimeout(() => {
+      console.log('[Splash] 8s fallback fired');
+      advanceFromVideo();
+    }, 8000);
     return () => clearTimeout(fallback);
   }, [isReady, screenIndex]);
 
   useEffect(() => {
     if (!isReady || screenIndex === 0) return;
-    runEntryAnimations();
+    runEntryAnimations(screenIndex);
   }, [screenIndex, isReady]);
 
   const slide = screenIndex > 0 ? SLIDES[screenIndex - 1] : null;
@@ -184,28 +214,32 @@ export default function OnboardingSplash({ onComplete }: Props) {
                 isMuted
                 isLooping={false}
                 onReadyForDisplay={() => {
+                  console.log('[Splash] video onReadyForDisplay — starting 5s timer');
                   if (videoTimeoutRef.current) clearTimeout(videoTimeoutRef.current);
-                  videoTimeoutRef.current = setTimeout(() => advanceRef.current(), 5000);
+                  videoTimeoutRef.current = setTimeout(() => {
+                    console.log('[Splash] 5s video timer fired');
+                    advanceFromVideo();
+                  }, 5000);
                 }}
                 onError={() => {
-                  if (videoTimeoutRef.current) clearTimeout(videoTimeoutRef.current);
-                  advanceRef.current();
+                  console.log('[Splash] video onError — skipping');
+                  advanceFromVideo();
                 }}
                 onPlaybackStatusUpdate={(status: AVPlaybackStatus) => {
                   if (status.isLoaded && status.didJustFinish) {
-                    if (videoTimeoutRef.current) clearTimeout(videoTimeoutRef.current);
-                    advanceRef.current();
+                    console.log('[Splash] video finished naturally');
+                    advanceFromVideo();
                   }
                   if (!status.isLoaded && status.error) {
-                    if (videoTimeoutRef.current) clearTimeout(videoTimeoutRef.current);
-                    advanceRef.current();
+                    console.log('[Splash] video playback error:', status.error);
+                    advanceFromVideo();
                   }
                 }}
               />
               <Pressable
                 onPress={() => {
-                  if (videoTimeoutRef.current) clearTimeout(videoTimeoutRef.current);
-                  advanceRef.current();
+                  console.log('[Splash] video Skip pressed');
+                  advanceFromVideo();
                 }}
                 style={[
                   styles.videoSkip,
@@ -218,7 +252,7 @@ export default function OnboardingSplash({ onComplete }: Props) {
           ) : (
             /* ── Image Slide Screen ───────────────────────── */
             <Animated.View style={[StyleSheet.absoluteFillObject, { opacity: screenOpacity }]}>
-              {/* Full-screen background image with Ken Burns scale — scale on View, not Image */}
+              {/* Full-screen background image — scale on View, not Image */}
               <Animated.View
                 style={[
                   StyleSheet.absoluteFillObject,
@@ -229,6 +263,8 @@ export default function OnboardingSplash({ onComplete }: Props) {
                   source={slide!.image}
                   style={StyleSheet.absoluteFillObject}
                   resizeMode="cover"
+                  onLoad={() => console.log(`[Splash] image ${screenIndex} loaded`)}
+                  onError={(e) => console.log(`[Splash] image ${screenIndex} error:`, e.nativeEvent.error)}
                 />
               </Animated.View>
 
@@ -257,7 +293,10 @@ export default function OnboardingSplash({ onComplete }: Props) {
                     </Text>
                   </View>
                   <Pressable
-                    onPress={dismiss}
+                    onPress={() => {
+                      console.log('[Splash] slide Skip pressed');
+                      dismiss();
+                    }}
                     style={[styles.skipBtn, { backgroundColor: bg + '4D' }]}
                   >
                     <Text style={[styles.skipText, { color: colors.secondaryForeground }]}>Skip</Text>
@@ -302,7 +341,13 @@ export default function OnboardingSplash({ onComplete }: Props) {
                 </Animated.Text>
 
                 <Animated.View style={{ opacity: btnOpacity }}>
-                  <Pressable onPress={isLastSlide ? dismiss : advance}>
+                  <Pressable
+                    onPress={() => {
+                      console.log(`[Splash] ${isLastSlide ? 'GetStarted' : 'Continue'} pressed at index ${screenIndex}`);
+                      if (isLastSlide) dismiss();
+                      else advance();
+                    }}
+                  >
                     <LinearGradient
                       colors={['#FF6B33', '#B44CFF']}
                       start={{ x: 0, y: 0 }}
