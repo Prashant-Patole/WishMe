@@ -1,6 +1,6 @@
 import { BlurView } from 'expo-blur';
 import { Tabs, router } from 'expo-router';
-import { Icon } from '@/components/Icon';
+import { Icon, IconName } from '@/components/Icon';
 import React from 'react';
 import { Platform, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -8,8 +8,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useAuth } from '@/contexts/AuthContext';
 
-function TabBarIcon({ name, color, size = 22 }: { name: string; color: string; size?: number }) {
-  return <Icon name={name as any} size={size} color={color} />;
+function TabBarIcon({ name, color, size = 22 }: { name: IconName; color: string; size?: number }) {
+  return <Icon name={name} size={size} color={color} />;
 }
 
 export default function TabLayout() {

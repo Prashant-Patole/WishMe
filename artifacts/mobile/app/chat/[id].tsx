@@ -48,7 +48,7 @@ export default function ChatScreen() {
   const { user } = useAuth();
   const insets = useSafeAreaInsets();
   const topPad = Platform.OS === 'web' ? 67 : insets.top;
-  const botPad = Platform.OS === 'web' ? 34 : insets.bottom;
+  const botPad = Platform.OS === 'web' ? 34 : 0;
 
   const convo = CONVO_DATA[id ?? ''] ?? CONVO_DATA.default;
   const [messages, setMessages] = useState(convo.messages);

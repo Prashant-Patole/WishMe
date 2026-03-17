@@ -2,8 +2,23 @@ import React from 'react';
 import Svg, { Circle, Line, Path, Polygon, Polyline, Rect } from 'react-native-svg';
 import { ViewStyle } from 'react-native';
 
+export type IconName =
+  | 'alert-circle' | 'arrow-down-left' | 'arrow-left' | 'arrow-right'
+  | 'arrow-up' | 'arrow-up-right' | 'award' | 'bell' | 'bookmark'
+  | 'camera' | 'check' | 'check-circle' | 'chevron-down' | 'chevron-right'
+  | 'chevron-up' | 'chrome' | 'clock' | 'copy' | 'credit-card'
+  | 'dollar-sign' | 'download' | 'edit' | 'external-link' | 'eye'
+  | 'eye-off' | 'file-text' | 'filter' | 'gift' | 'grid' | 'heart'
+  | 'help-circle' | 'home' | 'image' | 'inbox' | 'info' | 'lock'
+  | 'log-out' | 'mail' | 'map-pin' | 'maximize' | 'message-circle'
+  | 'mic' | 'moon' | 'more-vertical' | 'music' | 'package' | 'paperclip'
+  | 'phone' | 'play' | 'plus' | 'rotate-ccw' | 'search' | 'send'
+  | 'settings' | 'share-2' | 'shield' | 'shopping-bag' | 'smartphone'
+  | 'star' | 'sun' | 'tag' | 'trash-2' | 'trending-up' | 'user'
+  | 'users' | 'video' | 'volume-2' | 'wallet' | 'x' | 'zap';
+
 interface IconProps {
-  name: string;
+  name: IconName;
   size?: number;
   color?: string;
   style?: ViewStyle;

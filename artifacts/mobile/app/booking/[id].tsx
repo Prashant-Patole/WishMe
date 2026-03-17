@@ -36,7 +36,7 @@ export default function BookingScreen() {
   const { user, updateWallet } = useAuth();
   const insets = useSafeAreaInsets();
   const topPad = Platform.OS === 'web' ? 67 : insets.top;
-  const botPad = Platform.OS === 'web' ? 34 : insets.bottom;
+  const botPad = Platform.OS === 'web' ? 34 : 0;
 
   const [step, setStep] = useState(0);
   const [occasion, setOccasion] = useState('Birthday');

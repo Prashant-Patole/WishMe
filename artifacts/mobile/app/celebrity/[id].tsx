@@ -49,7 +49,7 @@ export default function CelebrityDetailScreen() {
   const { colors, isDark } = useTheme();
   const insets = useSafeAreaInsets();
   const topPad = Platform.OS === 'web' ? 67 : insets.top;
-  const botPad = Platform.OS === 'web' ? 34 : insets.bottom;
+  const botPad = Platform.OS === 'web' ? 34 : 0;
   const [activeTab, setActiveTab] = useState('About');
   const [isFav, setIsFav] = useState(false);
 
