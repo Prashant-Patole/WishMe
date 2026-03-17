@@ -1,7 +1,9 @@
+import { Asset } from 'expo-asset';
 import { AVPlaybackStatus, ResizeMode, Video } from 'expo-av';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
+  ActivityIndicator,
   Animated,
   Image,
   Platform,
@@ -47,6 +49,14 @@ const SLIDES = [
   },
 ];
 
+const ALL_ASSETS = [
+  INTRO_VIDEO,
+  require('../assets/splash/splash1.jpeg'),
+  require('../assets/splash/splash2.jpeg'),
+  require('../assets/splash/splash3.jpeg'),
+  require('../assets/splash/splash4.jpeg'),
+];
+
 interface Props {
   onComplete: () => void;
 }
@@ -64,6 +74,7 @@ export default function OnboardingSplash({ onComplete }: Props) {
   const contentOpacity = useRef(new Animated.Value(0)).current;
   const contentSlide = useRef(new Animated.Value(32)).current;
   const btnOpacity = useRef(new Animated.Value(0)).current;
+  const gateOpacity = useRef(new Animated.Value(1)).current;
 
   const videoTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const advanceRef = useRef<() => void>(() => undefined);
@@ -109,7 +120,23 @@ export default function OnboardingSplash({ onComplete }: Props) {
   advanceRef.current = advance;
 
   useEffect(() => {
-    setIsReady(true);
+    let cancelled = false;
+    Asset.loadAsync(ALL_ASSETS)
+      .catch(() => {})
+      .finally(() => {
+        if (!cancelled) {
+          Animated.timing(gateOpacity, {
+            toValue: 0,
+            duration: 400,
+            useNativeDriver: true,
+          }).start(() => {
+            if (!cancelled) setIsReady(true);
+          });
+        }
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   useEffect(() => {
@@ -117,157 +144,171 @@ export default function OnboardingSplash({ onComplete }: Props) {
     runEntryAnimations();
   }, [screenIndex, isReady]);
 
-  useEffect(() => {
-    if (!isReady || screenIndex !== 0 || Platform.OS === 'web') return;
-    videoTimeoutRef.current = setTimeout(() => advanceRef.current(), 5000);
-    return () => {
-      if (videoTimeoutRef.current) {
-        clearTimeout(videoTimeoutRef.current);
-        videoTimeoutRef.current = null;
-      }
-    };
-  }, [isReady, screenIndex]);
-
-  if (!isReady) return null;
-
   const slide = screenIndex > 0 ? SLIDES[screenIndex - 1] : null;
   const isLastSlide = screenIndex === SLIDES.length;
   const topPad = insets.top + 16;
   const btmPad = insets.bottom + 32;
-
   const bg = colors.background;
 
   return (
     <View style={[StyleSheet.absoluteFillObject, styles.container]}>
       <StatusBar hidden />
 
-      {screenIndex === 0 ? (
-        /* ── Video Intro Screen ───────────────────────── */
-        <View style={StyleSheet.absoluteFillObject}>
-          <Video
-            source={INTRO_VIDEO}
-            style={StyleSheet.absoluteFillObject}
-            resizeMode={ResizeMode.COVER}
-            shouldPlay
-            isMuted
-            isLooping={false}
-            onPlaybackStatusUpdate={(status: AVPlaybackStatus) => {
-              if (status.isLoaded && status.didJustFinish) {
-                if (videoTimeoutRef.current) clearTimeout(videoTimeoutRef.current);
-                advanceRef.current();
-              }
-            }}
-          />
-          <Pressable
-            onPress={() => {
-              if (videoTimeoutRef.current) clearTimeout(videoTimeoutRef.current);
-              advanceRef.current();
-            }}
-            style={[
-              styles.videoSkip,
-              { top: topPad, backgroundColor: bg + '4D' },
-            ]}
-          >
-            <Text style={[styles.skipText, { color: colors.secondaryForeground }]}>Skip</Text>
-          </Pressable>
-        </View>
-      ) : (
-        /* ── Image Slide Screen ───────────────────────── */
-        <Animated.View style={[StyleSheet.absoluteFillObject, { opacity: screenOpacity }]}>
-          {/* Full-screen background image with Ken Burns scale */}
-          <Animated.Image
-            source={slide!.image}
-            style={[
-              StyleSheet.absoluteFillObject,
-              { transform: [{ scale: imageScale }] },
-            ]}
-            resizeMode="cover"
-          />
-
-          {/* Bottom-to-top gradient overlay */}
-          <LinearGradient
-            colors={[bg + 'FA', bg + '20', bg + '00']}
-            start={{ x: 0, y: 1 }}
-            end={{ x: 0, y: 0 }}
-            style={StyleSheet.absoluteFillObject}
-          />
-
-          {/* Top bar */}
-          <View style={[styles.topBar, { paddingTop: topPad }]}>
-            <View style={[styles.logoBg, { backgroundColor: bg + '59' }]}>
-              <Image source={LOGO} style={styles.logo} resizeMode="contain" />
-            </View>
-            <View style={styles.topRight}>
-              <View
-                style={[
-                  styles.progressPill,
-                  { backgroundColor: bg + '66', borderColor: colors.border + '40' },
-                ]}
-              >
-                <Text style={[styles.progressText, { color: colors.secondaryForeground }]}>
-                  {screenIndex} / {SLIDES.length}
-                </Text>
-              </View>
+      {isReady && (
+        <>
+          {screenIndex === 0 ? (
+            /* ── Video Intro Screen ───────────────────────── */
+            <View style={StyleSheet.absoluteFillObject}>
+              <Video
+                source={INTRO_VIDEO}
+                style={StyleSheet.absoluteFillObject}
+                resizeMode={ResizeMode.COVER}
+                shouldPlay
+                isMuted
+                isLooping={false}
+                onReadyForDisplay={() => {
+                  if (videoTimeoutRef.current) clearTimeout(videoTimeoutRef.current);
+                  videoTimeoutRef.current = setTimeout(() => advanceRef.current(), 5000);
+                }}
+                onPlaybackStatusUpdate={(status: AVPlaybackStatus) => {
+                  if (status.isLoaded && status.didJustFinish) {
+                    if (videoTimeoutRef.current) clearTimeout(videoTimeoutRef.current);
+                    advanceRef.current();
+                  }
+                }}
+              />
               <Pressable
-                onPress={dismiss}
-                style={[styles.skipBtn, { backgroundColor: bg + '4D' }]}
+                onPress={() => {
+                  if (videoTimeoutRef.current) clearTimeout(videoTimeoutRef.current);
+                  advanceRef.current();
+                }}
+                style={[
+                  styles.videoSkip,
+                  { top: topPad, backgroundColor: bg + '4D' },
+                ]}
               >
                 <Text style={[styles.skipText, { color: colors.secondaryForeground }]}>Skip</Text>
               </Pressable>
             </View>
-          </View>
+          ) : (
+            /* ── Image Slide Screen ───────────────────────── */
+            <Animated.View style={[StyleSheet.absoluteFillObject, { opacity: screenOpacity }]}>
+              {/* Full-screen background image with Ken Burns scale — scale on View, not Image */}
+              <Animated.View
+                style={[
+                  StyleSheet.absoluteFillObject,
+                  { transform: [{ scale: imageScale }] },
+                ]}
+              >
+                <Image
+                  source={slide!.image}
+                  style={StyleSheet.absoluteFillObject}
+                  resizeMode="cover"
+                />
+              </Animated.View>
 
-          {/* Bottom content area */}
-          <View style={[styles.bottomContent, { paddingBottom: btmPad }]}>
-            <LinearGradient
-              colors={['transparent', bg + 'D9', bg + 'FA']}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 0, y: 1 }}
-              style={styles.bottomGradient}
-              pointerEvents="none"
-            />
+              {/* Bottom-to-top gradient overlay */}
+              <LinearGradient
+                colors={[bg + 'FA', bg + '20', bg + '00']}
+                start={{ x: 0, y: 1 }}
+                end={{ x: 0, y: 0 }}
+                style={StyleSheet.absoluteFillObject}
+              />
 
-            <Animated.Text
-              style={[
-                styles.title,
-                {
-                  color: colors.secondaryForeground,
-                  opacity: contentOpacity,
-                  transform: [{ translateY: contentSlide }],
-                },
-              ]}
-            >
-              {slide!.title}
-            </Animated.Text>
+              {/* Top bar */}
+              <View style={[styles.topBar, { paddingTop: topPad }]}>
+                <View style={[styles.logoBg, { backgroundColor: bg + '59' }]}>
+                  <Image source={LOGO} style={styles.logo} resizeMode="contain" />
+                </View>
+                <View style={styles.topRight}>
+                  <View
+                    style={[
+                      styles.progressPill,
+                      { backgroundColor: bg + '66', borderColor: colors.border + '40' },
+                    ]}
+                  >
+                    <Text style={[styles.progressText, { color: colors.secondaryForeground }]}>
+                      {screenIndex} / {SLIDES.length}
+                    </Text>
+                  </View>
+                  <Pressable
+                    onPress={dismiss}
+                    style={[styles.skipBtn, { backgroundColor: bg + '4D' }]}
+                  >
+                    <Text style={[styles.skipText, { color: colors.secondaryForeground }]}>Skip</Text>
+                  </Pressable>
+                </View>
+              </View>
 
-            <Animated.Text
-              style={[
-                styles.description,
-                {
-                  color: colors.secondaryForeground,
-                  opacity: contentOpacity,
-                  transform: [{ translateY: contentSlide }],
-                },
-              ]}
-            >
-              {slide!.description}
-            </Animated.Text>
-
-            <Animated.View style={{ opacity: btnOpacity }}>
-              <Pressable onPress={isLastSlide ? dismiss : advance}>
+              {/* Bottom content area */}
+              <View style={[styles.bottomContent, { paddingBottom: btmPad }]}>
                 <LinearGradient
-                  colors={['#FF6B33', '#B44CFF']}
+                  colors={['transparent', bg + 'D9', bg + 'FA']}
                   start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 0 }}
-                  style={[styles.continueBtn, shadows.lg]}
+                  end={{ x: 0, y: 1 }}
+                  style={styles.bottomGradient}
+                  pointerEvents="none"
+                />
+
+                <Animated.Text
+                  style={[
+                    styles.title,
+                    {
+                      color: colors.secondaryForeground,
+                      opacity: contentOpacity,
+                      transform: [{ translateY: contentSlide }],
+                    },
+                  ]}
                 >
-                  <Text style={styles.continueBtnText}>
-                    {isLastSlide ? 'Get Started' : 'Continue'}
-                  </Text>
-                </LinearGradient>
-              </Pressable>
+                  {slide!.title}
+                </Animated.Text>
+
+                <Animated.Text
+                  style={[
+                    styles.description,
+                    {
+                      color: colors.secondaryForeground,
+                      opacity: contentOpacity,
+                      transform: [{ translateY: contentSlide }],
+                    },
+                  ]}
+                >
+                  {slide!.description}
+                </Animated.Text>
+
+                <Animated.View style={{ opacity: btnOpacity }}>
+                  <Pressable onPress={isLastSlide ? dismiss : advance}>
+                    <LinearGradient
+                      colors={['#FF6B33', '#B44CFF']}
+                      start={{ x: 0, y: 0 }}
+                      end={{ x: 1, y: 0 }}
+                      style={[styles.continueBtn, shadows.lg]}
+                    >
+                      <Text style={styles.continueBtnText}>
+                        {isLastSlide ? 'Get Started' : 'Continue'}
+                      </Text>
+                    </LinearGradient>
+                  </Pressable>
+                </Animated.View>
+              </View>
             </Animated.View>
-          </View>
+          )}
+        </>
+      )}
+
+      {/* ── Loading Gate ─────────────────────────────── */}
+      {!isReady && (
+        <Animated.View
+          style={[StyleSheet.absoluteFillObject, styles.gate, { opacity: gateOpacity }]}
+          pointerEvents="none"
+        >
+          <Image source={LOGO} style={styles.gateLogo} resizeMode="contain" />
+          <ActivityIndicator
+            size="large"
+            color={colors.primary}
+            style={styles.gateSpinner}
+          />
+          <Text style={[styles.gateLabel, { color: colors.mutedForeground }]}>Loading…</Text>
         </Animated.View>
       )}
     </View>
@@ -278,6 +319,25 @@ const styles = StyleSheet.create({
   container: {
     zIndex: 9999,
     backgroundColor: '#000',
+  },
+  /* Loading gate */
+  gate: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#000',
+  },
+  gateLogo: {
+    width: 160,
+    height: 52,
+  },
+  gateSpinner: {
+    marginTop: 28,
+  },
+  gateLabel: {
+    fontFamily: 'Inter_500Medium',
+    fontSize: fontSize.sm,
+    marginTop: 14,
+    letterSpacing: 0.4,
   },
   /* Video screen */
   videoSkip: {
