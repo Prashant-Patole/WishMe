@@ -1,4 +1,4 @@
-import { Feather } from '@expo/vector-icons';
+import { Icon } from '@/components/Icon';
 import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
@@ -62,7 +62,7 @@ export default function LoginScreen() {
           style={[styles.hero, { paddingTop: topPad + 24 }]}
         >
           <Pressable onPress={() => router.back()} style={[styles.backBtn, { backgroundColor: colors.card }]}>
-            <Feather name="arrow-left" size={20} color={colors.foreground} />
+            <Icon name="arrow-left" size={20} color={colors.foreground} />
           </Pressable>
           <LinearGradient colors={['#FF6B33', '#B44CFF']} style={styles.logoWrap}>
             <Text style={{ fontFamily: 'DancingScript_700Bold', fontSize: 28, color: '#fff' }}>W</Text>
@@ -79,7 +79,7 @@ export default function LoginScreen() {
         <View style={[styles.form, { backgroundColor: colors.background }]}>
           {error ? (
             <View style={[styles.errorBox, { backgroundColor: colors.destructive + '15', borderColor: colors.destructive }]}>
-              <Feather name="alert-circle" size={16} color={colors.destructive} />
+              <Icon name="alert-circle" size={16} color={colors.destructive} />
               <Text style={[fontVariants.caption, { color: colors.destructive, flex: 1 }]}>{error}</Text>
             </View>
           ) : null}
@@ -88,7 +88,7 @@ export default function LoginScreen() {
           <View>
             <Text style={[fontVariants.captionMedium, { color: colors.foreground, marginBottom: 8 }]}>Email Address</Text>
             <View style={[styles.inputWrap, { backgroundColor: colors.input, borderColor: colors.border }]}>
-              <Feather name="mail" size={18} color={colors.mutedForeground} />
+              <Icon name="mail" size={18} color={colors.mutedForeground} />
               <TextInput
                 value={email}
                 onChangeText={setEmail}
@@ -105,7 +105,7 @@ export default function LoginScreen() {
           <View>
             <Text style={[fontVariants.captionMedium, { color: colors.foreground, marginBottom: 8 }]}>Password</Text>
             <View style={[styles.inputWrap, { backgroundColor: colors.input, borderColor: colors.border }]}>
-              <Feather name="lock" size={18} color={colors.mutedForeground} />
+              <Icon name="lock" size={18} color={colors.mutedForeground} />
               <TextInput
                 value={password}
                 onChangeText={setPassword}
@@ -115,7 +115,7 @@ export default function LoginScreen() {
                 style={[fontVariants.body, { color: colors.foreground, flex: 1 }]}
               />
               <Pressable onPress={() => setShowPassword(!showPassword)}>
-                <Feather name={showPassword ? 'eye-off' : 'eye'} size={18} color={colors.mutedForeground} />
+                <Icon name={showPassword ? 'eye-off' : 'eye'} size={18} color={colors.mutedForeground} />
               </Pressable>
             </View>
           </View>

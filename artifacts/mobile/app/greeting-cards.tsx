@@ -1,4 +1,4 @@
-import { Feather } from '@expo/vector-icons';
+import { Icon } from '@/components/Icon';
 import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
@@ -59,7 +59,7 @@ export default function GreetingCardsScreen() {
     <View style={{ flex: 1, backgroundColor: colors.background }}>
       <View style={[styles.header, { paddingTop: topPad + 12, backgroundColor: colors.card, borderBottomColor: colors.border }]}>
         <Pressable onPress={() => router.back()}>
-          <Feather name="arrow-left" size={22} color={colors.foreground} />
+          <Icon name="arrow-left" size={22} color={colors.foreground} />
         </Pressable>
         <Text style={[fontVariants.h4, { color: colors.foreground, flex: 1, marginLeft: 12 }]}>Greeting Cards</Text>
         <LinearGradient colors={['#FF6B33', '#B44CFF']} style={styles.costBadge}>
@@ -103,7 +103,7 @@ export default function GreetingCardsScreen() {
 
         {/* Recipient */}
         <View style={[styles.input, { backgroundColor: colors.input, borderColor: colors.border }]}>
-          <Feather name="user" size={18} color={colors.mutedForeground} />
+          <Icon name="user" size={18} color={colors.mutedForeground} />
           <TextInput value={recipientName} onChangeText={setRecipientName} placeholder="Recipient's name" placeholderTextColor={colors.mutedForeground} style={[fontVariants.body, { color: colors.foreground, flex: 1 }]} />
         </View>
 
@@ -143,7 +143,7 @@ export default function GreetingCardsScreen() {
           <LinearGradient colors={['#FF6B33', '#B44CFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={styles.genBtn}>
             {isGenerating ? <ActivityIndicator color="#fff" /> : (
               <>
-                <Feather name="mail" size={18} color="#fff" />
+                <Icon name="mail" size={18} color="#fff" />
                 <Text style={{ color: '#fff', fontFamily: 'Inter_700Bold', fontSize: 16 }}>
                   {generated ? 'Regenerate Card' : 'Create Card'}
                 </Text>
@@ -155,11 +155,11 @@ export default function GreetingCardsScreen() {
         {generated && (
           <View style={{ flexDirection: 'row', gap: 12 }}>
             <Pressable style={[styles.actionBtn, { backgroundColor: colors.card, borderColor: colors.border, flex: 1 }]}>
-              <Feather name="download" size={18} color={colors.foreground} />
+              <Icon name="download" size={18} color={colors.foreground} />
               <Text style={[fontVariants.captionMedium, { color: colors.foreground }]}>Download</Text>
             </Pressable>
             <Pressable style={[styles.actionBtn, { backgroundColor: colors.card, borderColor: colors.border, flex: 1 }]}>
-              <Feather name="share-2" size={18} color={colors.foreground} />
+              <Icon name="share-2" size={18} color={colors.foreground} />
               <Text style={[fontVariants.captionMedium, { color: colors.foreground }]}>Share</Text>
             </Pressable>
           </View>

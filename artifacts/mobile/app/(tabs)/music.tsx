@@ -1,4 +1,4 @@
-import { Feather } from '@expo/vector-icons';
+import { Icon } from '@/components/Icon';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
@@ -97,11 +97,11 @@ function TextToSpeechTab() {
                 },
               ]}
             >
-              <Feather name="mic" size={16} color={selectedVoice === v ? colors.primary : colors.mutedForeground} />
+              <Icon name="mic" size={16} color={selectedVoice === v ? colors.primary : colors.mutedForeground} />
               <Text style={[fontVariants.captionMedium, { color: selectedVoice === v ? colors.primary : colors.foreground, flex: 1 }]}>
                 {v}
               </Text>
-              {selectedVoice === v && <Feather name="check" size={16} color={colors.primary} />}
+              {selectedVoice === v && <Icon name="check" size={16} color={colors.primary} />}
             </Pressable>
           ))}
         </View>
@@ -111,17 +111,17 @@ function TextToSpeechTab() {
         <View style={[styles.card, { backgroundColor: colors.card }]}>
           <View style={styles.playerRow}>
             <LinearGradient colors={['#FF6B33', '#B44CFF']} style={styles.playerIcon}>
-              <Feather name="volume-2" size={20} color="#fff" />
+              <Icon name="volume-2" size={20} color="#fff" />
             </LinearGradient>
             <View style={{ flex: 1 }}>
               <Text style={[fontVariants.bodySemibold, { color: colors.foreground }]}>Generated Audio</Text>
               <Text style={[fontVariants.caption, { color: colors.mutedForeground }]}>Ready to play & download</Text>
             </View>
             <Pressable style={[styles.playBtn, { backgroundColor: colors.primary }]}>
-              <Feather name="play" size={18} color="#fff" />
+              <Icon name="play" size={18} color="#fff" />
             </Pressable>
             <Pressable style={[styles.playBtn, { backgroundColor: colors.muted }]}>
-              <Feather name="download" size={18} color={colors.foreground} />
+              <Icon name="download" size={18} color={colors.foreground} />
             </Pressable>
           </View>
         </View>
@@ -138,7 +138,7 @@ function TextToSpeechTab() {
             <ActivityIndicator color="#fff" />
           ) : (
             <>
-              <Feather name="zap" size={18} color="#fff" />
+              <Icon name="zap" size={18} color="#fff" />
               <Text style={{ color: '#fff', fontFamily: 'Inter_700Bold', fontSize: 16 }}>Generate · ₹50</Text>
             </>
           )}
@@ -206,17 +206,17 @@ function AIMusicTab() {
         <View style={[styles.card, { backgroundColor: colors.card }]}>
           <View style={styles.playerRow}>
             <LinearGradient colors={['#B44CFF', '#7B2FFF']} style={styles.playerIcon}>
-              <Feather name="music" size={20} color="#fff" />
+              <Icon name="music" size={20} color="#fff" />
             </LinearGradient>
             <View style={{ flex: 1 }}>
               <Text style={[fontVariants.bodySemibold, { color: colors.foreground }]}>Your AI Song</Text>
               <Text style={[fontVariants.caption, { color: colors.mutedForeground }]}>3:24 · {selectedGenre}</Text>
             </View>
             <Pressable style={[styles.playBtn, { backgroundColor: colors.primary }]}>
-              <Feather name="play" size={18} color="#fff" />
+              <Icon name="play" size={18} color="#fff" />
             </Pressable>
             <Pressable style={[styles.playBtn, { backgroundColor: colors.muted }]}>
-              <Feather name="download" size={18} color={colors.foreground} />
+              <Icon name="download" size={18} color={colors.foreground} />
             </Pressable>
           </View>
         </View>
@@ -233,7 +233,7 @@ function AIMusicTab() {
             <ActivityIndicator color="#fff" />
           ) : (
             <>
-              <Feather name="music" size={18} color="#fff" />
+              <Icon name="music" size={18} color="#fff" />
               <Text style={{ color: '#fff', fontFamily: 'Inter_700Bold', fontSize: 16 }}>Generate · ₹200</Text>
             </>
           )}
@@ -260,7 +260,7 @@ export default function MusicStudioScreen() {
       >
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 4 }}>
           <LinearGradient colors={['#B44CFF', '#FF6B33']} style={styles.studioIcon}>
-            <Feather name="music" size={20} color="#fff" />
+            <Icon name="music" size={20} color="#fff" />
           </LinearGradient>
           <View>
             <Text style={[fontVariants.h3, { color: colors.foreground }]}>AI Music Studio</Text>
@@ -289,7 +289,7 @@ export default function MusicStudioScreen() {
               },
             ]}
           >
-            <Feather name={tab.icon as any} size={13} color={activeTab === tab.id ? '#fff' : colors.mutedForeground} />
+            <Icon name={tab.icon as any} size={13} color={activeTab === tab.id ? '#fff' : colors.mutedForeground} />
             <Text style={[fontVariants.captionMedium, { color: activeTab === tab.id ? '#fff' : colors.mutedForeground }]}>
               {tab.label}
             </Text>
@@ -302,7 +302,7 @@ export default function MusicStudioScreen() {
         <View style={{ padding: 20 }}>
           {/* Cost pill */}
           <View style={[styles.costPill, { backgroundColor: colors.backgroundSecondary }]}>
-            <Feather name="credit-card" size={13} color={colors.primary} />
+            <Icon name="credit-card" size={13} color={colors.primary} />
             <Text style={[fontVariants.captionMedium, { color: colors.foreground }]}>
               Cost: <Text style={{ color: colors.primary }}>₹{currentTab.cost}</Text> per generation
             </Text>
@@ -314,14 +314,14 @@ export default function MusicStudioScreen() {
             {(activeTab === 'sfx' || activeTab === 'vocal' || activeTab === 'convert' || activeTab === 'isolate') && (
               <View style={[styles.card, { backgroundColor: colors.card, alignItems: 'center', paddingVertical: 40 }]}>
                 <LinearGradient colors={['#B44CFF', '#FF6B33']} style={{ width: 64, height: 64, borderRadius: 32, alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
-                  <Feather name={currentTab.icon as any} size={28} color="#fff" />
+                  <Icon name={currentTab.icon as any} size={28} color="#fff" />
                 </LinearGradient>
                 <Text style={[fontVariants.h4, { color: colors.foreground, marginBottom: 8 }]}>{currentTab.label}</Text>
                 <Text style={[fontVariants.body, { color: colors.mutedForeground, textAlign: 'center' }]}>
                   Upload your audio file to get started
                 </Text>
                 <Pressable style={[styles.uploadBtn, { borderColor: colors.primary, marginTop: 24 }]}>
-                  <Feather name="upload" size={18} color={colors.primary} />
+                  <Icon name="upload" size={18} color={colors.primary} />
                   <Text style={[fontVariants.bodySemibold, { color: colors.primary }]}>Upload Audio</Text>
                 </Pressable>
               </View>
@@ -336,7 +336,7 @@ export default function MusicStudioScreen() {
             {HISTORY.map((h) => (
               <View key={h.id} style={[styles.historyItem, { backgroundColor: colors.card, ...shadows.sm }]}>
                 <View style={[styles.historyIcon, { backgroundColor: colors.primary + '20' }]}>
-                  <Feather name={h.icon as any} size={16} color={colors.primary} />
+                  <Icon name={h.icon as any} size={16} color={colors.primary} />
                 </View>
                 <View style={{ flex: 1 }}>
                   <Text style={[fontVariants.captionMedium, { color: colors.foreground }]} numberOfLines={1}>{h.title}</Text>
@@ -344,7 +344,7 @@ export default function MusicStudioScreen() {
                 </View>
                 <Text style={[fontVariants.caption, { color: colors.mutedForeground }]}>{h.duration}</Text>
                 <Pressable>
-                  <Feather name="play-circle" size={26} color={colors.primary} />
+                  <Icon name="play-circle" size={26} color={colors.primary} />
                 </Pressable>
               </View>
             ))}

@@ -1,6 +1,6 @@
 import { BlurView } from 'expo-blur';
 import { Tabs, router } from 'expo-router';
-import { Feather } from '@expo/vector-icons';
+import { Icon } from '@/components/Icon';
 import React from 'react';
 import { Platform, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -9,7 +9,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { useAuth } from '@/contexts/AuthContext';
 
 function TabBarIcon({ name, color, size = 22 }: { name: string; color: string; size?: number }) {
-  return <Feather name={name as any} size={size} color={color} />;
+  return <Icon name={name as any} size={size} color={color} />;
 }
 
 export default function TabLayout() {
@@ -88,7 +88,7 @@ export default function TabLayout() {
                 elevation: 8,
               }}
             >
-              <Feather name="phone" size={22} color="#fff" />
+              <Icon name="phone" size={22} color="#fff" />
             </View>
           ),
           tabBarLabel: () => null,

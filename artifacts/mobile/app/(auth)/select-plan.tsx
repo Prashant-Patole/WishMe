@@ -1,4 +1,4 @@
-import { Feather } from '@expo/vector-icons';
+import { Icon } from '@/components/Icon';
 import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
@@ -102,14 +102,14 @@ function PlanCard({ plan, selected, onSelect }: { plan: typeof PLANS[0]; selecte
           styles.checkCircle,
           { borderColor: selected ? plan.colors[0] : colors.border, backgroundColor: selected ? plan.colors[0] : 'transparent' },
         ]}>
-          {selected && <Feather name="check" size={14} color="#fff" />}
+          {selected && <Icon name="check" size={14} color="#fff" />}
         </View>
       </View>
 
       <View style={{ gap: 8, marginTop: 12 }}>
         {plan.features.map((f) => (
           <View key={f} style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-            <Feather name="check-circle" size={14} color={plan.colors[0]} />
+            <Icon name="check-circle" size={14} color={plan.colors[0]} />
             <Text style={[fontVariants.caption, { color: colors.foreground }]}>{f}</Text>
           </View>
         ))}
@@ -175,7 +175,7 @@ export default function SelectPlanScreen() {
             <Text style={{ color: '#fff', fontFamily: 'Inter_700Bold', fontSize: 16 }}>
               Continue with {PLANS.find((p) => p.id === selectedPlan)?.name}
             </Text>
-            <Feather name="arrow-right" size={18} color="#fff" />
+            <Icon name="arrow-right" size={18} color="#fff" />
           </LinearGradient>
         </Pressable>
       </View>

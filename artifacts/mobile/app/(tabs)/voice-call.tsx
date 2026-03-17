@@ -1,4 +1,4 @@
-import { Feather } from '@expo/vector-icons';
+import { Icon } from '@/components/Icon';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
@@ -53,7 +53,7 @@ function CallCard({ celeb }: { celeb: typeof CALL_CELEBRITIES[0] }) {
           <Text style={[fontVariants.bodySemibold, { color: colors.foreground }]}>{celeb.name}</Text>
           <Text style={[fontVariants.caption, { color: colors.mutedForeground }]}>{celeb.category}</Text>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 4 }}>
-            <Feather name="clock" size={12} color={colors.mutedForeground} />
+            <Icon name="clock" size={12} color={colors.mutedForeground} />
             <Text style={[fontVariants.caption, { color: colors.mutedForeground }]}>{celeb.duration}</Text>
           </View>
         </View>
@@ -66,7 +66,7 @@ function CallCard({ celeb }: { celeb: typeof CALL_CELEBRITIES[0] }) {
               { backgroundColor: celeb.available ? colors.primary : colors.muted },
             ]}
           >
-            <Feather name="phone" size={14} color={celeb.available ? '#fff' : colors.mutedForeground} />
+            <Icon name="phone" size={14} color={celeb.available ? '#fff' : colors.mutedForeground} />
             <Text style={{ color: celeb.available ? '#fff' : colors.mutedForeground, fontSize: 12, fontFamily: 'Inter_600SemiBold' }}>
               {celeb.available ? 'Book Call' : 'Notify Me'}
             </Text>
@@ -99,7 +99,7 @@ export default function VoiceCallScreen() {
               style={[styles.hero, { paddingTop: topPad + 20 }]}
             >
               <View style={styles.heroIcon}>
-                <Feather name="phone" size={32} color="#FF6B33" />
+                <Icon name="phone" size={32} color="#FF6B33" />
               </View>
               <Text style={[fontVariants.h2, { color: '#fff', textAlign: 'center', marginTop: 16, marginBottom: 8 }]}>
                 Celebrity Voice Call

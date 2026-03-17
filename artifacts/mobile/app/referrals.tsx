@@ -1,4 +1,4 @@
-import { Feather } from '@expo/vector-icons';
+import { Icon } from '@/components/Icon';
 import * as Clipboard from 'expo-clipboard';
 import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -70,7 +70,7 @@ export default function ReferralsScreen() {
           style={[styles.hero, { paddingTop: topPad + 20 }]}
         >
           <Pressable onPress={() => router.back()} style={styles.backBtn}>
-            <Feather name="arrow-left" size={20} color="#fff" />
+            <Icon name="arrow-left" size={20} color="#fff" />
           </Pressable>
           <Text style={{ fontFamily: 'DancingScript_700Bold', fontSize: 36, color: '#fff', marginBottom: 4 }}>Earn with WishMe</Text>
           <Text style={[fontVariants.body, { color: 'rgba(255,255,255,0.85)', textAlign: 'center', marginBottom: 24 }]}>
@@ -111,7 +111,7 @@ export default function ReferralsScreen() {
               </LinearGradient>
             </View>
             <Pressable onPress={() => router.push('/(auth)/select-plan')} style={[styles.upgradePill, { backgroundColor: colors.primary + '15' }]}>
-              <Feather name="arrow-up" size={14} color={colors.primary} />
+              <Icon name="arrow-up" size={14} color={colors.primary} />
               <Text style={[fontVariants.captionMedium, { color: colors.primary }]}>Upgrade plan to earn higher commissions</Text>
             </Pressable>
           </View>
@@ -124,12 +124,12 @@ export default function ReferralsScreen() {
                 {referralCode}
               </Text>
               <View style={[styles.copyBtn, { backgroundColor: colors.primary }]}>
-                <Feather name={copied ? 'check' : 'copy'} size={18} color="#fff" />
+                <Icon name={copied ? 'check' : 'copy'} size={18} color="#fff" />
               </View>
             </Pressable>
             <Pressable onPress={handleShare} style={{ marginTop: 14 }}>
               <LinearGradient colors={['#B44CFF', '#FF6B33']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={styles.shareBtn}>
-                <Feather name="share-2" size={18} color="#fff" />
+                <Icon name="share-2" size={18} color="#fff" />
                 <Text style={{ color: '#fff', fontFamily: 'Inter_700Bold', fontSize: 15 }}>Share Referral Link</Text>
               </LinearGradient>
             </Pressable>

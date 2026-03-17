@@ -1,4 +1,4 @@
-import { Feather } from '@expo/vector-icons';
+import { Icon } from '@/components/Icon';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import React from 'react';
@@ -42,7 +42,7 @@ export default function OccasionsScreen() {
     <View style={{ flex: 1, backgroundColor: colors.background }}>
       <View style={[styles.header, { paddingTop: topPad + 12, backgroundColor: colors.card, borderBottomColor: colors.border }]}>
         <Pressable onPress={() => router.back()}>
-          <Feather name="arrow-left" size={22} color={colors.foreground} />
+          <Icon name="arrow-left" size={22} color={colors.foreground} />
         </Pressable>
         <Text style={[fontVariants.h4, { color: colors.foreground, flex: 1, marginLeft: 12 }]}>Occasions</Text>
       </View>
@@ -82,7 +82,7 @@ export default function OccasionsScreen() {
               {ALL_OCCASIONS.map((o) => (
                 <Pressable key={o.id} onPress={() => router.push('/celebrities')} style={[styles.occasionCard, { backgroundColor: colors.card, ...shadows.sm }]}>
                   <View style={[styles.occasionIcon, { backgroundColor: o.color + '20' }]}>
-                    <Feather name={o.icon as any} size={22} color={o.color} />
+                    <Icon name={o.icon as any} size={22} color={o.color} />
                   </View>
                   <Text style={[fontVariants.captionMedium, { color: colors.foreground, textAlign: 'center', marginTop: 8 }]}>{o.label}</Text>
                 </Pressable>

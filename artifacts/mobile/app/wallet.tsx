@@ -1,4 +1,4 @@
-import { Feather } from '@expo/vector-icons';
+import { Icon } from '@/components/Icon';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
@@ -39,7 +39,7 @@ function TransactionItem({ tx }: { tx: typeof TRANSACTIONS[0] }) {
   return (
     <View style={[styles.txItem, { backgroundColor: colors.card }]}>
       <View style={[styles.txIcon, { backgroundColor: iconColor + '15' }]}>
-        <Feather name={tx.icon as any} size={18} color={iconColor} />
+        <Icon name={tx.icon as any} size={18} color={iconColor} />
       </View>
       <View style={{ flex: 1 }}>
         <Text style={[fontVariants.captionMedium, { color: colors.foreground }]}>{tx.label}</Text>
@@ -88,7 +88,7 @@ export default function WalletScreen() {
           style={[styles.hero, { paddingTop: topPad + 20 }]}
         >
           <Pressable onPress={() => router.back()} style={styles.backBtn}>
-            <Feather name="arrow-left" size={20} color="#fff" />
+            <Icon name="arrow-left" size={20} color="#fff" />
           </Pressable>
           <Text style={{ fontFamily: 'Inter_500Medium', fontSize: 14, color: 'rgba(255,255,255,0.8)' }}>WishMe Wallet</Text>
           <Text style={{ fontFamily: 'PlayfairDisplay_700Bold', fontSize: 48, color: '#fff', marginTop: 4 }}>
@@ -124,7 +124,7 @@ export default function WalletScreen() {
             </View>
 
             <View style={[styles.payInfo, { backgroundColor: colors.backgroundSecondary }]}>
-              <Feather name="smartphone" size={16} color={colors.primary} />
+              <Icon name="smartphone" size={16} color={colors.primary} />
               <Text style={[fontVariants.captionMedium, { color: colors.foreground }]}>
                 Pay ₹{selectedAmount.toLocaleString()} via Razorpay
               </Text>
@@ -141,7 +141,7 @@ export default function WalletScreen() {
                   <ActivityIndicator color="#fff" />
                 ) : (
                   <>
-                    <Feather name="plus" size={18} color="#fff" />
+                    <Icon name="plus" size={18} color="#fff" />
                     <Text style={{ color: '#fff', fontFamily: 'Inter_700Bold', fontSize: 16 }}>
                       Add ₹{selectedAmount.toLocaleString()}
                     </Text>
@@ -170,7 +170,7 @@ export default function WalletScreen() {
             <View style={{ gap: 10 }}>
               {filtered.length === 0 ? (
                 <View style={styles.empty}>
-                  <Feather name="inbox" size={40} color={colors.mutedForeground} />
+                  <Icon name="inbox" size={40} color={colors.mutedForeground} />
                   <Text style={[fontVariants.body, { color: colors.mutedForeground, marginTop: 12 }]}>No transactions yet</Text>
                 </View>
               ) : (

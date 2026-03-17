@@ -1,4 +1,4 @@
-import { Feather } from '@expo/vector-icons';
+import { Icon } from '@/components/Icon';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
 import {
@@ -51,11 +51,11 @@ function CelebGridCard({ celeb }: { celeb: typeof ALL_CELEBRITIES[0] }) {
         <Image source={{ uri: celeb.image }} style={[styles.gridImage, { width: cardW }]} />
         {celeb.verified && (
           <View style={[styles.verifiedBadge, { backgroundColor: colors.primary }]}>
-            <Feather name="check" size={10} color="#fff" />
+            <Icon name="check" size={10} color="#fff" />
           </View>
         )}
         <View style={[styles.responseBadge, { backgroundColor: 'rgba(0,0,0,0.6)' }]}>
-          <Feather name="clock" size={10} color="#fff" />
+          <Icon name="clock" size={10} color="#fff" />
           <Text style={{ color: '#fff', fontSize: 10, fontFamily: 'Inter_500Medium', marginLeft: 3 }}>
             {celeb.responseTime}
           </Text>
@@ -69,7 +69,7 @@ function CelebGridCard({ celeb }: { celeb: typeof ALL_CELEBRITIES[0] }) {
           {celeb.category}
         </Text>
         <View style={styles.ratingRow}>
-          <Feather name="star" size={11} color="#FFB800" />
+          <Icon name="star" size={11} color="#FFB800" />
           <Text style={[fontVariants.captionMedium, { color: colors.foreground, fontSize: 12, marginLeft: 3 }]}>
             {celeb.rating}
           </Text>
@@ -113,7 +113,7 @@ export default function CelebritiesScreen() {
 
         {/* Search */}
         <View style={[styles.searchBar, { backgroundColor: colors.input, borderColor: colors.border }]}>
-          <Feather name="search" size={18} color={colors.mutedForeground} />
+          <Icon name="search" size={18} color={colors.mutedForeground} />
           <TextInput
             value={search}
             onChangeText={setSearch}
@@ -123,7 +123,7 @@ export default function CelebritiesScreen() {
           />
           {search.length > 0 && (
             <Pressable onPress={() => setSearch('')}>
-              <Feather name="x" size={16} color={colors.mutedForeground} />
+              <Icon name="x" size={16} color={colors.mutedForeground} />
             </Pressable>
           )}
         </View>
@@ -172,7 +172,7 @@ export default function CelebritiesScreen() {
         renderItem={({ item }) => <CelebGridCard celeb={item} />}
         ListEmptyComponent={
           <View style={styles.empty}>
-            <Feather name="search" size={48} color={colors.mutedForeground} />
+            <Icon name="search" size={48} color={colors.mutedForeground} />
             <Text style={[fontVariants.h4, { color: colors.foreground, marginTop: 16 }]}>No celebrities found</Text>
             <Text style={[fontVariants.body, { color: colors.mutedForeground, textAlign: 'center', marginTop: 8 }]}>
               Try a different search or category

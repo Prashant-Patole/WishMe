@@ -1,4 +1,4 @@
-import { Feather } from '@expo/vector-icons';
+import { Icon } from '@/components/Icon';
 import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
@@ -48,7 +48,7 @@ function PasswordStrength({ password }: { password: string }) {
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
           {checks.map((c) => (
             <View key={c.label} style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
-              <Feather name={c.ok ? 'check' : 'x'} size={11} color={c.ok ? '#22C55E' : colors.mutedForeground} />
+              <Icon name={c.ok ? 'check' : 'x'} size={11} color={c.ok ? '#22C55E' : colors.mutedForeground} />
               <Text style={{ fontSize: 11, fontFamily: 'Inter_400Regular', color: c.ok ? '#22C55E' : colors.mutedForeground }}>
                 {c.label}
               </Text>
@@ -102,7 +102,7 @@ export default function SignupScreen() {
           style={[styles.hero, { paddingTop: topPad + 24 }]}
         >
           <Pressable onPress={() => router.back()} style={[styles.backBtn, { backgroundColor: colors.card }]}>
-            <Feather name="arrow-left" size={20} color={colors.foreground} />
+            <Icon name="arrow-left" size={20} color={colors.foreground} />
           </Pressable>
           <LinearGradient colors={['#B44CFF', '#FF6B33']} style={styles.logoWrap}>
             <Text style={{ fontFamily: 'DancingScript_700Bold', fontSize: 28, color: '#fff' }}>W</Text>
@@ -116,7 +116,7 @@ export default function SignupScreen() {
         <View style={[styles.form, { backgroundColor: colors.background }]}>
           {error ? (
             <View style={[styles.errorBox, { backgroundColor: colors.destructive + '15', borderColor: colors.destructive }]}>
-              <Feather name="alert-circle" size={16} color={colors.destructive} />
+              <Icon name="alert-circle" size={16} color={colors.destructive} />
               <Text style={[fontVariants.caption, { color: colors.destructive, flex: 1 }]}>{error}</Text>
             </View>
           ) : null}
@@ -124,7 +124,7 @@ export default function SignupScreen() {
           <View>
             <Text style={[fontVariants.captionMedium, { color: colors.foreground, marginBottom: 8 }]}>Email Address</Text>
             <View style={[styles.inputWrap, { backgroundColor: colors.input, borderColor: colors.border }]}>
-              <Feather name="mail" size={18} color={colors.mutedForeground} />
+              <Icon name="mail" size={18} color={colors.mutedForeground} />
               <TextInput
                 value={email}
                 onChangeText={setEmail}
@@ -140,7 +140,7 @@ export default function SignupScreen() {
           <View>
             <Text style={[fontVariants.captionMedium, { color: colors.foreground, marginBottom: 8 }]}>Password</Text>
             <View style={[styles.inputWrap, { backgroundColor: colors.input, borderColor: colors.border }]}>
-              <Feather name="lock" size={18} color={colors.mutedForeground} />
+              <Icon name="lock" size={18} color={colors.mutedForeground} />
               <TextInput
                 value={password}
                 onChangeText={setPassword}
@@ -150,7 +150,7 @@ export default function SignupScreen() {
                 style={[fontVariants.body, { color: colors.foreground, flex: 1 }]}
               />
               <Pressable onPress={() => setShowPassword(!showPassword)}>
-                <Feather name={showPassword ? 'eye-off' : 'eye'} size={18} color={colors.mutedForeground} />
+                <Icon name={showPassword ? 'eye-off' : 'eye'} size={18} color={colors.mutedForeground} />
               </Pressable>
             </View>
             <View style={{ marginTop: 10 }}>
@@ -163,7 +163,7 @@ export default function SignupScreen() {
               Referral Code <Text style={{ color: colors.mutedForeground }}>(Optional)</Text>
             </Text>
             <View style={[styles.inputWrap, { backgroundColor: colors.input, borderColor: colors.border }]}>
-              <Feather name="gift" size={18} color={colors.mutedForeground} />
+              <Icon name="gift" size={18} color={colors.mutedForeground} />
               <TextInput
                 value={referralCode}
                 onChangeText={setReferralCode}

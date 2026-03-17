@@ -1,4 +1,4 @@
-import { Feather } from '@expo/vector-icons';
+import { Icon } from '@/components/Icon';
 import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
@@ -28,7 +28,7 @@ function Input({ label, value, onChange, placeholder, keyboardType = 'default', 
     <View>
       <Text style={[fontVariants.captionMedium, { color: colors.foreground, marginBottom: 8 }]}>{label}</Text>
       <View style={[styles.inputWrap, { backgroundColor: colors.input, borderColor: colors.border }]}>
-        <Feather name={icon} size={18} color={colors.mutedForeground} />
+        <Icon name={icon} size={18} color={colors.mutedForeground} />
         <TextInput
           value={value}
           onChangeText={onChange}
@@ -73,7 +73,7 @@ export default function CompleteProfileScreen() {
     return (
       <View style={{ flex: 1, backgroundColor: colors.background, alignItems: 'center', justifyContent: 'center', padding: 40 }}>
         <LinearGradient colors={['#FF6B33', '#B44CFF']} style={styles.successIcon}>
-          <Feather name="check" size={40} color="#fff" />
+          <Icon name="check" size={40} color="#fff" />
         </LinearGradient>
         <Text style={[fontVariants.h2, { color: colors.foreground, marginTop: 24, textAlign: 'center' }]}>
           Profile Complete!
@@ -98,7 +98,7 @@ export default function CompleteProfileScreen() {
           style={[styles.header, { paddingTop: topPad + 24 }]}
         >
           <Pressable onPress={() => step === 0 ? router.back() : setStep(step - 1)} style={[styles.backBtn, { backgroundColor: colors.card }]}>
-            <Feather name="arrow-left" size={20} color={colors.foreground} />
+            <Icon name="arrow-left" size={20} color={colors.foreground} />
           </Pressable>
           <Text style={[fontVariants.h3, { color: colors.foreground, textAlign: 'center' }]}>Complete Profile</Text>
           <Text style={[fontVariants.caption, { color: colors.mutedForeground, textAlign: 'center', marginTop: 4 }]}>
@@ -149,7 +149,7 @@ export default function CompleteProfileScreen() {
                 <Text style={{ color: '#fff', fontFamily: 'Inter_700Bold', fontSize: 16 }}>
                   {step === STEPS.length - 2 ? 'Save Profile' : 'Continue'}
                 </Text>
-                <Feather name="arrow-right" size={18} color="#fff" />
+                <Icon name="arrow-right" size={18} color="#fff" />
               </>
             )}
           </LinearGradient>

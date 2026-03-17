@@ -1,4 +1,4 @@
-import { Feather } from '@expo/vector-icons';
+import { Icon } from '@/components/Icon';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
@@ -65,7 +65,7 @@ function BookingCard({ booking }: { booking: typeof BOOKINGS[0] }) {
           onPress={() => router.push(`/chat/1`)}
           style={[styles.chatBtn, { backgroundColor: colors.backgroundSecondary }]}
         >
-          <Feather name="message-circle" size={16} color={colors.foreground} />
+          <Icon name="message-circle" size={16} color={colors.foreground} />
           <Text style={[fontVariants.captionMedium, { color: colors.foreground }]}>Chat</Text>
         </Pressable>
       </View>
@@ -88,7 +88,7 @@ export default function BookingsScreen() {
     <View style={{ flex: 1, backgroundColor: colors.background }}>
       <View style={[styles.header, { paddingTop: topPad + 12, backgroundColor: colors.card, borderBottomColor: colors.border }]}>
         <Pressable onPress={() => router.back()}>
-          <Feather name="arrow-left" size={22} color={colors.foreground} />
+          <Icon name="arrow-left" size={22} color={colors.foreground} />
         </Pressable>
         <Text style={[fontVariants.h4, { color: colors.foreground, flex: 1, marginLeft: 12 }]}>My Bookings</Text>
       </View>
@@ -109,7 +109,7 @@ export default function BookingsScreen() {
         renderItem={({ item }) => <BookingCard booking={item} />}
         ListEmptyComponent={
           <View style={styles.empty}>
-            <Feather name="package" size={48} color={colors.mutedForeground} />
+            <Icon name="package" size={48} color={colors.mutedForeground} />
             <Text style={[fontVariants.h4, { color: colors.foreground, marginTop: 16 }]}>No bookings yet</Text>
             <Pressable onPress={() => router.push('/celebrities')} style={{ marginTop: 16 }}>
               <LinearGradient colors={['#FF6B33', '#B44CFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={styles.browseBtn}>

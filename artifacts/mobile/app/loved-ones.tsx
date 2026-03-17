@@ -1,4 +1,4 @@
-import { Feather } from '@expo/vector-icons';
+import { Icon } from '@/components/Icon';
 import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
@@ -49,7 +49,7 @@ function PersonCard({ person, onDelete }: { person: typeof INITIAL_LOVED_ONES[0]
         <View style={{ flexDirection: 'row', gap: 12, marginTop: 4 }}>
           {person.dob && (
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
-              <Feather name="gift" size={11} color={colors.mutedForeground} />
+              <Icon name="gift" size={11} color={colors.mutedForeground} />
               <Text style={[fontVariants.caption, { color: colors.mutedForeground }]}>{person.dob}</Text>
             </View>
           )}
@@ -57,11 +57,11 @@ function PersonCard({ person, onDelete }: { person: typeof INITIAL_LOVED_ONES[0]
       </View>
       <View style={{ gap: 8 }}>
         <Pressable onPress={() => router.push('/celebrities')} style={[styles.wishBtn, { backgroundColor: colors.primary }]}>
-          <Feather name="gift" size={14} color="#fff" />
+          <Icon name="gift" size={14} color="#fff" />
           <Text style={{ color: '#fff', fontSize: 11, fontFamily: 'Inter_600SemiBold' }}>Wish</Text>
         </Pressable>
         <Pressable onPress={onDelete}>
-          <Feather name="trash-2" size={16} color={colors.destructive} />
+          <Icon name="trash-2" size={16} color={colors.destructive} />
         </Pressable>
       </View>
     </View>
@@ -89,11 +89,11 @@ export default function LovedOnesScreen() {
     <View style={{ flex: 1, backgroundColor: colors.background }}>
       <View style={[styles.header, { paddingTop: topPad + 12, backgroundColor: colors.card, borderBottomColor: colors.border }]}>
         <Pressable onPress={() => router.back()}>
-          <Feather name="arrow-left" size={22} color={colors.foreground} />
+          <Icon name="arrow-left" size={22} color={colors.foreground} />
         </Pressable>
         <Text style={[fontVariants.h4, { color: colors.foreground, flex: 1, marginLeft: 12 }]}>Loved Ones</Text>
         <Pressable onPress={() => setShowAdd(!showAdd)} style={[styles.addBtn, { backgroundColor: colors.primary }]}>
-          <Feather name="plus" size={18} color="#fff" />
+          <Icon name="plus" size={18} color="#fff" />
         </Pressable>
       </View>
 
@@ -130,7 +130,7 @@ export default function LovedOnesScreen() {
         )}
         ListEmptyComponent={
           <View style={styles.empty}>
-            <Feather name="users" size={48} color={colors.mutedForeground} />
+            <Icon name="users" size={48} color={colors.mutedForeground} />
             <Text style={[fontVariants.h4, { color: colors.foreground, marginTop: 16 }]}>No loved ones added</Text>
             <Text style={[fontVariants.body, { color: colors.mutedForeground, textAlign: 'center', marginTop: 8 }]}>
               Add your family and friends to quickly book wishes for them

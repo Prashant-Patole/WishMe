@@ -1,4 +1,4 @@
-import { Feather } from '@expo/vector-icons';
+import { Icon } from '@/components/Icon';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
@@ -69,17 +69,17 @@ export default function MessagesScreen() {
     <View style={{ flex: 1, backgroundColor: colors.background }}>
       <View style={[styles.header, { paddingTop: topPad + 12, backgroundColor: colors.card, borderBottomColor: colors.border }]}>
         <Pressable onPress={() => router.back()}>
-          <Feather name="arrow-left" size={22} color={colors.foreground} />
+          <Icon name="arrow-left" size={22} color={colors.foreground} />
         </Pressable>
         <Text style={[fontVariants.h4, { color: colors.foreground, flex: 1, marginLeft: 12 }]}>Messages</Text>
         <Pressable style={[styles.iconBtn, { backgroundColor: colors.backgroundSecondary }]}>
-          <Feather name="edit" size={18} color={colors.foreground} />
+          <Icon name="edit" size={18} color={colors.foreground} />
         </Pressable>
       </View>
 
       <View style={{ padding: 16 }}>
         <View style={[styles.searchBar, { backgroundColor: colors.input, borderColor: colors.border }]}>
-          <Feather name="search" size={16} color={colors.mutedForeground} />
+          <Icon name="search" size={16} color={colors.mutedForeground} />
           <TextInput
             value={search}
             onChangeText={setSearch}
@@ -98,7 +98,7 @@ export default function MessagesScreen() {
         renderItem={({ item }) => <ConversationItem conv={item} />}
         ListEmptyComponent={
           <View style={styles.empty}>
-            <Feather name="message-circle" size={48} color={colors.mutedForeground} />
+            <Icon name="message-circle" size={48} color={colors.mutedForeground} />
             <Text style={[fontVariants.h4, { color: colors.foreground, marginTop: 16 }]}>No messages yet</Text>
           </View>
         }

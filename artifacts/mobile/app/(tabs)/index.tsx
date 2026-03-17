@@ -1,4 +1,4 @@
-import { Feather } from '@expo/vector-icons';
+import { Icon } from '@/components/Icon';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import React, { useRef, useState } from 'react';
@@ -56,7 +56,7 @@ function BannerCard({ banner }: { banner: typeof BANNERS[0] }) {
       <Text style={styles.bannerSubtitle}>{banner.subtitle}</Text>
       <View style={styles.bannerButton}>
         <Text style={styles.bannerButtonText}>Book Now</Text>
-        <Feather name="arrow-right" size={14} color="#FF6B33" />
+        <Icon name="arrow-right" size={14} color="#FF6B33" />
       </View>
     </LinearGradient>
   );
@@ -72,14 +72,14 @@ function CelebCard({ celeb }: { celeb: typeof CELEBRITIES[0] }) {
       <Image source={{ uri: celeb.image }} style={styles.celebImage} />
       {celeb.verified && (
         <View style={[styles.verifiedBadge, { backgroundColor: colors.primary }]}>
-          <Feather name="check" size={10} color="#fff" />
+          <Icon name="check" size={10} color="#fff" />
         </View>
       )}
       <View style={styles.celebInfo}>
         <Text style={[fontVariants.captionMedium, { color: colors.foreground }]} numberOfLines={1}>{celeb.name}</Text>
         <Text style={[fontVariants.caption, { color: colors.mutedForeground, fontSize: 11 }]}>{celeb.category}</Text>
         <View style={styles.ratingRow}>
-          <Feather name="star" size={10} color="#FFB800" />
+          <Icon name="star" size={10} color="#FFB800" />
           <Text style={[fontVariants.caption, { color: colors.mutedForeground, fontSize: 11 }]}> {celeb.rating}</Text>
         </View>
         <Text style={[fontVariants.captionMedium, { color: colors.primary, fontSize: 12 }]}>₹{celeb.price}</Text>
@@ -96,7 +96,7 @@ function QuickAction({ action }: { action: typeof QUICK_ACTIONS[0] }) {
       style={[styles.quickAction, { backgroundColor: colors.card, ...shadows.sm }]}
     >
       <View style={[styles.quickActionIcon, { backgroundColor: action.color + '20' }]}>
-        <Feather name={action.icon as any} size={22} color={action.color} />
+        <Icon name={action.icon as any} size={22} color={action.color} />
       </View>
       <Text style={[fontVariants.caption, { color: colors.foreground, textAlign: 'center', marginTop: 6 }]}>
         {action.label}
@@ -112,7 +112,7 @@ function HowItWorksStep({ num, icon, title, desc }: { num: number; icon: string;
       <LinearGradient colors={['#FF6B33', '#B44CFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={styles.howNum}>
         <Text style={{ color: '#fff', fontFamily: 'Inter_700Bold', fontSize: 14 }}>{num}</Text>
       </LinearGradient>
-      <Feather name={icon as any} size={28} color={colors.primary} style={{ marginBottom: 8 }} />
+      <Icon name={icon as any} size={28} color={colors.primary} style={{ marginBottom: 8 }} />
       <Text style={[fontVariants.bodySemibold, { color: colors.foreground, textAlign: 'center', marginBottom: 4 }]}>{title}</Text>
       <Text style={[fontVariants.caption, { color: colors.mutedForeground, textAlign: 'center' }]}>{desc}</Text>
     </View>
@@ -156,7 +156,7 @@ export default function HomeScreen() {
                 </Text>
               </Pressable>
               <Pressable onPress={() => router.push('/messages')} style={[styles.iconBtn, { backgroundColor: colors.card }]}>
-                <Feather name="message-circle" size={20} color={colors.foreground} />
+                <Icon name="message-circle" size={20} color={colors.foreground} />
               </Pressable>
             </View>
           </View>
@@ -166,11 +166,11 @@ export default function HomeScreen() {
             onPress={() => router.push('/celebrities')}
             style={[styles.searchBar, { backgroundColor: colors.card, ...shadows.sm }]}
           >
-            <Feather name="search" size={18} color={colors.mutedForeground} />
+            <Icon name="search" size={18} color={colors.mutedForeground} />
             <Text style={[fontVariants.body, { color: colors.mutedForeground, flex: 1 }]}>
               Search celebrities…
             </Text>
-            <Feather name="sliders" size={18} color={colors.mutedForeground} />
+            <Icon name="sliders" size={18} color={colors.mutedForeground} />
           </Pressable>
         </LinearGradient>
 
@@ -270,7 +270,7 @@ export default function HomeScreen() {
         onPress={() => router.push('/messages')}
         style={[styles.fab, { backgroundColor: colors.primary, ...shadows.lg }]}
       >
-        <Feather name="zap" size={22} color="#fff" />
+        <Icon name="zap" size={22} color="#fff" />
       </Pressable>
     </View>
   );

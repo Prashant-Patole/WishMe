@@ -1,4 +1,4 @@
-import { Feather } from '@expo/vector-icons';
+import { Icon } from '@/components/Icon';
 import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
@@ -67,10 +67,10 @@ export default function VerifyOTPScreen() {
         style={[styles.hero, { paddingTop: topPad + 24 }]}
       >
         <Pressable onPress={() => router.back()} style={[styles.backBtn, { backgroundColor: colors.card }]}>
-          <Feather name="arrow-left" size={20} color={colors.foreground} />
+          <Icon name="arrow-left" size={20} color={colors.foreground} />
         </Pressable>
         <View style={[styles.iconWrap, { backgroundColor: colors.primary + '20' }]}>
-          <Feather name="mail" size={36} color={colors.primary} />
+          <Icon name="mail" size={36} color={colors.primary} />
         </View>
         <Text style={[fontVariants.h2, { color: colors.foreground, marginTop: 20, textAlign: 'center' }]}>
           Verify Your Email

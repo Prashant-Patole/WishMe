@@ -61,7 +61,6 @@ function RootLayoutNav() {
 
 export default function RootLayout() {
   const [fontsLoaded, fontError] = useFonts({
-    feather: require('../assets/fonts/Feather.ttf'),
     Inter_300Light,
     Inter_400Regular,
     Inter_500Medium,

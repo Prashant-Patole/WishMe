@@ -1,4 +1,4 @@
-import { Feather } from '@expo/vector-icons';
+import { Icon } from '@/components/Icon';
 import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
@@ -69,13 +69,13 @@ function MenuItem({ icon, label, value, onPress, destructive }: { icon: string; 
   return (
     <Pressable onPress={onPress} style={({ pressed }) => [styles.menuItem, { backgroundColor: colors.card, opacity: pressed ? 0.7 : 1 }]}>
       <View style={[styles.menuIconWrap, { backgroundColor: destructive ? colors.destructive + '15' : colors.primary + '15' }]}>
-        <Feather name={icon as any} size={18} color={destructive ? colors.destructive : colors.primary} />
+        <Icon name={icon as any} size={18} color={destructive ? colors.destructive : colors.primary} />
       </View>
       <Text style={[fontVariants.bodyMedium, { color: destructive ? colors.destructive : colors.foreground, flex: 1 }]}>
         {label}
       </Text>
       {value && <Text style={[fontVariants.caption, { color: colors.mutedForeground }]}>{value}</Text>}
-      <Feather name="chevron-right" size={16} color={colors.mutedForeground} />
+      <Icon name="chevron-right" size={16} color={colors.mutedForeground} />
     </Pressable>
   );
 }
@@ -90,7 +90,7 @@ export default function ProfileScreen() {
     return (
       <View style={{ flex: 1, backgroundColor: colors.background, alignItems: 'center', justifyContent: 'center', padding: 32 }}>
         <LinearGradient colors={['#FF6B33', '#B44CFF']} style={styles.authIcon}>
-          <Feather name="user" size={40} color="#fff" />
+          <Icon name="user" size={40} color="#fff" />
         </LinearGradient>
         <Text style={[fontVariants.h3, { color: colors.foreground, marginTop: 24, textAlign: 'center' }]}>
           Join WishMe
@@ -139,7 +139,7 @@ export default function ProfileScreen() {
               onPress={() => router.push('/(auth)/complete-profile')}
               style={[styles.editAvatar, { backgroundColor: colors.primary }]}
             >
-              <Feather name="camera" size={12} color="#fff" />
+              <Icon name="camera" size={12} color="#fff" />
             </Pressable>
           </View>
           <Text style={[fontVariants.h3, { color: colors.foreground, marginTop: 12 }]}>{displayName}</Text>
@@ -207,12 +207,12 @@ export default function ProfileScreen() {
                   {user?.plan === 'platinum' ? 'Enjoy maximum benefits' : 'Unlock higher commissions & discounts'}
                 </Text>
               </View>
-              <Feather name="arrow-right" size={22} color="#fff" />
+              <Icon name="arrow-right" size={22} color="#fff" />
             </LinearGradient>
           </Pressable>
 
           <Pressable onPress={handleLogout} style={[styles.logoutBtn, { borderColor: colors.destructive }]}>
-            <Feather name="log-out" size={18} color={colors.destructive} />
+            <Icon name="log-out" size={18} color={colors.destructive} />
             <Text style={[fontVariants.bodySemibold, { color: colors.destructive }]}>Sign Out</Text>
           </Pressable>
         </View>

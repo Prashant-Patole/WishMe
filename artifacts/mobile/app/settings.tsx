@@ -1,4 +1,4 @@
-import { Feather } from '@expo/vector-icons';
+import { Icon } from '@/components/Icon';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
@@ -21,7 +21,7 @@ function SettingRow({ icon, label, value, onToggle, type = 'toggle', onPress }: 
   return (
     <Pressable onPress={onPress} style={[styles.row, { backgroundColor: colors.card }]}>
       <View style={[styles.rowIcon, { backgroundColor: colors.primary + '15' }]}>
-        <Feather name={icon as any} size={18} color={colors.primary} />
+        <Icon name={icon as any} size={18} color={colors.primary} />
       </View>
       <Text style={[fontVariants.bodyMedium, { color: colors.foreground, flex: 1 }]}>{label}</Text>
       {type === 'toggle' && typeof value === 'boolean' && (
@@ -35,7 +35,7 @@ function SettingRow({ icon, label, value, onToggle, type = 'toggle', onPress }: 
       {type === 'nav' && (
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
           {typeof value === 'string' && <Text style={[fontVariants.caption, { color: colors.mutedForeground }]}>{value}</Text>}
-          <Feather name="chevron-right" size={16} color={colors.mutedForeground} />
+          <Icon name="chevron-right" size={16} color={colors.mutedForeground} />
         </View>
       )}
     </Pressable>
@@ -56,7 +56,7 @@ export default function SettingsScreen() {
     <View style={{ flex: 1, backgroundColor: colors.background }}>
       <View style={[styles.header, { paddingTop: topPad + 12, backgroundColor: colors.card, borderBottomColor: colors.border }]}>
         <Pressable onPress={() => router.back()}>
-          <Feather name="arrow-left" size={22} color={colors.foreground} />
+          <Icon name="arrow-left" size={22} color={colors.foreground} />
         </Pressable>
         <Text style={[fontVariants.h4, { color: colors.foreground, flex: 1, marginLeft: 12 }]}>Settings</Text>
       </View>

@@ -1,4 +1,4 @@
-import { Feather } from '@expo/vector-icons';
+import { Icon } from '@/components/Icon';
 import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -77,7 +77,7 @@ export default function BookingScreen() {
     return (
       <View style={{ flex: 1, backgroundColor: colors.background, alignItems: 'center', justifyContent: 'center', padding: 40 }}>
         <LinearGradient colors={['#22C55E', '#16A34A']} style={styles.successIcon}>
-          <Feather name="check" size={44} color="#fff" />
+          <Icon name="check" size={44} color="#fff" />
         </LinearGradient>
         <Text style={[fontVariants.h2, { color: colors.foreground, marginTop: 24, textAlign: 'center' }]}>Booking Confirmed!</Text>
         <Text style={[fontVariants.body, { color: colors.mutedForeground, textAlign: 'center', marginTop: 8, marginBottom: 8 }]}>
@@ -106,7 +106,7 @@ export default function BookingScreen() {
       {/* Header */}
       <View style={[styles.header, { paddingTop: topPad + 12, backgroundColor: colors.card, borderBottomColor: colors.border }]}>
         <Pressable onPress={() => step === 0 ? router.back() : setStep(step - 1)}>
-          <Feather name="arrow-left" size={22} color={colors.foreground} />
+          <Icon name="arrow-left" size={22} color={colors.foreground} />
         </Pressable>
         <View style={{ flex: 1, marginLeft: 12 }}>
           <Text style={[fontVariants.bodySemibold, { color: colors.foreground }]}>{STEPS[step]}</Text>
@@ -143,7 +143,7 @@ export default function BookingScreen() {
             <View>
               <Text style={[fontVariants.captionMedium, { color: colors.foreground, marginBottom: 8 }]}>Recipient Name</Text>
               <View style={[styles.input, { backgroundColor: colors.input, borderColor: colors.border }]}>
-                <Feather name="user" size={18} color={colors.mutedForeground} />
+                <Icon name="user" size={18} color={colors.mutedForeground} />
                 <TextInput value={recipientName} onChangeText={setRecipientName} placeholder="Who is this for?" placeholderTextColor={colors.mutedForeground} style={[fontVariants.body, { color: colors.foreground, flex: 1 }]} />
               </View>
             </View>
@@ -162,14 +162,14 @@ export default function BookingScreen() {
             {DELIVERY.map((d) => (
               <Pressable key={d.id} onPress={() => setDeliveryType(d.id)} style={[styles.deliveryCard, { backgroundColor: colors.card, borderColor: deliveryType === d.id ? colors.primary : colors.border, borderWidth: deliveryType === d.id ? 2 : 1, ...shadows.sm }]}>
                 <View style={[styles.deliveryIcon, { backgroundColor: colors.primary + '15' }]}>
-                  <Feather name={d.icon as any} size={22} color={colors.primary} />
+                  <Icon name={d.icon as any} size={22} color={colors.primary} />
                 </View>
                 <View style={{ flex: 1 }}>
                   <Text style={[fontVariants.bodySemibold, { color: colors.foreground }]}>{d.label}</Text>
                   <Text style={[fontVariants.caption, { color: colors.mutedForeground }]}>{d.desc}</Text>
                 </View>
                 <Text style={[fontVariants.bodySemibold, { color: colors.primary }]}>{d.price === 0 ? 'Free' : `+₹${d.price}`}</Text>
-                {deliveryType === d.id && <Feather name="check-circle" size={22} color={colors.primary} />}
+                {deliveryType === d.id && <Icon name="check-circle" size={22} color={colors.primary} />}
               </Pressable>
             ))}
 
@@ -196,7 +196,7 @@ export default function BookingScreen() {
               <LinearGradient colors={['#B44CFF', '#FF6B33']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={styles.genBtn}>
                 {isGeneratingScript ? <ActivityIndicator color="#fff" /> : (
                   <>
-                    <Feather name="zap" size={16} color="#fff" />
+                    <Icon name="zap" size={16} color="#fff" />
                     <Text style={{ color: '#fff', fontFamily: 'Inter_600SemiBold', fontSize: 14 }}>Generate with AI</Text>
                   </>
                 )}
@@ -257,19 +257,19 @@ export default function BookingScreen() {
                 { id: 'razorpay', icon: 'smartphone', label: 'Razorpay', desc: 'UPI, Cards, Net Banking', available: true },
               ].map((pm) => (
                 <Pressable key={pm.id} onPress={() => setPaymentMethod(pm.id as any)} style={[styles.payCard, { backgroundColor: colors.card, borderColor: paymentMethod === pm.id ? colors.primary : colors.border, borderWidth: paymentMethod === pm.id ? 2 : 1, opacity: pm.available ? 1 : 0.5 }]}>
-                  <Feather name={pm.icon as any} size={22} color={paymentMethod === pm.id ? colors.primary : colors.mutedForeground} />
+                  <Icon name={pm.icon as any} size={22} color={paymentMethod === pm.id ? colors.primary : colors.mutedForeground} />
                   <View style={{ flex: 1 }}>
                     <Text style={[fontVariants.bodySemibold, { color: colors.foreground }]}>{pm.label}</Text>
                     <Text style={[fontVariants.caption, { color: pm.available ? colors.mutedForeground : colors.destructive }]}>{pm.desc}</Text>
                   </View>
-                  {paymentMethod === pm.id && <Feather name="check-circle" size={20} color={colors.primary} />}
+                  {paymentMethod === pm.id && <Icon name="check-circle" size={20} color={colors.primary} />}
                 </Pressable>
               ))}
             </View>
 
             {(user?.walletBalance ?? 0) < total && paymentMethod === 'wallet' && (
               <View style={[styles.warningBox, { backgroundColor: colors.destructive + '15', borderColor: colors.destructive }]}>
-                <Feather name="alert-circle" size={16} color={colors.destructive} />
+                <Icon name="alert-circle" size={16} color={colors.destructive} />
                 <Text style={[fontVariants.caption, { color: colors.destructive, flex: 1 }]}>
                   Insufficient wallet balance.{' '}
                   <Text style={{ fontFamily: 'Inter_600SemiBold' }} onPress={() => router.push('/wallet')}>Add funds →</Text>
@@ -286,7 +286,7 @@ export default function BookingScreen() {
           <Pressable onPress={() => setStep(step + 1)} style={{ flex: 1 }}>
             <LinearGradient colors={['#FF6B33', '#B44CFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={styles.nextBtn}>
               <Text style={{ color: '#fff', fontFamily: 'Inter_700Bold', fontSize: 16 }}>Continue</Text>
-              <Feather name="arrow-right" size={18} color="#fff" />
+              <Icon name="arrow-right" size={18} color="#fff" />
             </LinearGradient>
           </Pressable>
         ) : (
@@ -294,7 +294,7 @@ export default function BookingScreen() {
             <LinearGradient colors={['#FF6B33', '#B44CFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={styles.nextBtn}>
               {isPlacingOrder ? <ActivityIndicator color="#fff" /> : (
                 <>
-                  <Feather name="check" size={18} color="#fff" />
+                  <Icon name="check" size={18} color="#fff" />
                   <Text style={{ color: '#fff', fontFamily: 'Inter_700Bold', fontSize: 16 }}>Confirm & Pay ₹{total.toLocaleString()}</Text>
                 </>
               )}

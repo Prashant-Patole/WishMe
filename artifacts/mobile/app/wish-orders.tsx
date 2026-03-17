@@ -1,4 +1,4 @@
-import { Feather } from '@expo/vector-icons';
+import { Icon } from '@/components/Icon';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
@@ -33,7 +33,7 @@ function OrderCard({ order }: { order: typeof WISH_ORDERS[0] }) {
   return (
     <View style={[styles.card, { backgroundColor: colors.card, ...shadows.sm }]}>
       <View style={[styles.cardIcon, { backgroundColor: iconColor + '20' }]}>
-        <Feather name={order.icon as any} size={22} color={iconColor} />
+        <Icon name={order.icon as any} size={22} color={iconColor} />
       </View>
       <View style={{ flex: 1 }}>
         <Text style={[fontVariants.bodySemibold, { color: colors.foreground }]}>{order.type}</Text>
@@ -66,7 +66,7 @@ export default function WishOrdersScreen() {
     <View style={{ flex: 1, backgroundColor: colors.background }}>
       <View style={[styles.header, { paddingTop: topPad + 12, backgroundColor: colors.card, borderBottomColor: colors.border }]}>
         <Pressable onPress={() => router.back()}>
-          <Feather name="arrow-left" size={22} color={colors.foreground} />
+          <Icon name="arrow-left" size={22} color={colors.foreground} />
         </Pressable>
         <Text style={[fontVariants.h4, { color: colors.foreground, flex: 1, marginLeft: 12 }]}>Wish Orders</Text>
       </View>
@@ -87,7 +87,7 @@ export default function WishOrdersScreen() {
         renderItem={({ item }) => <OrderCard order={item} />}
         ListEmptyComponent={
           <View style={styles.empty}>
-            <Feather name="inbox" size={48} color={colors.mutedForeground} />
+            <Icon name="inbox" size={48} color={colors.mutedForeground} />
             <Text style={[fontVariants.h4, { color: colors.foreground, marginTop: 16 }]}>No wish orders yet</Text>
           </View>
         }

@@ -1,4 +1,4 @@
-import { Feather } from '@expo/vector-icons';
+import { Icon } from '@/components/Icon';
 import * as Haptics from 'expo-haptics';
 import * as ImagePicker from 'expo-image-picker';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -66,7 +66,7 @@ export default function PhotoWishScreen() {
     <View style={{ flex: 1, backgroundColor: colors.background }}>
       <View style={[styles.header, { paddingTop: topPad + 12, backgroundColor: colors.card, borderBottomColor: colors.border }]}>
         <Pressable onPress={() => router.back()}>
-          <Feather name="arrow-left" size={22} color={colors.foreground} />
+          <Icon name="arrow-left" size={22} color={colors.foreground} />
         </Pressable>
         <Text style={[fontVariants.h4, { color: colors.foreground, flex: 1, marginLeft: 12 }]}>Photo Wish</Text>
         <LinearGradient colors={['#FF6B33', '#B44CFF']} style={styles.costBadge}>
@@ -82,7 +82,7 @@ export default function PhotoWishScreen() {
           ) : (
             <>
               <LinearGradient colors={['#FF6B33', '#B44CFF']} style={styles.uploadIcon}>
-                <Feather name="image" size={28} color="#fff" />
+                <Icon name="image" size={28} color="#fff" />
               </LinearGradient>
               <Text style={[fontVariants.bodySemibold, { color: colors.foreground, marginTop: 12 }]}>Upload Photo</Text>
               <Text style={[fontVariants.caption, { color: colors.mutedForeground, marginTop: 4 }]}>
@@ -107,7 +107,7 @@ export default function PhotoWishScreen() {
                 </LinearGradient>
                 {template === t.id && (
                   <View style={[styles.templateCheck, { backgroundColor: t.gradient[0] }]}>
-                    <Feather name="check" size={10} color="#fff" />
+                    <Icon name="check" size={10} color="#fff" />
                   </View>
                 )}
               </Pressable>
@@ -146,7 +146,7 @@ export default function PhotoWishScreen() {
           <LinearGradient colors={['#FF6B33', '#B44CFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={styles.genBtn}>
             {isGenerating ? <ActivityIndicator color="#fff" /> : (
               <>
-                <Feather name="image" size={18} color="#fff" />
+                <Icon name="image" size={18} color="#fff" />
                 <Text style={{ color: '#fff', fontFamily: 'Inter_700Bold', fontSize: 16 }}>
                   {generated ? 'Regenerate · ₹29' : 'Generate Wish · ₹29'}
                 </Text>

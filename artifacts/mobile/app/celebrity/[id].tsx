@@ -1,4 +1,4 @@
-import { Feather } from '@expo/vector-icons';
+import { Icon } from '@/components/Icon';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useState } from 'react';
@@ -38,7 +38,7 @@ function StarRating({ rating }: { rating: number }) {
   return (
     <View style={{ flexDirection: 'row', gap: 2 }}>
       {[1, 2, 3, 4, 5].map((i) => (
-        <Feather key={i} name="star" size={13} color={i <= rating ? '#FFB800' : '#D1D5DB'} />
+        <Icon key={i} name="star" size={13} color={i <= rating ? '#FFB800' : '#D1D5DB'} />
       ))}
     </View>
   );
@@ -70,14 +70,14 @@ export default function CelebrityDetailScreen() {
             onPress={() => router.back()}
             style={[styles.backBtn, { top: topPad + 12 }]}
           >
-            <Feather name="arrow-left" size={20} color="#fff" />
+            <Icon name="arrow-left" size={20} color="#fff" />
           </Pressable>
           {/* Fav Button */}
           <Pressable
             onPress={() => setIsFav(!isFav)}
             style={[styles.favBtn, { top: topPad + 12 }]}
           >
-            <Feather name="heart" size={20} color={isFav ? '#FF6B33' : '#fff'} />
+            <Icon name="heart" size={20} color={isFav ? '#FF6B33' : '#fff'} />
           </Pressable>
           {/* Celebrity Info overlay */}
           <View style={styles.heroInfo}>
@@ -85,7 +85,7 @@ export default function CelebrityDetailScreen() {
               <Text style={[fontVariants.h2, { color: '#fff' }]}>{celeb.name}</Text>
               {celeb.verified && (
                 <View style={[styles.verifiedBadge, { backgroundColor: colors.primary }]}>
-                  <Feather name="check" size={12} color="#fff" />
+                  <Icon name="check" size={12} color="#fff" />
                 </View>
               )}
             </View>
@@ -134,15 +134,15 @@ export default function CelebrityDetailScreen() {
               </View>
               <View style={[styles.infoCard, { backgroundColor: colors.backgroundSecondary }]}>
                 <View style={styles.infoRow}>
-                  <Feather name="clock" size={16} color={colors.primary} />
+                  <Icon name="clock" size={16} color={colors.primary} />
                   <Text style={[fontVariants.captionMedium, { color: colors.foreground }]}>Typical response: {celeb.responseTime}</Text>
                 </View>
                 <View style={styles.infoRow}>
-                  <Feather name="star" size={16} color={colors.primary} />
+                  <Icon name="star" size={16} color={colors.primary} />
                   <Text style={[fontVariants.captionMedium, { color: colors.foreground }]}>{celeb.rating} stars from {celeb.reviews.toLocaleString()} reviews</Text>
                 </View>
                 <View style={styles.infoRow}>
-                  <Feather name="shield" size={16} color={colors.primary} />
+                  <Icon name="shield" size={16} color={colors.primary} />
                   <Text style={[fontVariants.captionMedium, { color: colors.foreground }]}>100% satisfaction guaranteed</Text>
                 </View>
               </View>
@@ -155,7 +155,7 @@ export default function CelebrityDetailScreen() {
               {celeb.services.map((service: any) => (
                 <View key={service.id} style={[styles.serviceCard, { backgroundColor: colors.card, ...shadows.sm }]}>
                   <View style={[styles.serviceIcon, { backgroundColor: colors.primary + '20' }]}>
-                    <Feather name={service.icon} size={20} color={colors.primary} />
+                    <Icon name={service.icon} size={20} color={colors.primary} />
                   </View>
                   <View style={{ flex: 1 }}>
                     <Text style={[fontVariants.bodySemibold, { color: colors.foreground }]}>{service.name}</Text>
@@ -215,7 +215,7 @@ export default function CelebrityDetailScreen() {
             end={{ x: 1, y: 0 }}
             style={styles.bookNowBtn}
           >
-            <Feather name="video" size={18} color="#fff" />
+            <Icon name="video" size={18} color="#fff" />
             <Text style={{ color: '#fff', fontFamily: 'Inter_700Bold', fontSize: 16 }}>Book Now</Text>
           </LinearGradient>
         </Pressable>

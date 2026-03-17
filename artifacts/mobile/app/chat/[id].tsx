@@ -1,4 +1,4 @@
-import { Feather } from '@expo/vector-icons';
+import { Icon } from '@/components/Icon';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useRef, useState } from 'react';
@@ -67,7 +67,7 @@ export default function ChatScreen() {
       {/* Header */}
       <View style={[styles.header, { paddingTop: topPad + 12, backgroundColor: colors.card, borderBottomColor: colors.border }]}>
         <Pressable onPress={() => router.back()}>
-          <Feather name="arrow-left" size={22} color={colors.foreground} />
+          <Icon name="arrow-left" size={22} color={colors.foreground} />
         </Pressable>
         <Image source={{ uri: convo.image }} style={styles.headerAvatar} />
         <View style={{ flex: 1 }}>
@@ -75,7 +75,7 @@ export default function ChatScreen() {
           <Text style={[fontVariants.caption, { color: '#22C55E' }]}>Online</Text>
         </View>
         <Pressable>
-          <Feather name="more-vertical" size={22} color={colors.foreground} />
+          <Icon name="more-vertical" size={22} color={colors.foreground} />
         </Pressable>
       </View>
 
@@ -117,7 +117,7 @@ export default function ChatScreen() {
       {/* Input */}
       <View style={[styles.inputRow, { paddingBottom: botPad + 12, backgroundColor: colors.card, borderTopColor: colors.border }]}>
         <Pressable style={[styles.attachBtn, { backgroundColor: colors.backgroundSecondary }]}>
-          <Feather name="paperclip" size={18} color={colors.mutedForeground} />
+          <Icon name="paperclip" size={18} color={colors.mutedForeground} />
         </Pressable>
         <TextInput
           value={input}
@@ -130,7 +130,7 @@ export default function ChatScreen() {
         />
         <Pressable onPress={sendMessage} style={{ opacity: input.trim() ? 1 : 0.5 }}>
           <LinearGradient colors={['#FF6B33', '#B44CFF']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={styles.sendBtn}>
-            <Feather name="send" size={18} color="#fff" />
+            <Icon name="send" size={18} color="#fff" />
           </LinearGradient>
         </Pressable>
       </View>
