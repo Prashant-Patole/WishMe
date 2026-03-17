@@ -66,7 +66,7 @@ const VIDEO_WISHES: {
     id: '2',
     title: 'Make Birthdays Special',
     desc: 'Turn any birthday into a moment they will talk about forever. A surprise celebrity video wish is the most personal, heartfelt gift you can give.',
-    videoUri: '',
+    videoUri: require('../../assets/videos/happy-birthday.mp4'),
     gradient: ['#FF6B33', '#E8527A', '#FF8C42'],
     tag: 'Birthday',
   },
