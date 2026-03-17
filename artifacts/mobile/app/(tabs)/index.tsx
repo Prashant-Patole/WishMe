@@ -74,7 +74,7 @@ const VIDEO_WISHES: {
     id: '3',
     title: 'Honor Love & Commitment',
     desc: 'Celebrate their special bond with personalized video wishes. Create beautiful memories with custom anniversary messages that touch hearts.',
-    videoUri: '',
+    videoUri: require('../../assets/videos/wedding-anniversary.mp4'),
     gradient: ['#B44CFF', '#7B2FFF', '#E8527A'],
     tag: 'Anniversary',
   },
