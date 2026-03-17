@@ -20,7 +20,6 @@ import {
   DancingScript_600SemiBold,
   DancingScript_700Bold,
 } from '@expo-google-fonts/dancing-script';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
