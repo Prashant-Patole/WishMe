@@ -122,8 +122,7 @@ export default function OnboardingSplash({ onComplete }: Props) {
   useEffect(() => {
     let cancelled = false;
     Asset.loadAsync(ALL_ASSETS)
-      .catch(() => {})
-      .finally(() => {
+      .then(() => {
         if (!cancelled) {
           Animated.timing(gateOpacity, {
             toValue: 0,
@@ -133,9 +132,21 @@ export default function OnboardingSplash({ onComplete }: Props) {
             if (!cancelled) setIsReady(true);
           });
         }
+      })
+      .catch(() => {
+        if (!cancelled) setIsReady(true);
       });
     return () => {
       cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (videoTimeoutRef.current) {
+        clearTimeout(videoTimeoutRef.current);
+        videoTimeoutRef.current = null;
+      }
     };
   }, []);
 
