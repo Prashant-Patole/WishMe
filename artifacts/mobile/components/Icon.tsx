@@ -1,6 +1,6 @@
 import React from 'react';
 import Svg, { Circle, Line, Path, Polygon, Polyline, Rect } from 'react-native-svg';
-import { ViewStyle } from 'react-native';
+import { StyleProp, ViewStyle } from 'react-native';
 
 export type IconName =
   | 'alert-circle' | 'arrow-down-left' | 'arrow-left' | 'arrow-right'
@@ -21,7 +21,7 @@ interface IconProps {
   name: IconName;
   size?: number;
   color?: string;
-  style?: ViewStyle;
+  style?: StyleProp<ViewStyle>;
 }
 
 type DrawFn = (c: string, w: number) => React.ReactElement;
