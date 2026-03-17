@@ -44,8 +44,6 @@ const QUICK_ACTIONS: { id: string; icon: IconName; label: string; color: string;
   { id: 'voice-call', icon: 'phone', label: 'Voice\nCall', color: '#FF6B33', route: '/(tabs)/voice-call' },
 ];
 
-const TAG_SCRIM = 'rgba(0,0,0,0.35)' as const;
-
 const VIDEO_WISHES: {
   id: string;
   title: string;
@@ -156,7 +154,7 @@ function VideoWishCard({ wish }: { wish: typeof VIDEO_WISHES[0] }) {
             <Icon name="play-circle" size={52} color={colors.secondaryForeground} />
           </View>
         )}
-        <View style={[styles.videoTag, { backgroundColor: TAG_SCRIM }]}>
+        <View style={[styles.videoTag, { backgroundColor: colors.background + '59' }]}>
           <Text style={{ fontFamily: 'Inter_600SemiBold', fontSize: 11, color: colors.secondaryForeground, letterSpacing: 0.5 }}>
             {wish.tag}
           </Text>
