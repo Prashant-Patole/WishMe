@@ -18,6 +18,7 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useAuth } from '@/contexts/AuthContext';
+import { useDrawer } from '@/contexts/DrawerContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { fontVariants, fontSize } from '@/constants/fonts';
 import { radius, shadows } from '@/constants/theme';
@@ -235,6 +236,7 @@ function HowItWorksStep({ num, icon, title, desc }: { num: number; icon: IconNam
 export default function HomeScreen() {
   const { colors, isDark, gradients } = useTheme();
   const { user } = useAuth();
+  const { toggle } = useDrawer();
   const insets = useSafeAreaInsets();
   const [bannerIndex, setBannerIndex] = useState(0);
   const [visibleWishIds, setVisibleWishIds] = useState<Set<string>>(new Set(['1']));
@@ -257,24 +259,33 @@ export default function HomeScreen() {
         {/* Header */}
         <LinearGradient colors={heroBg as any} style={[styles.header, { paddingTop: topPad + 16 }]}>
           <View style={styles.headerRow}>
-            <View>
-              <Text style={[fontVariants.caption, { color: colors.mutedForeground }]}>
-                {user ? `Welcome back,` : 'Welcome to'}
-              </Text>
-              {user?.firstName ? (
-                <Text style={[fontVariants.h3, { color: colors.foreground }]}>
-                  {`${user.firstName} 👋`}
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+              <Pressable
+                onPress={toggle}
+                style={[styles.iconBtn, { backgroundColor: colors.card }]}
+                hitSlop={8}
+              >
+                <Icon name="menu" size={20} color={colors.foreground} />
+              </Pressable>
+              <View>
+                <Text style={[fontVariants.caption, { color: colors.mutedForeground }]}>
+                  {user ? `Welcome back,` : 'Welcome to'}
                 </Text>
-              ) : (
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-                  <Text style={[fontVariants.h3, { color: colors.foreground }]}>WishMe</Text>
-                  <Image
-                    source={require('@/assets/images/wishme-logo.png')}
-                    style={{ width: 30, height: 30 }}
-                    resizeMode="contain"
-                  />
-                </View>
-              )}
+                {user?.firstName ? (
+                  <Text style={[fontVariants.h3, { color: colors.foreground }]}>
+                    {`${user.firstName} 👋`}
+                  </Text>
+                ) : (
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                    <Text style={[fontVariants.h3, { color: colors.foreground }]}>WishMe</Text>
+                    <Image
+                      source={require('@/assets/images/wishme-logo.png')}
+                      style={{ width: 30, height: 30 }}
+                      resizeMode="contain"
+                    />
+                  </View>
+                )}
+              </View>
             </View>
             <View style={styles.headerActions}>
               <Pressable

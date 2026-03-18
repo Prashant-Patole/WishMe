@@ -32,7 +32,9 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import OnboardingSplash from '@/components/OnboardingSplash';
 
 import { ErrorBoundary } from '@/components/ErrorBoundary';
+import DrawerMenu from '@/components/DrawerMenu';
 import { AuthProvider } from '@/contexts/AuthContext';
+import { DrawerProvider } from '@/contexts/DrawerContext';
 import { ThemeProvider, useTheme } from '@/contexts/ThemeContext';
 
 SplashScreen.preventAutoHideAsync();
@@ -67,6 +69,12 @@ function RootLayoutNav() {
       <Stack.Screen name="wish-orders" options={{ headerShown: false }} />
       <Stack.Screen name="occasions" options={{ headerShown: false }} />
       <Stack.Screen name="settings" options={{ headerShown: false }} />
+      <Stack.Screen name="favorites" options={{ headerShown: false }} />
+      <Stack.Screen name="for-business" options={{ headerShown: false }} />
+      <Stack.Screen name="image-promotions" options={{ headerShown: false }} />
+      <Stack.Screen name="commission" options={{ headerShown: false }} />
+      <Stack.Screen name="occasion-alerts" options={{ headerShown: false }} />
+      <Stack.Screen name="celebrity-dashboard" options={{ headerShown: false }} />
     </Stack>
   );
 }
@@ -80,14 +88,18 @@ function AppShell() {
   }, []);
 
   return (
-    <RootSafeArea>
-      <RootLayoutNav />
-      {showOnboarding && (
-        <View style={StyleSheet.absoluteFillObject}>
-          <OnboardingSplash onComplete={handleSplashComplete} />
-        </View>
-      )}
-    </RootSafeArea>
+    <DrawerProvider>
+      <DrawerMenu>
+        <RootSafeArea>
+          <RootLayoutNav />
+          {showOnboarding && (
+            <View style={StyleSheet.absoluteFillObject}>
+              <OnboardingSplash onComplete={handleSplashComplete} />
+            </View>
+          )}
+        </RootSafeArea>
+      </DrawerMenu>
+    </DrawerProvider>
   );
 }
 

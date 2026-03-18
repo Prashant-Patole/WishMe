@@ -11,7 +11,7 @@ export type IconName =
   | 'edit' | 'edit-2' | 'external-link' | 'eye' | 'eye-off' | 'file-text' | 'gift' | 'globe'
   | 'heart' | 'help-circle' | 'home' | 'image' | 'inbox' | 'info'
   | 'key' | 'link' | 'lock' | 'log-out' | 'mail' | 'mail-check' | 'map-pin' | 'message-circle' | 'mic'
-  | 'moon' | 'more-vertical' | 'music' | 'music-2' | 'package' | 'paperclip' | 'phone'
+  | 'menu' | 'moon' | 'more-vertical' | 'music' | 'music-2' | 'package' | 'paperclip' | 'phone'
   | 'pause' | 'play' | 'play-circle' | 'plus' | 'refresh-cw' | 'rotate-ccw'
   | 'scissors' | 'search' | 'send' | 'settings' | 'share-2' | 'shield' | 'shield-check'
   | 'shopping-bag' | 'sliders' | 'smartphone' | 'sparkles' | 'star' | 'sun' | 'tag'
@@ -327,6 +327,13 @@ const ICONS: Record<string, DrawFn> = {
   ),
   'moon': (c, w) => (
     <Path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" {...a(c,w)} />
+  ),
+  'menu': (c, w) => (
+    <>
+      <Line x1="3" y1="12" x2="21" y2="12" {...a(c,w)} />
+      <Line x1="3" y1="6" x2="21" y2="6" {...a(c,w)} />
+      <Line x1="3" y1="18" x2="21" y2="18" {...a(c,w)} />
+    </>
   ),
   'more-vertical': (c, w) => (
     <>
