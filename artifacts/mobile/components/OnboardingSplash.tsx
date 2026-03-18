@@ -1,5 +1,6 @@
 import { Asset } from 'expo-asset';
 import { AVPlaybackStatus, ResizeMode, Video } from 'expo-av';
+import { Image as ExpoImage } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
@@ -259,12 +260,12 @@ export default function OnboardingSplash({ onComplete }: Props) {
                   { transform: [{ scale: imageScale }] },
                 ]}
               >
-                <Image
+                <ExpoImage
                   source={slide!.image}
                   style={StyleSheet.absoluteFillObject}
-                  resizeMode="cover"
+                  contentFit="cover"
                   onLoad={() => console.log(`[Splash] image ${screenIndex} loaded`)}
-                  onError={(e) => console.log(`[Splash] image ${screenIndex} error:`, e.nativeEvent.error)}
+                  onError={(e) => console.log(`[Splash] image ${screenIndex} error:`, e.error)}
                 />
               </Animated.View>
 
