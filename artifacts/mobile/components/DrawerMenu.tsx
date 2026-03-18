@@ -96,7 +96,7 @@ function DrawerNavItem({
 
 function DrawerPanelContent() {
   const { colors } = useTheme();
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const { close } = useDrawer();
   const insets = useSafeAreaInsets();
 
@@ -183,7 +183,10 @@ function DrawerPanelContent() {
           onPress={() => handleNav('/settings')}
         />
         <Pressable
-          onPress={close}
+          onPress={() => {
+            close();
+            logout().then(() => router.replace('/(auth)'));
+          }}
           style={({ pressed }) => [styles.navItem, { opacity: pressed ? 0.65 : 1 }]}
         >
           <View style={[styles.navIconWrap, { backgroundColor: colors.destructive + '22' }]}>
