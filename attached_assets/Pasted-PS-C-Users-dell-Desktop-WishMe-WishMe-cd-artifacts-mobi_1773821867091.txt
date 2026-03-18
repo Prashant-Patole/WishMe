@@ -1,0 +1,26 @@
+PS C:\Users\dell\Desktop\WishMe\WishMe> cd artifacts\mobile
+>> npx expo prebuild --platform android
+√ Created native directory
+√ Updated package.json
+Dependencies in the package.json changed:
+  expo, react, react-native
+√ Install the updated dependencies? ... yes
+› Installing using npm
+> npm install
+Error: npm install exited with non-zero code: 1
+Error: npm install exited with non-zero code: 1
+    at ChildProcess.completionListener (C:\Users\dell\Desktop\WishMe\WishMe\node_modules\.pnpm\@expo+spawn-async@1.7.2\node_modules\@expo\spawn-async\build\spawnAsync.js:42:23)
+    at Object.onceWrapper (node:events:623:26)
+    at ChildProcess.emit (node:events:508:28)
+    at cp.emit (C:\Users\dell\Desktop\WishMe\WishMe\node_modules\.pnpm\cross-spawn@7.0.6\node_modules\cross-spawn\lib\enoent.js:34:29)
+    at maybeClose (node:internal/child_process:1101:16)
+    at ChildProcess._handle.onexit (node:internal/child_process:305:5)
+    ...
+    at spawnAsync (C:\Users\dell\Desktop\WishMe\WishMe\node_modules\.pnpm\@expo+spawn-async@1.7.2\node_modules\@expo\spawn-async\build\spawnAsync.js:7:23)        
+    at NpmPackageManager.runAsync (C:\Users\dell\Desktop\WishMe\WishMe\node_modules\.pnpm\@expo+package-manager@1.10.3\node_modules\@expo\package-manager\build\node\BasePackageManager.js:41:42)
+    at NpmPackageManager.installAsync (C:\Users\dell\Desktop\WishMe\WishMe\node_modules\.pnpm\@expo+package-manager@1.10.3\node_modules\@expo\package-manager\build\node\BasePackageManager.js:61:21)
+    at NpmPackageManager.addAsync (C:\Users\dell\Desktop\WishMe\WishMe\node_modules\.pnpm\@expo+package-manager@1.10.3\node_modules\@expo\package-manager\build\node\NpmPackageManager.js:32:25)
+    at installPackagesAsync (C:\Users\dell\Desktop\WishMe\WishMe\node_modules\.pnpm\@expo+cli@54.0.23_expo-rout_daef1aa59357a8cccc6b98050d411315\node_modules\@expo\cli\build\src\install\installAsync.js:189:30)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async prebuildAsync (C:\Users\dell\Desktop\WishMe\WishMe\node_modules\.pnpm\@expo+cli@54.0.23_expo-rout_daef1aa59357a8cccc6b98050d411315\node_modules\@expo\cli\build\src\prebuild\prebuildAsync.js:144:17)
+PS C:\Users\dell\Desktop\WishMe\WishMe\artifacts\mobile> 
