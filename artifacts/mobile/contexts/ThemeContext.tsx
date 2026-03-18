@@ -37,9 +37,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const toggleTheme = useCallback(() => {
-    const next = isDark ? 'light' : 'dark';
+    const resolved = colorScheme === 'system' ? (systemScheme ?? 'light') : colorScheme;
+    const next = resolved === 'dark' ? 'light' : 'dark';
     setColorScheme(next);
-  }, [colorScheme, systemScheme]);
+  }, [colorScheme, systemScheme, setColorScheme]);
 
   const resolvedScheme = colorScheme === 'system' ? (systemScheme ?? 'light') : colorScheme;
   const isDark = resolvedScheme === 'dark';
