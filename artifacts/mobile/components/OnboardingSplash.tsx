@@ -67,6 +67,7 @@ export default function OnboardingSplash({ onComplete }: Props) {
   const initialIndex = Platform.OS === 'web' ? 1 : 0;
   const [isReady, setIsReady] = useState(false);
   const [screenIndex, setScreenIndex] = useState(initialIndex);
+  const [slideLocalUris, setSlideLocalUris] = useState<(string | null)[]>([null, null, null, null]);
 
   const screenOpacity = useRef(new Animated.Value(0)).current;
   const imageScale = useRef(new Animated.Value(0.95)).current;
@@ -154,9 +155,14 @@ export default function OnboardingSplash({ onComplete }: Props) {
     const cancelled = { value: false };
     console.log('[Splash] preload start (images only)');
     Asset.loadAsync(IMAGE_ASSETS)
-      .then(() => {
+      .then((assets) => {
         console.log('[Splash] preload success');
-        if (!cancelled.value) fadeGateAndReady('preload ok', cancelled);
+        const uris = assets.map((a) => a.localUri ?? null);
+        console.log('[Splash] localUris:', uris);
+        if (!cancelled.value) {
+          setSlideLocalUris(uris);
+          fadeGateAndReady('preload ok', cancelled);
+        }
       })
       .catch((err: unknown) => {
         console.log('[Splash] preload error:', err);
@@ -260,7 +266,11 @@ export default function OnboardingSplash({ onComplete }: Props) {
                 ]}
               >
                 <Image
-                  source={slide!.image}
+                  source={
+                    slideLocalUris[screenIndex - 1]
+                      ? { uri: slideLocalUris[screenIndex - 1]! }
+                      : slide!.image
+                  }
                   style={StyleSheet.absoluteFillObject}
                   resizeMode="cover"
                   onLoad={() => console.log(`[Splash] image ${screenIndex} loaded`)}
