@@ -2,7 +2,6 @@ import React from 'react';
 import {
   Animated,
   Dimensions,
-  Image,
   Platform,
   Pressable,
   ScrollView,
@@ -10,7 +9,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import { router } from 'expo-router';
+import { Href, router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Icon, IconName } from '@/components/Icon';
@@ -58,76 +57,6 @@ const CELEBRITY_ITEM: NavItem = {
   route: '/celebrity-dashboard',
 };
 
-function DrawerPanel() {
-  const { colors } = useTheme();
-  const { user } = useAuth();
-  const { close } = useDrawer();
-  const insets = useSafeAreaInsets();
-
-  const isCelebrity = user?.role === 'celebrity';
-  const displayName = user?.firstName
-    ? `${user.firstName}${user.lastName ? ' ' + user.lastName : ''}`
-    : 'Guest';
-
-  const handleNav = (route: string) => {
-    close();
-    setTimeout(() => router.push(route as any), 50);
-  };
-
-  const topPad = Platform.OS === 'web' ? 24 : insets.top + 16;
-
-  return (
-    <View style={[styles.drawerPanel, { backgroundColor: colors.sidebarBackground, width: DRAWER_WIDTH, paddingTop: topPad }]}>
-      <View style={[styles.drawerHeader, { borderBottomColor: colors.sidebarBorder }]}>
-        <View style={[styles.avatarCircle, { backgroundColor: colors.primary }]}>
-          <Text style={[fontVariants.h4, { color: colors.primaryForeground }]}>
-            {displayName.charAt(0).toUpperCase()}
-          </Text>
-        </View>
-        <View style={{ flex: 1 }}>
-          <Text style={[fontVariants.bodySemibold, { color: colors.sidebarForeground }]} numberOfLines={1}>
-            {displayName}
-          </Text>
-          {user?.email ? (
-            <Text style={[fontVariants.caption, { color: colors.mutedForeground }]} numberOfLines={1}>
-              {user.email}
-            </Text>
-          ) : null}
-        </View>
-      </View>
-
-      <ScrollView
-        style={{ flex: 1 }}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 16 }}
-      >
-        {NAV_ITEMS.map((item) => (
-          <DrawerNavItem key={item.label} item={item} onPress={() => handleNav(item.route)} />
-        ))}
-        {isCelebrity && (
-          <DrawerNavItem item={CELEBRITY_ITEM} onPress={() => handleNav(CELEBRITY_ITEM.route)} highlight />
-        )}
-      </ScrollView>
-
-      <View style={[styles.drawerFooter, { borderTopColor: colors.sidebarBorder, paddingBottom: insets.bottom + 16 }]}>
-        <DrawerNavItem
-          item={{ label: 'Settings', icon: 'settings', route: '/settings' }}
-          onPress={() => handleNav('/settings')}
-        />
-        <Pressable
-          onPress={() => { close(); }}
-          style={({ pressed }) => [styles.navItem, { opacity: pressed ? 0.7 : 1 }]}
-        >
-          <View style={[styles.navIconWrap, { backgroundColor: '#EF444420' }]}>
-            <Icon name="log-out" size={18} color="#EF4444" />
-          </View>
-          <Text style={[fontVariants.bodyMedium, { color: '#EF4444' }]}>Logout</Text>
-        </Pressable>
-      </View>
-    </View>
-  );
-}
-
 function DrawerNavItem({
   item,
   onPress,
@@ -143,40 +72,170 @@ function DrawerNavItem({
   return (
     <Pressable
       onPress={onPress}
-      style={({ pressed }) => [styles.navItem, { opacity: pressed ? 0.7 : 1 }]}
+      style={({ pressed }) => [styles.navItem, { opacity: pressed ? 0.65 : 1 }]}
     >
-      <View style={[styles.navIconWrap, { backgroundColor: highlight ? colors.sidebarPrimary + '20' : colors.sidebarAccent }]}>
+      <View
+        style={[
+          styles.navIconWrap,
+          { backgroundColor: highlight ? colors.sidebarPrimary + '22' : colors.sidebarAccent },
+        ]}
+      >
         <Icon name={item.icon} size={18} color={iconColor} />
       </View>
-      <Text style={[fontVariants.bodyMedium, { color: highlight ? colors.sidebarPrimary : colors.sidebarForeground }]}>
+      <Text
+        style={[
+          fontVariants.bodyMedium,
+          { color: highlight ? colors.sidebarPrimary : colors.sidebarForeground },
+        ]}
+      >
         {item.label}
       </Text>
     </Pressable>
   );
 }
 
+function DrawerPanelContent() {
+  const { colors } = useTheme();
+  const { user } = useAuth();
+  const { close } = useDrawer();
+  const insets = useSafeAreaInsets();
+
+  const isCelebrity = user?.role === 'celebrity';
+  const displayName = user?.firstName
+    ? `${user.firstName}${user.lastName ? ' ' + user.lastName : ''}`
+    : 'Guest';
+
+  const topPad = Platform.OS === 'web' ? 24 : insets.top + 8;
+
+  const handleNav = (route: string) => {
+    close();
+    setTimeout(() => router.push(route as Href), 50);
+  };
+
+  return (
+    <View style={[styles.panelInner, { backgroundColor: colors.sidebarBackground, paddingTop: topPad }]}>
+      <View style={[styles.drawerHeader, { borderBottomColor: colors.sidebarBorder }]}>
+        <View style={[styles.avatarCircle, { backgroundColor: colors.primary }]}>
+          <Text style={[fontVariants.h4, { color: colors.primaryForeground }]}>
+            {displayName.charAt(0).toUpperCase()}
+          </Text>
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text
+            style={[fontVariants.bodySemibold, { color: colors.sidebarForeground }]}
+            numberOfLines={1}
+          >
+            {displayName}
+          </Text>
+          {user?.email ? (
+            <Text
+              style={[fontVariants.caption, { color: colors.mutedForeground }]}
+              numberOfLines={1}
+            >
+              {user.email}
+            </Text>
+          ) : null}
+        </View>
+        <Pressable
+          onPress={close}
+          hitSlop={8}
+          style={({ pressed }) => [
+            styles.closeBtn,
+            { backgroundColor: colors.sidebarAccent, opacity: pressed ? 0.65 : 1 },
+          ]}
+        >
+          <Icon name="x" size={16} color={colors.sidebarForeground} />
+        </Pressable>
+      </View>
+
+      <ScrollView
+        style={{ flex: 1 }}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 16 }}
+      >
+        {NAV_ITEMS.map((item) => (
+          <DrawerNavItem
+            key={item.label}
+            item={item}
+            onPress={() => handleNav(item.route)}
+          />
+        ))}
+        {isCelebrity && (
+          <DrawerNavItem
+            item={CELEBRITY_ITEM}
+            onPress={() => handleNav(CELEBRITY_ITEM.route)}
+            highlight
+          />
+        )}
+      </ScrollView>
+
+      <View
+        style={[
+          styles.drawerFooter,
+          {
+            borderTopColor: colors.sidebarBorder,
+            paddingBottom: insets.bottom + 16,
+          },
+        ]}
+      >
+        <DrawerNavItem
+          item={{ label: 'Settings', icon: 'settings', route: '/settings' }}
+          onPress={() => handleNav('/settings')}
+        />
+        <Pressable
+          onPress={close}
+          style={({ pressed }) => [styles.navItem, { opacity: pressed ? 0.65 : 1 }]}
+        >
+          <View style={[styles.navIconWrap, { backgroundColor: colors.destructive + '22' }]}>
+            <Icon name="log-out" size={18} color={colors.destructive} />
+          </View>
+          <Text style={[fontVariants.bodyMedium, { color: colors.destructive }]}>Logout</Text>
+        </Pressable>
+      </View>
+    </View>
+  );
+}
+
 export default function DrawerMenu({ children }: { children: React.ReactNode }) {
   const { animValue, isOpen, close } = useDrawer();
 
-  const translateX = animValue.interpolate({
+  const drawerTranslateX = animValue.interpolate({
     inputRange: [0, 1],
-    outputRange: [0, DRAWER_WIDTH * 0.82],
+    outputRange: [-DRAWER_WIDTH, 0],
   });
 
-  const scale = animValue.interpolate({
+  const contentTranslateX = animValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, DRAWER_WIDTH * 0.8],
+  });
+
+  const contentScale = animValue.interpolate({
     inputRange: [0, 1],
     outputRange: [1, 0.88],
   });
 
+  const contentBorderRadius = animValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, 20],
+  });
+
   return (
     <View style={styles.root}>
-      <DrawerPanel />
+      <Animated.View
+        style={[
+          styles.drawerSlot,
+          { width: DRAWER_WIDTH, transform: [{ translateX: drawerTranslateX }] },
+        ]}
+      >
+        <DrawerPanelContent />
+      </Animated.View>
+
       <Animated.View
         style={[
           StyleSheet.absoluteFill,
           {
-            transform: [{ translateX }, { scale }],
-            borderRadius: isOpen ? 20 : 0,
+            transform: [{ translateX: contentTranslateX }, { scale: contentScale }],
+            borderRadius: contentBorderRadius,
             overflow: 'hidden',
           },
         ]}
@@ -194,17 +253,21 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
   },
-  drawerPanel: {
+  drawerSlot: {
     position: 'absolute',
     top: 0,
     left: 0,
     bottom: 0,
   },
+  panelInner: {
+    flex: 1,
+    flexDirection: 'column',
+  },
   drawerHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 12,
-    paddingHorizontal: 20,
+    paddingHorizontal: 16,
     paddingBottom: 16,
     marginBottom: 8,
     borderBottomWidth: StyleSheet.hairlineWidth,
@@ -213,6 +276,13 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 22,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  closeBtn: {
+    width: 32,
+    height: 32,
+    borderRadius: radius.sm,
     alignItems: 'center',
     justifyContent: 'center',
   },

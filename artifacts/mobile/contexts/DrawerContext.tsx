@@ -21,7 +21,7 @@ export function DrawerProvider({ children }: { children: React.ReactNode }) {
     setIsOpen(true);
     Animated.spring(animValue, {
       toValue: 1,
-      useNativeDriver: true,
+      useNativeDriver: false,
       damping: 22,
       mass: 0.9,
       stiffness: 110,
@@ -32,7 +32,7 @@ export function DrawerProvider({ children }: { children: React.ReactNode }) {
     isOpenRef.current = false;
     Animated.spring(animValue, {
       toValue: 0,
-      useNativeDriver: true,
+      useNativeDriver: false,
       damping: 22,
       mass: 0.9,
       stiffness: 130,
