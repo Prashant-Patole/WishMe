@@ -72,15 +72,12 @@ function RootLayoutNav() {
 }
 
 function AppShell() {
-  const { isAuthenticated } = useAuth();
   const [showOnboarding, setShowOnboarding] = useState(true);
 
   const handleSplashComplete = useCallback(() => {
     setShowOnboarding(false);
-    if (!isAuthenticated) {
-      router.replace('/(auth)');
-    }
-  }, [isAuthenticated]);
+    router.replace('/(auth)');
+  }, []);
 
   return (
     <RootSafeArea>
