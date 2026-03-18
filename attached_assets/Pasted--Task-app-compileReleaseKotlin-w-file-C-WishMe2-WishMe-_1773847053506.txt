@@ -1,0 +1,48 @@
+
+> Task :app:compileReleaseKotlin
+w: file:///C:/WishMe2/WishMe/artifacts/mobile/android/app/src/main/java/com/wishme/app/MainApplication.kt:9:8 'class ReactNativeHost : Any' is deprecated. Deprecated in Java.
+w: file:///C:/WishMe2/WishMe/artifacts/mobile/android/app/src/main/java/com/wishme/app/MainApplication.kt:21:16 This declaration overrides a deprecated member but is not marked as deprecated itself. Add the '@Deprecated' annotation or suppress the diagnostic.
+w: file:///C:/WishMe2/WishMe/artifacts/mobile/android/app/src/main/java/com/wishme/app/MainApplication.kt:21:33 'class ReactNativeHost : Any' is deprecated. Deprecated in Java.
+The Daemon will expire after the build after running out of JVM Metaspace.
+The project memory settings are likely not configured or are configured to an insufficient value.
+The daemon will restart for the next build, which may increase subsequent build times.
+These settings can be adjusted by setting 'org.gradle.jvmargs' in 'gradle.properties'.
+The currently configured max heap space is '2 GiB' and the configured max metaspace is '512 MiB'.
+For more information on how to set these values, please refer to https://docs.gradle.org/8.14.3/userguide/build_environment.html#sec:configuring_jvm_memory in the Gradle documentation.
+To disable this warning, set 'org.gradle.daemon.performance.disable-logging=true'.
+Daemon will be stopped at the end of the build after running out of JVM Metaspace
+
+> Task :app:packageRelease FAILED
+
+[Incubating] Problems report is available at: file:///C:/WishMe2/WishMe/artifacts/mobile/android/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.                                                                                  
+
+* What went wrong:
+Execution failed for task ':app:packageRelease'.
+> A failure occurred while executing com.android.build.gradle.tasks.PackageAndroidArtifact$IncrementalSplitterRunnable
+   > com.android.ide.common.signing.KeytoolException: Failed to read key wishme from store "C:\WishMe2\WishMe\artifacts\mobile\android\app\my-release-key.keystore": No key with alias 'wishme' found in keystore C:\WishMe2\WishMe\artifacts\mobile\android\app\my-release-key.keystore
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.14.3/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 45m 51s
+608 actionable tasks: 584 executed, 24 up-to-date
+PS C:\WishMe2\WishMe\artifacts\mobile\android> 
+
+
+
+
+
+
+
+
