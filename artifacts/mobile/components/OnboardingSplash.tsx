@@ -1,4 +1,3 @@
-import { Asset } from 'expo-asset';
 import { AVPlaybackStatus, ResizeMode, Video } from 'expo-av';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -22,38 +21,33 @@ import { useTheme } from '@/contexts/ThemeContext';
 const LOGO = require('../assets/images/wishme-logo.png');
 const INTRO_VIDEO = require('../assets/videos/intro-wish.mp4');
 
+const BASE = `https://${process.env.EXPO_PUBLIC_DOMAIN}/api/splash`;
+
 const SLIDES = [
   {
     id: '1',
     title: 'Wish a Friend',
     description: 'Send personalized video wishes to your loved ones',
-    image: require('../assets/splash/splash1.png') as number,
+    image: { uri: `${BASE}/splash1.png` },
   },
   {
     id: '2',
     title: 'Wish a Celebrity',
     description: 'Get personalized video messages from your favorite celebrities',
-    image: require('../assets/splash/splash2.jpeg') as number,
+    image: { uri: `${BASE}/splash2.jpeg` },
   },
   {
     id: '3',
     title: 'Make Promotion Ads',
     description: 'Create professional promotion videos with celebrity endorsements',
-    image: require('../assets/splash/splash3.jpeg') as number,
+    image: { uri: `${BASE}/splash3.jpeg` },
   },
   {
     id: '4',
     title: 'UGC Videos',
     description: 'User-generated content videos with celebrity collaborations',
-    image: require('../assets/splash/splash4.jpeg') as number,
+    image: { uri: `${BASE}/splash4.jpeg` },
   },
-];
-
-const IMAGE_ASSETS = [
-  require('../assets/splash/splash1.png'),
-  require('../assets/splash/splash2.jpeg'),
-  require('../assets/splash/splash3.jpeg'),
-  require('../assets/splash/splash4.jpeg'),
 ];
 
 interface Props {
@@ -67,7 +61,6 @@ export default function OnboardingSplash({ onComplete }: Props) {
   const initialIndex = Platform.OS === 'web' ? 1 : 0;
   const [isReady, setIsReady] = useState(false);
   const [screenIndex, setScreenIndex] = useState(initialIndex);
-  const [slideLocalUris, setSlideLocalUris] = useState<(string | null)[]>([null, null, null, null]);
 
   const screenOpacity = useRef(new Animated.Value(0)).current;
   const imageScale = useRef(new Animated.Value(0.95)).current;
@@ -153,21 +146,8 @@ export default function OnboardingSplash({ onComplete }: Props) {
 
   useEffect(() => {
     const cancelled = { value: false };
-    console.log('[Splash] preload start (images only)');
-    Asset.loadAsync(IMAGE_ASSETS)
-      .then((assets) => {
-        console.log('[Splash] preload success');
-        const uris = assets.map((a) => a.localUri ?? null);
-        console.log('[Splash] localUris:', uris);
-        if (!cancelled.value) {
-          setSlideLocalUris(uris);
-          fadeGateAndReady('preload ok', cancelled);
-        }
-      })
-      .catch((err: unknown) => {
-        console.log('[Splash] preload error:', err);
-        if (!cancelled.value) fadeGateAndReady('preload failed, continuing', cancelled);
-      });
+    console.log('[Splash] ready — images served via HTTPS');
+    fadeGateAndReady('init', cancelled);
     return () => {
       cancelled.value = true;
     };
@@ -266,11 +246,7 @@ export default function OnboardingSplash({ onComplete }: Props) {
                 ]}
               >
                 <Image
-                  source={
-                    slideLocalUris[screenIndex - 1]
-                      ? { uri: slideLocalUris[screenIndex - 1]! }
-                      : slide!.image
-                  }
+                  source={slide!.image}
                   style={StyleSheet.absoluteFillObject}
                   resizeMode="cover"
                   onLoad={() => console.log(`[Splash] image ${screenIndex} loaded`)}
