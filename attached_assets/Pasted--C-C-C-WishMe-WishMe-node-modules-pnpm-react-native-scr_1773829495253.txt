@@ -1,0 +1,42 @@
+
+C/C++:     C_/WishMe/WishMe/node_modules/.pnpm/react-native-screens@4.16.0_b8e1d3cca370dcdbbdf08944ff9ffe9a/node_modules/react-native-screens/cpp/RNScreensTurboModule.cpp.o
+C/C++:   cannot be safely placed under this directory.  The build may not work
+C/C++:   correctly.
+C/C++: CMake Warning in CMakeLists.txt:
+C/C++:   The object file directory
+C/C++:     C:/WishMe/WishMe/node_modules/.pnpm/react-native-screens@4.16.0_b8e1d3cca370dcdbbdf08944ff9ffe9a/node_modules/react-native-screens/android/.cxx/Debug/485d1e5j/arm64-v8a/CMakeFiles/rnscreens.dir/./
+C/C++:   has 196 characters.  The maximum full path to an object file is 250
+C/C++:   characters (see CMAKE_OBJECT_PATH_MAX).  Object file
+C/C++:     C_/WishMe/WishMe/node_modules/.pnpm/react-native-screens@4.16.0_b8e1d3cca370dcdbbdf08944ff9ffe9a/node_modules/react-native-screens/cpp/RNSScreenRemovalListener.cpp.o
+C/C++:   cannot be safely placed under this directory.  The build may not work
+C/C++:   correctly.
+C/C++: CMake Warning in CMakeLists.txt:
+C/C++:   The object file directory
+C/C++:     C:/WishMe/WishMe/node_modules/.pnpm/react-native-screens@4.16.0_b8e1d3cca370dcdbbdf08944ff9ffe9a/node_modules/react-native-screens/android/.cxx/Debug/485d1e5j/arm64-v8a/CMakeFiles/rnscreens.dir/./
+C/C++:   has 196 characters.  The maximum full path to an object file is 250
+C/C++:   characters (see CMAKE_OBJECT_PATH_MAX).  Object file
+C/C++:     C_/WishMe/WishMe/node_modules/.pnpm/react-native-screens@4.16.0_b8e1d3cca370dcdbbdf08944ff9ffe9a/node_modules/react-native-screens/cpp/RNScreensTurboModule.cpp.o
+C/C++:   cannot be safely placed under this directory.  The build may not work
+C/C++:   correctly.
+C/C++: CMake Warning in CMakeLists.txt:
+C/C++:   The object file directory
+C/C++:     C:/WishMe/WishMe/node_modules/.pnpm/react-native-screens@4.16.0_b8e1d3cca370dcdbbdf08944ff9ffe9a/node_modules/react-native-screens/android/.cxx/Debug/485d1e5j/arm64-v8a/CMakeFiles/rnscreens.dir/./
+C/C++:   has 196 characters.  The maximum full path to an object file is 250
+C/C++:   characters (see CMAKE_OBJECT_PATH_MAX).  Object file
+C/C++:     C_/WishMe/WishMe/node_modules/.pnpm/react-native-screens@4.16.0_b8e1d3cca370dcdbbdf08944ff9ffe9a/node_modules/react-native-screens/cpp/RNSScreenRemovalListener.cpp.o
+C/C++:   cannot be safely placed under this directory.  The build may not work
+C/C++:   correctly.
+C/C++: CMake Warning in CMakeLists.txt:
+C/C++:   The object file directory
+C/C++:     C:/WishMe/WishMe/node_modules/.pnpm/react-native-screens@4.16.0_b8e1d3cca370dcdbbdf08944ff9ffe9a/node_modules/react-native-screens/android/.cxx/Debug/485d1e5j/arm64-v8a/CMakeFiles/rnscreens.dir/./
+C/C++:   has 196 characters.  The maximum full path to an object file is 250
+C/C++:   characters (see CMAKE_OBJECT_PATH_MAX).  Object file
+C/C++:     C_/WishMe/WishMe/node_modules/.pnpm/react-native-screens@4.16.0_b8e1d3cca370dcdbbdf08944ff9ffe9a/node_modules/react-native-screens/cpp/RNScreensTurboModule.cpp.o
+C/C++:   cannot be safely placed under this directory.  The build may not work
+C/C++:   correctly.
+C/C++: CMake Warning in CMakeLists.txt:
+C/C++:   The object file directory
+C/C++:     C:/WishMe/WishMe/node_modules/.pnpm/react-native-screens@4.16.0_b8e1d3cca370dcdbbdf08944ff9ffe9a/node_modules/react-native-screens/android/.cxx/Debug/485d1e5j/arm64-v8a/CMakeFiles/rnscreens.dir/./
+C/C++:   has 196 characters.  The maximum full path to an object file is 250
+C/C++:   characters (see CMAKE_OBJECT_PATH_MAX).  Object file
+C/C++:    
