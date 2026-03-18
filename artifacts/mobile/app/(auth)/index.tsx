@@ -706,12 +706,6 @@ export default function AuthScreen() {
     celebrity: { title: 'Join as Celebrity', sub: 'Connect with your fans directly' },
   };
 
-  const celGrid = [
-    ['#FF6B33', '#B44CFF'],
-    ['#B44CFF', '#FF6B33'],
-    ['#FF8C5A', '#C266FF'],
-    ['#C266FF', '#FF8C5A'],
-  ];
 
   const features: { icon: IconName; title: string; desc: string }[] = [
     { icon: 'video', title: 'Personal Videos', desc: 'Custom messages for any occasion' },
@@ -799,19 +793,6 @@ export default function AuthScreen() {
           )}
 
           <View style={[styles.sectionBlock, { marginTop: 32 }]}>
-            <Text style={[fontVariants.h4, { color: colors.foreground, marginBottom: 16 }]}>Featured Celebrities</Text>
-            <View style={styles.celebGrid}>
-              {celGrid.map((g, i) => (
-                <View key={i} style={[styles.celebAvatar, shadows.sm]}>
-                  <LinearGradient colors={g as [string, string]} style={styles.celebGradient}>
-                    <Icon name="star" size={24} color="#fff" />
-                  </LinearGradient>
-                </View>
-              ))}
-            </View>
-          </View>
-
-          <View style={[styles.sectionBlock, { marginTop: 24 }]}>
             <Text style={[fontVariants.h4, { color: colors.foreground, marginBottom: 16 }]}>Why Choose WishMe?</Text>
             <View style={{ gap: 14 }}>
               {features.map((f) => (
@@ -965,22 +946,6 @@ const styles = StyleSheet.create({
   },
   sectionBlock: {
     paddingHorizontal: 4,
-  },
-  celebGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 12,
-  },
-  celebAvatar: {
-    width: '47%',
-    height: 90,
-    borderRadius: 16,
-    overflow: 'hidden',
-  },
-  celebGradient: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   featureIcon: {
     width: 44,
