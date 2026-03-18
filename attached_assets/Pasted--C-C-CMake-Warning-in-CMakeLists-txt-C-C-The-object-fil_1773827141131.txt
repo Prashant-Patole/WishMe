@@ -1,0 +1,41 @@
+
+C/C++: CMake Warning in CMakeLists.txt:
+C/C++:   The object file directory
+C/C++:     C:/WishMe/WishMe/node_modules/.pnpm/react-native-worklets@0.5.1_e33ee53926cb739c160046f5657a922f/node_modules/react-native-worklets/android/.cxx/Debug/p40e2g42/arm64-v8a/CMakeFiles/worklets.dir/./
+C/C++:   has 196 characters.  The maximum full path to an object file is 250
+C/C++:   characters (see CMAKE_OBJECT_PATH_MAX).  Object file
+C/C++:     C_/WishMe/WishMe/node_modules/.pnpm/react-native-worklets@0.5.1_e33ee53926cb739c160046f5657a922f/node_modules/react-native-worklets/Common/cpp/worklets/Resources/SynchronizableUnpacker.cpp.o
+C/C++:   cannot be safely placed under this directory.  The build may not work   
+C/C++:   correctly.
+C/C++: CMake Warning in CMakeLists.txt:
+C/C++:   The object file directory
+C/C++:     C:/WishMe/WishMe/node_modules/.pnpm/react-native-worklets@0.5.1_e33ee53926cb739c160046f5657a922f/node_modules/react-native-worklets/android/.cxx/Debug/p40e2g42/arm64-v8a/CMakeFiles/worklets.dir/./
+C/C++:   has 196 characters.  The maximum full path to an object file is 250
+C/C++:   characters (see CMAKE_OBJECT_PATH_MAX).  Object file
+C/C++:     C_/WishMe/WishMe/node_modules/.pnpm/react-native-worklets@0.5.1_e33ee53926cb739c160046f5657a922f/node_modules/react-native-worklets/Common/cpp/worklets/Registries/EventHandlerRegistry.cpp.o
+C/C++:   cannot be safely placed under this directory.  The build may not work   
+C/C++:   correctly.
+C/C++: CMake Warning in CMakeLists.txt:
+C/C++:   The object file directory
+C/C++:     C:/WishMe/WishMe/node_modules/.pnpm/react-native-worklets@0.5.1_e33ee53926cb739c160046f5657a922f/node_modules/react-native-worklets/android/.cxx/Debug/p40e2g42/arm64-v8a/CMakeFiles/worklets.dir/./
+C/C++:   has 196 characters.  The maximum full path to an object file is 250
+C/C++:   characters (see CMAKE_OBJECT_PATH_MAX).  Object file
+C/C++:     C_/WishMe/WishMe/node_modules/.pnpm/react-native-worklets@0.5.1_e33ee53926cb739c160046f5657a922f/node_modules/react-native-worklets/Common/cpp/worklets/AnimationFrameQueue/AnimationFrameBatchinator.cpp.o
+C/C++:   cannot be safely placed under this directory.  The build may not work   
+C/C++:   correctly.
+C/C++: CMake Warning in CMakeLists.txt:
+C/C++:   The object file directory
+C/C++:     C:/WishMe/WishMe/node_modules/.pnpm/react-native-worklets@0.5.1_e33ee53926cb739c160046f5657a922f/node_modules/react-native-worklets/android/.cxx/Debug/p40e2g42/arm64-v8a/CMakeFiles/worklets.dir/./
+C/C++:   has 196 characters.  The maximum full path to an object file is 250
+C/C++:   characters (see CMAKE_OBJECT_PATH_MAX).  Object file
+C/C++:     C_/WishMe/WishMe/node_modules/.pnpm/react-native-worklets@0.5.1_e33ee53926cb739c160046f5657a922f/node_modules/react-native-worklets/Common/cpp/worklets/NativeModules/JSIWorkletsModuleProxy.cpp.o
+C/C++:   cannot be safely placed under this directory.  The build may not work   
+C/C++:   correctly.
+C/C++: CMake Warning in CMakeLists.txt:
+C/C++:   The object file directory
+C/C++:     C:/WishMe/WishMe/node_modules/.pnpm/react-native-worklets@0.5.1_e33ee53926cb739c160046f5657a922f/node_modules/react-native-worklets/android/.cxx/Debug/p40e2g42/arm64-v8a/CMakeFiles/worklets.dir/./
+C/C++:   has 196 characters.  The maximum full path to an object file is 250
+C/C++:   characters (see CMAKE_OBJECT_PATH_MAX).  Object file
+C/C++:     C_/WishMe/WishMe/node_modules/.pnpm/react-native-worklets@0.5.1_e33ee53926cb739c160046f5657a922f/node_modules/react-native-worklets/Common/cpp/worklets/Registries/WorkletRuntimeRegistry.cpp.o
+C/C++:   cannot be safely placed under this directory.  The build may not work   
+C/C++:   correctly.
