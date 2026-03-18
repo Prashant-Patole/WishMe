@@ -21,9 +21,9 @@ import {
   DancingScript_700Bold,
 } from '@expo-google-fonts/dancing-script';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Stack } from 'expo-router';
+import { Stack, router } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
@@ -32,7 +32,7 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import OnboardingSplash from '@/components/OnboardingSplash';
 
 import { ErrorBoundary } from '@/components/ErrorBoundary';
-import { AuthProvider } from '@/contexts/AuthContext';
+import { AuthProvider, useAuth } from '@/contexts/AuthContext';
 import { ThemeProvider, useTheme } from '@/contexts/ThemeContext';
 
 SplashScreen.preventAutoHideAsync();
@@ -52,7 +52,7 @@ function RootLayoutNav() {
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="(auth)" options={{ headerShown: false, presentation: 'modal' }} />
+      <Stack.Screen name="(auth)" options={{ headerShown: false, presentation: 'card' }} />
       <Stack.Screen name="celebrity/[id]" options={{ headerShown: false }} />
       <Stack.Screen name="booking/[id]" options={{ headerShown: false }} />
       <Stack.Screen name="wallet" options={{ headerShown: false }} />
@@ -68,6 +68,29 @@ function RootLayoutNav() {
       <Stack.Screen name="occasions" options={{ headerShown: false }} />
       <Stack.Screen name="settings" options={{ headerShown: false }} />
     </Stack>
+  );
+}
+
+function AppShell() {
+  const { isAuthenticated } = useAuth();
+  const [showOnboarding, setShowOnboarding] = useState(true);
+
+  const handleSplashComplete = useCallback(() => {
+    setShowOnboarding(false);
+    if (!isAuthenticated) {
+      router.replace('/(auth)');
+    }
+  }, [isAuthenticated]);
+
+  return (
+    <RootSafeArea>
+      <RootLayoutNav />
+      {showOnboarding && (
+        <View style={StyleSheet.absoluteFillObject}>
+          <OnboardingSplash onComplete={handleSplashComplete} />
+        </View>
+      )}
+    </RootSafeArea>
   );
 }
 
@@ -90,8 +113,6 @@ export default function RootLayout() {
     DancingScript_700Bold,
   });
 
-  const [showOnboarding, setShowOnboarding] = useState(true);
-
   useEffect(() => {
     if (fontsLoaded || fontError) {
       SplashScreen.hideAsync();
@@ -108,14 +129,7 @@ export default function RootLayout() {
             <QueryClientProvider client={queryClient}>
               <GestureHandlerRootView style={{ flex: 1 }}>
                 <KeyboardProvider>
-                  <RootSafeArea>
-                    <RootLayoutNav />
-                  </RootSafeArea>
-                  {showOnboarding && (
-                    <View style={StyleSheet.absoluteFillObject}>
-                      <OnboardingSplash onComplete={() => setShowOnboarding(false)} />
-                    </View>
-                  )}
+                  <AppShell />
                 </KeyboardProvider>
               </GestureHandlerRootView>
             </QueryClientProvider>

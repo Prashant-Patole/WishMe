@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
 
 export type Plan = 'free' | 'silver' | 'gold' | 'platinum';
+export type UserRole = 'user' | 'admin' | 'celebrity';
 
 export interface UserProfile {
   id: string;
@@ -12,6 +13,7 @@ export interface UserProfile {
   dob: string;
   address: string;
   plan: Plan;
+  role: UserRole;
   walletBalance: number;
   referralCode: string;
   profilePhoto: string | null;
@@ -23,7 +25,14 @@ interface AuthContextValue {
   isLoading: boolean;
   isAuthenticated: boolean;
   login: (email: string, password: string) => Promise<void>;
-  signup: (email: string, password: string, referralCode?: string) => Promise<void>;
+  signup: (
+    email: string,
+    password: string,
+    firstName?: string,
+    lastName?: string,
+    phone?: string,
+    referralCode?: string,
+  ) => Promise<void>;
   logout: () => Promise<void>;
   updateProfile: (updates: Partial<UserProfile>) => Promise<void>;
   updateWallet: (amount: number) => void;
@@ -42,6 +51,12 @@ function calcCompletion(profile: Partial<UserProfile>): number {
   const fields = ['firstName', 'lastName', 'phone', 'dob', 'address', 'profilePhoto'] as const;
   const filled = fields.filter((f) => !!profile[f]).length;
   return Math.round((filled / fields.length) * 100);
+}
+
+function detectRole(email: string): UserRole {
+  if (email.includes('admin')) return 'admin';
+  if (email.includes('celebrity') || email.includes('star')) return 'celebrity';
+  return 'user';
 }
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -78,6 +93,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       dob: '',
       address: '',
       plan: 'free',
+      role: detectRole(email),
       walletBalance: 0,
       referralCode: generateReferralCode(email),
       profilePhoto: null,
@@ -86,20 +102,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     await persist(newUser);
   }, []);
 
-  const signup = useCallback(async (email: string, _password: string, _referralCode?: string) => {
+  const signup = useCallback(async (
+    email: string,
+    _password: string,
+    firstName = '',
+    lastName = '',
+    phone = '',
+    _referralCode?: string,
+  ) => {
     const newUser: UserProfile = {
       id: Date.now().toString() + Math.random().toString(36).slice(2, 8),
       email,
-      firstName: '',
-      lastName: '',
-      phone: '',
+      firstName,
+      lastName,
+      phone,
       dob: '',
       address: '',
       plan: 'free',
+      role: 'user',
       walletBalance: 500,
       referralCode: generateReferralCode(email),
       profilePhoto: null,
-      completionPct: 0,
+      completionPct: calcCompletion({ firstName, lastName, phone }),
     };
     await persist(newUser);
   }, []);

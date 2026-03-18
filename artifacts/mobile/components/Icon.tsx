@@ -6,15 +6,16 @@ export type IconName =
   | 'alert-circle' | 'arrow-down-left' | 'arrow-left' | 'arrow-right'
   | 'arrow-up' | 'arrow-up-right' | 'award' | 'bell' | 'briefcase'
   | 'calendar' | 'camera' | 'check' | 'check-circle' | 'chevron-right'
+  | 'chevron-up' | 'chevron-down' | 'circle'
   | 'clock' | 'copy' | 'credit-card' | 'dollar-sign' | 'download'
-  | 'edit' | 'edit-2' | 'eye' | 'eye-off' | 'file-text' | 'gift'
+  | 'edit' | 'edit-2' | 'external-link' | 'eye' | 'eye-off' | 'file-text' | 'gift' | 'globe'
   | 'heart' | 'help-circle' | 'home' | 'image' | 'inbox' | 'info'
-  | 'lock' | 'log-out' | 'mail' | 'map-pin' | 'message-circle' | 'mic'
-  | 'moon' | 'more-vertical' | 'music' | 'package' | 'paperclip' | 'phone'
+  | 'key' | 'link' | 'lock' | 'log-out' | 'mail' | 'mail-check' | 'map-pin' | 'message-circle' | 'mic'
+  | 'moon' | 'more-vertical' | 'music' | 'music-2' | 'package' | 'paperclip' | 'phone'
   | 'pause' | 'play' | 'play-circle' | 'plus' | 'refresh-cw' | 'rotate-ccw'
-  | 'scissors' | 'search' | 'send' | 'settings' | 'share-2' | 'shield'
-  | 'shopping-bag' | 'sliders' | 'smartphone' | 'star' | 'sun' | 'tag'
-  | 'trash-2' | 'upload' | 'user' | 'users' | 'video' | 'volume-2'
+  | 'scissors' | 'search' | 'send' | 'settings' | 'share-2' | 'shield' | 'shield-check'
+  | 'shopping-bag' | 'sliders' | 'smartphone' | 'sparkles' | 'star' | 'sun' | 'tag'
+  | 'trash-2' | 'trending-up' | 'upload' | 'user' | 'users' | 'video' | 'volume-2'
   | 'volume-x' | 'x' | 'zap';
 
 interface IconProps {
@@ -115,6 +116,72 @@ const ICONS: Record<string, DrawFn> = {
   ),
   'chevron-right': (c, w) => (
     <Polyline points="9 18 15 12 9 6" {...a(c,w)} />
+  ),
+  'chevron-up': (c, w) => (
+    <Polyline points="18 15 12 9 6 15" {...a(c,w)} />
+  ),
+  'chevron-down': (c, w) => (
+    <Polyline points="6 9 12 15 18 9" {...a(c,w)} />
+  ),
+  'circle': (c, w) => (
+    <Circle cx="12" cy="12" r="10" {...a(c,w)} />
+  ),
+  'external-link': (c, w) => (
+    <>
+      <Path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" {...a(c,w)} />
+      <Polyline points="15 3 21 3 21 9" {...a(c,w)} />
+      <Line x1="10" y1="14" x2="21" y2="3" {...a(c,w)} />
+    </>
+  ),
+  'globe': (c, w) => (
+    <>
+      <Circle cx="12" cy="12" r="10" {...a(c,w)} />
+      <Line x1="2" y1="12" x2="22" y2="12" {...a(c,w)} />
+      <Path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" {...a(c,w)} />
+    </>
+  ),
+  'key': (c, w) => (
+    <>
+      <Path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4" {...a(c,w)} />
+    </>
+  ),
+  'link': (c, w) => (
+    <>
+      <Path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" {...a(c,w)} />
+      <Path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" {...a(c,w)} />
+    </>
+  ),
+  'mail-check': (c, w) => (
+    <>
+      <Path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" {...a(c,w)} />
+      <Polyline points="22,6 12,13 2,6" {...a(c,w)} />
+      <Polyline points="8 13 11 16 16 11" {...a(c,w)} />
+    </>
+  ),
+  'music-2': (c, w) => (
+    <>
+      <Circle cx="8" cy="18" r="4" {...a(c,w)} />
+      <Path d="M12 18V2l7 4" {...a(c,w)} />
+    </>
+  ),
+  'shield-check': (c, w) => (
+    <>
+      <Path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" {...a(c,w)} />
+      <Polyline points="9 12 11 14 15 10" {...a(c,w)} />
+    </>
+  ),
+  'sparkles': (c, w) => (
+    <>
+      <Path d="M12 2l1.09 3.26L16 6l-3.26 1.09L12 10l-1.09-3.26L8 6l2.91-.74z" {...a(c,w)} />
+      <Path d="M5 14l.55 1.64L7 16l-1.64.55L5 18l-.55-1.64L3 16l1.45-.36z" {...a(c,w)} />
+      <Path d="M19 14l.55 1.64L21 16l-1.64.55L19 18l-.55-1.64L17 16l1.45-.36z" {...a(c,w)} />
+    </>
+  ),
+  'trending-up': (c, w) => (
+    <>
+      <Polyline points="23 6 13.5 15.5 8.5 10.5 1 18" {...a(c,w)} />
+      <Polyline points="17 6 23 6 23 12" {...a(c,w)} />
+    </>
   ),
   'clock': (c, w) => (
     <>

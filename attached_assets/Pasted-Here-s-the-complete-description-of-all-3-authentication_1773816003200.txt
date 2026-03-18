@@ -1,0 +1,147 @@
+Here's the complete description of all 3 authentication screens for your mobile app. You can share this directly with Replit:
+
+Auth Screen — 3 Tabs: Sign In | Sign Up | Celebrity
+The auth page (/auth) has a sticky header with the app title "StarConnect" and a segmented tab bar (3 equal-width buttons in a rounded pill container). Below is a scrollable card-based content area.
+
+Tab 1: Sign In
+Header: "Welcome Back!" / "Sign in to your account"
+
+Form Fields:
+
+Email — text input, placeholder "your@email.com", required
+Password — password input, required
+"Forgot Password?" link — opens a sub-view (not a new page)
+Button: "Sign In" (full-width, shows spinner when loading)
+
+Post-Login Redirect Logic:
+
+If user role = admin → redirect to /admin
+If user has a celebrity profile → redirect to /celebrity-dashboard
+Otherwise → redirect to /dashboard
+Forgot Password Sub-View:
+
+Back arrow button to return to Sign In
+Title: "Forgot Password" with a key icon
+Toggle between two methods using radio-style selectors:
+Email: Input field for email address
+Phone: Input field for phone number (looks up the associated email in the database, then sends reset link to that email)
+Button: "Send Reset Link"
+Success state: Shows a checkmark icon, "Reset Link Sent!" message, and "Back to Sign In" button
+Error messages shown in a red alert box
+Tab 2: Sign Up (2-Step Flow)
+Step 1: Registration Form
+Header: "Create Account" / "Join Wish Me and start connecting"
+
+Form Fields:
+
+First Name + Last Name — side by side (2-column grid), required
+Email — email input, placeholder "your@email.com", required. Validated with regex. Error shown below field with red AlertCircle icon.
+Phone Number — tel input, placeholder "+91 98765 43210", required. Must be a valid 10-digit Indian mobile number. Helper text: "Enter 10-digit Indian mobile number". Error shown below field.
+Password — custom Password Strength Meter component:
+Password input with eye toggle (show/hide) and copy button
+"Generate Strong Password" button that creates a random secure password
+Progress bar showing strength (Weak/Fair/Good/Strong/Very Strong)
+Checklist of requirements (all must pass):
+At least 12 characters
+Contains uppercase letter
+Contains lowercase letter
+Contains number
+Contains special character (!@#$%^&*)
+Password must score >= 5 to be valid
+Referral Code — optional text input, auto-populated from URL param ?ref=CODE
+Button: "Continue to Verification" (disabled until password is valid)
+
+Step 2: OTP Verification
+Header: "Verify Your Email" / "Complete verification to create your account"
+
+UI:
+
+6 individual digit input slots (large, h-14 w-12, rounded-xl, border-2)
+Slots highlight with primary color border and glow when active
+Auto-submits when all 6 digits are entered
+"Verify Email" button (also manual submit)
+"Resend OTP" button with 30-second cooldown timer
+"Back to Registration" button
+Error messages displayed below OTP input (e.g., "Invalid verification code", "This code has expired")
+Loading spinner shows "Creating your account..." after verification succeeds
+Backend Flow:
+
+OTP is sent via Supabase Edge Function (send-email-otp) using Resend email service
+OTP is a 6-digit code, SHA-256 hashed in database (email_otp_verifications table)
+Rate limited: max 5 OTPs per hour per email
+OTP expires after a set time
+Verification via Edge Function (verify-email-otp)
+On success: calls signUp() to create Supabase auth user + profile, then sends WhatsApp welcome message
+Tab 3: Celebrity Registration
+Header: "Join as Celebrity" / "Connect with your fans directly"
+
+Currently links to a full Celebrity Signup page (/celebrity-signup). Here are the complete form details:
+
+Celebrity Signup Page Layout:
+
+Benefits Section (shown above form):
+
+3 benefit cards displayed horizontally:
+TrendingUp icon — "Earn Extra Income" / "Monetize your fame..."
+Users icon — "Connect with Fans" / "Build deeper relationships..."
+Star icon — "Flexible Schedule" / "Work on your own time..."
+Application Form Sections:
+
+1. Personal Information:
+
+First Name (required)
+Last Name (required)
+Email (required)
+Phone (required)
+Date of Birth (date picker, optional)
+2. Professional Information:
+
+Stage Name (required)
+Category — dropdown select populated from celebrity_categories table (e.g., Actor/Actress, Musician, Comedian, etc.)
+Bio — textarea, required, placeholder "Tell us about yourself, your career achievements..."
+3. Social Media Links:
+
+Instagram (with Instagram icon)
+YouTube (with YouTube icon)
+Twitter/X (with Twitter icon)
+TikTok
+Facebook
+LinkedIn
+Website
+Other
+4. Verification:
+
+Portfolio Link — URL input (optional)
+5. Terms & Agreements (checkboxes, both required):
+
+"I agree to the Terms of Service and Celebrity Agreement"
+"I consent to a background verification check"
+Button: "Submit Application" with Star icon (shows spinner when loading)
+
+Validation:
+
+Checks all required fields filled
+Checks both term checkboxes are checked
+Checks if email already has a pending/approved/rejected application (shows specific error for each case)
+On Success:
+
+Inserts into celebrity_applications table with status "pending"
+Shows success toast: "Application submitted successfully! Admin will review and create your account."
+Redirects to home page after 2 seconds
+Important Note: Celebrity registration does NOT create a user account. It submits an application that an admin must review and approve. The admin then creates the celebrity account manually.
+
+Additional UI Elements on Auth Page:
+Below the auth card (mobile):
+
+Featured Celebrities section — 2x2 grid of placeholder celebrity avatars (gradient circles with star icons)
+"Why Choose StarConnect?" section — 3 feature rows:
+Video icon — "Personal Videos" / "Custom messages for any occasion"
+Heart icon — "Direct Connection" / "Chat directly with your favorite stars"
+Shield icon — "Verified Celebrities" / "All stars are verified and authentic"
+Styling:
+
+Background: gradient from-primary/5 via-background to-secondary/5
+Cards: border-primary/20 shadow-xl bg-background/90 backdrop-blur-sm
+Input fields on mobile: h-12 rounded-xl
+Buttons on mobile: h-12 rounded-xl
+Tab bar: bg-muted rounded-xl p-1 with active tab having bg-background shadow-sm
