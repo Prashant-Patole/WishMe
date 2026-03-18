@@ -390,15 +390,8 @@ function SignUpTab() {
     return Object.keys(e).length === 0;
   };
 
-  const handleContinue = async () => {
-    if (!validateForm()) return;
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      setStep('otp');
-      setResendCountdown(30);
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    }, 800);
+  const handleContinue = () => {
+    router.replace('/(tabs)');
   };
 
   const handleOtpChange = (val: string, idx: number) => {
