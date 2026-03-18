@@ -261,9 +261,20 @@ export default function HomeScreen() {
               <Text style={[fontVariants.caption, { color: colors.mutedForeground }]}>
                 {user ? `Welcome back,` : 'Welcome to'}
               </Text>
-              <Text style={[fontVariants.h3, { color: colors.foreground }]}>
-                {user?.firstName ? `${user.firstName} 👋` : 'WishMe ✨'}
-              </Text>
+              {user?.firstName ? (
+                <Text style={[fontVariants.h3, { color: colors.foreground }]}>
+                  {`${user.firstName} 👋`}
+                </Text>
+              ) : (
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                  <Text style={[fontVariants.h3, { color: colors.foreground }]}>WishMe</Text>
+                  <Image
+                    source={require('@/assets/images/wishme-logo.png')}
+                    style={{ width: 30, height: 30 }}
+                    resizeMode="contain"
+                  />
+                </View>
+              )}
             </View>
             <View style={styles.headerActions}>
               <Pressable
