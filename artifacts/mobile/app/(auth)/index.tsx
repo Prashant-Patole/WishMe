@@ -603,11 +603,11 @@ function SignUpTab() {
         autoCapitalize="characters"
       />
 
-      <Pressable onPress={handleContinue} disabled={isLoading || !isPasswordValid}>
+      <Pressable onPress={handleContinue}>
         <LinearGradient
           colors={['#FF6B33', '#B44CFF']}
           start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
-          style={[styles.gradientBtn, { opacity: isLoading || !isPasswordValid ? 0.5 : 1 }]}
+          style={[styles.gradientBtn, { opacity: 1 }]}
         >
           {isLoading ? <ActivityIndicator color="#fff" /> : (
             <Text style={{ color: '#fff', fontFamily: 'Inter_700Bold', fontSize: fontSize.base }}>
