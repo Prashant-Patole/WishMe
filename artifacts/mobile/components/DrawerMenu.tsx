@@ -198,6 +198,7 @@ function DrawerPanelContent() {
 
 export default function DrawerMenu({ children }: { children: React.ReactNode }) {
   const { animValue, isOpen, close } = useDrawer();
+  const { colors } = useTheme();
 
   const drawerTranslateX = animValue.interpolate({
     inputRange: [0, 1],
@@ -220,7 +221,7 @@ export default function DrawerMenu({ children }: { children: React.ReactNode }) 
   });
 
   return (
-    <View style={styles.root}>
+    <View style={[styles.root, { backgroundColor: colors.primary }]}>
       <Animated.View
         style={[
           styles.drawerSlot,
