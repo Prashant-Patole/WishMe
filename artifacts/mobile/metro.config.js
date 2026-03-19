@@ -3,22 +3,25 @@ const path = require("path");
 
 const projectRoot = __dirname;
 const workspaceRoot = path.resolve(projectRoot, "../..");
+const mobileModules = path.resolve(projectRoot, "node_modules");
 
 const config = getDefaultConfig(projectRoot);
 
 config.watchFolders = [workspaceRoot];
 
 config.resolver.nodeModulesPaths = [
-  path.resolve(projectRoot, "node_modules"),
+  mobileModules,
   path.resolve(workspaceRoot, "node_modules"),
 ];
 
 config.resolver.unstable_enablePackageExports = true;
 
-config.resolver.extraNodeModules = {
-  "react": path.resolve(projectRoot, "node_modules/react"),
-  "react-native": path.resolve(projectRoot, "node_modules/react-native"),
-  "react-dom": path.resolve(projectRoot, "node_modules/react-dom"),
+config.resolver.resolveRequest = (context, moduleName, platform) => {
+  if (moduleName === "react" || moduleName === "react-native") {
+    const resolved = require.resolve(moduleName, { paths: [mobileModules] });
+    return { filePath: resolved, type: "sourceFile" };
+  }
+  return context.resolveRequest(context, moduleName, platform);
 };
 
 module.exports = config;
