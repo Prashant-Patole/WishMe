@@ -2,6 +2,7 @@
   "expo": {
     "name": "WishMe",
     "slug": "wishme-app",
+    "owner": "prashant1111",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -39,6 +40,11 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": false
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f076c845-36c0-4504-a1bb-8fe935785f0f"
+      }
     }
   }
 }
