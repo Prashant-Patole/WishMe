@@ -191,7 +191,12 @@ function SignInTab() {
     try {
       await login(email.trim(), password);
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-      const role = user?.role ?? 'user';
+      const trimmedEmail = email.trim();
+      const role = trimmedEmail.includes('admin')
+        ? 'admin'
+        : trimmedEmail.includes('celebrity') || trimmedEmail.includes('star')
+        ? 'celebrity'
+        : 'user';
       if (role === 'admin') router.replace('/admin' as never);
       else if (role === 'celebrity') router.replace('/celebrity-dashboard' as never);
       else router.replace('/(tabs)');
