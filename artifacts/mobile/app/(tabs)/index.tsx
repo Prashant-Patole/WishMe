@@ -51,7 +51,7 @@ const VIDEO_WISHES: {
   id: string;
   title: string;
   desc: string;
-  videoUri: string | number;
+  videoUri: string | number | null;
   gradient: readonly [string, string, string];
   tag: string;
 }[] = [
@@ -59,7 +59,7 @@ const VIDEO_WISHES: {
     id: '1',
     title: 'Celebrate Academic Success',
     desc: "Recognise their dedication with a personal celebrity video message. Whether it's cracking an entrance exam or walking the graduation stage, make the achievement unforgettable.",
-    videoUri: require('../../assets/videos/graduation-wish.mp4'),
+    videoUri: null,
     gradient: ['#3B82F6', '#0EA5E9', '#06B6D4'],
     tag: 'Graduation',
   },
@@ -67,7 +67,7 @@ const VIDEO_WISHES: {
     id: '2',
     title: 'Make Birthdays Special',
     desc: 'Turn any birthday into a moment they will talk about forever. A surprise celebrity video wish is the most personal, heartfelt gift you can give.',
-    videoUri: require('../../assets/videos/happy-birthday.mp4'),
+    videoUri: null,
     gradient: ['#FF6B33', '#E8527A', '#FF8C42'],
     tag: 'Birthday',
   },
@@ -75,7 +75,7 @@ const VIDEO_WISHES: {
     id: '3',
     title: 'Honor Love & Commitment',
     desc: 'Celebrate their special bond with personalized video wishes. Create beautiful memories with custom anniversary messages that touch hearts.',
-    videoUri: require('../../assets/videos/wedding-anniversary.mp4'),
+    videoUri: null,
     gradient: ['#B44CFF', '#7B2FFF', '#E8527A'],
     tag: 'Anniversary',
   },

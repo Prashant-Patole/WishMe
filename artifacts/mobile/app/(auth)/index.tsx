@@ -190,7 +190,7 @@ function SignInTab() {
     setIsLoading(true);
     try {
       await login(email.trim(), password);
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       const trimmedEmail = email.trim();
       const role = trimmedEmail.includes('admin')
         ? 'admin'
