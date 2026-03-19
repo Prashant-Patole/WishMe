@@ -1,0 +1,36 @@
+
+Library
+Create apps, documents, images, and more with the agent
+#1 - WishMe Expo Standalone Project (UI Only)
+What & Why
+Create a brand-new standalone Expo (React Native) project for the WishMe app. The user will share their existing mobile/ folder as a reference. The agent uses that reference to replicate the full UI structure and apply all known config fixes so the project builds a release APK on Windows without errors. Backend/API integration is out of scope — the user will handle that separately.
+
+Done looks like
+A standalone Expo project exists (in a new separate Replit project, NOT inside the pnpm monorepo)
+All screen, component, context, and asset files are replicated verbatim from the reference folder
+package.json has "main": "expo-router/entry", all deps as real version numbers (no catalog: or workspace:*)
+app.json has newArchEnabled: true and reactCompiler: false
+babel.config.js uses api.cache(false)
+metro.config.js has unstable_enablePackageExports: true + resolveRequest hook forcing react/react-native to resolve from a single location
+app/_layout.tsx has KeyboardProvider removed, plain ScrollView used instead of KeyboardAwareScrollViewCompat
+Android signing configured: alias my-key-alias, password aseas@#, newArchEnabled=true in gradle.properties
+signingConfigs block placed outside and above buildTypes in android/app/build.gradle
+App runs in Expo dev mode
+User receives step-by-step Windows APK build instructions
+Out of scope
+API integration (user will add this later)
+Backend/server code
+Data fetching, API calls, or network logic
+Any modifications to UI screens or components beyond what is needed to remove crash-causing imports
+Workflow
+Wait for reference — User pushes their mobile/ folder to GitHub and shares the repo. Agent clones/pulls it as reference.
+Scaffold from reference — Replicate the UI structure verbatim, rewrite only the config files with all fixes applied.
+Verify + deliver instructions — Confirm dev mode works, then provide Windows APK build guide.
+Tasks
+Receive and review the reference folder — After the user shares the GitHub repo with the mobile folder, pull it and inspect the full structure: app/, components/, context/, assets/, and existing config files. Understand the app's routing, screens, and dependencies before writing anything.
+
+Scaffold the standalone Expo project with all fixes — Replicate all UI files (screens, components, context, assets) verbatim from the reference. Rewrite the five config files (package.json, app.json, babel.config.js, metro.config.js, app/_layout.tsx) applying every known fix. No API/backend code. Ensure node_modules are only inside the project folder, never at a parent level.
+
+Configure Android release signing — Set newArchEnabled=true in android/gradle.properties plus signing variable stubs. Place signingConfigs block (alias my-key-alias, password aseas@#) outside and above buildTypes in android/app/build.gradle.
+
+Verify dev mode and deliver APK build instructions — Run npx expo start to confirm the project starts cleanly. Deliver step-by-step Windows instructions: keystore placement, .\gradlew assembleRelease --rerun-tasks, and the cache-clear fallback (manually delete app\.cxx and app\build if gradle clean fails).
