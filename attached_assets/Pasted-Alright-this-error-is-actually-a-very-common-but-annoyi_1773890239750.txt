@@ -1,0 +1,138 @@
+Alright — this error is actually a very common (but annoying) React Native + Expo issue, especially in release builds. Let’s break it down properly 👇
+
+❌ Your Main Error
+TypeError: Cannot read property 'useState' of null
+
+This means:
+👉 React is coming as null somewhere
+👉 So hooks like useState are breaking
+
+💥 Root Causes (Most Likely in Your Case)
+
+From your logs + setup, one of these is happening:
+
+1. 🚨 Multiple React Versions (VERY COMMON)
+
+You already said:
+
+"i have 2 node_modules"
+
+That’s a big red flag.
+
+👉 If you have:
+
+one node_modules in root
+
+one inside /mobile
+
+Then React might be duplicated → app crashes in release
+
+2. 🚨 Metro / Bundle mismatch (Expo issue)
+
+Expo sometimes bundles incorrectly in release if cache is dirty.
+
+3. 🚨 Wrong import (less likely but check)
+
+Somewhere you might have:
+
+import React, { useState } from 'react';
+
+But React is resolving incorrectly.
+
+4. 🚨 Expo Router / Navigation conflict
+
+Your stack shows:
+
+EnsureSingleNavigator
+NavigationContainerInner
+ExpoRoot
+
+👉 Could be:
+
+multiple NavigationContainers
+
+or incorrect layout setup
+
+✅ FIX — Do This STEP BY STEP (Don’t skip)
+🧹 Step 1: Delete ALL node_modules
+
+From BOTH folders:
+
+root/
+mobile/
+
+Then run:
+
+rm -rf node_modules
+rm -rf mobile/node_modules
+rm -rf package-lock.json
+rm -rf mobile/package-lock.json
+📦 Step 2: Install clean dependencies
+
+Go to your main project folder:
+
+npm install
+
+If mobile is separate:
+
+cd mobile
+npm install
+🔍 Step 3: Ensure SINGLE React version
+
+Run this:
+
+npm ls react
+
+👉 You should see ONLY ONE version
+If multiple → tell me, I’ll fix it for you
+
+🔥 Step 4: Clear Expo cache (IMPORTANT)
+npx expo start -c
+🏗 Step 5: Rebuild APK properly
+
+If using local build:
+
+npx expo prebuild
+npx expo run:android
+
+Or:
+
+cd android
+./gradlew clean
+⚠️ Extra Check (VERY IMPORTANT)
+Check your RootLayout or App file
+
+Make sure you are NOT doing this:
+
+<NavigationContainer>
+  <NavigationContainer>  ❌❌
+
+👉 Only ONE NavigationContainer allowed
+
+💡 About This Warning
+[expo-av]: Expo AV has been deprecated
+
+👉 Not causing crash — ignore for now
+
+🧠 What I Think Happened (Based on Your Case)
+
+Since:
+
+You built APK manually
+
+You have 2 node_modules
+
+👉 90% chance:
+Duplicate React instance → hooks break → app crashes instantly
+
+🚀 If Still Not Working
+
+Send me:
+
+Your folder structure (screenshot)
+
+package.json (root + mobile)
+
+RootLayout.js or App.js
+
+I’ll pinpoint exact issue — no guessing.
