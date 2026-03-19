@@ -7,7 +7,7 @@ const mobileModules = path.resolve(projectRoot, "node_modules");
 
 const config = getDefaultConfig(projectRoot);
 
-config.watchFolders = [workspaceRoot];
+config.watchFolders = [projectRoot];
 
 config.resolver.nodeModulesPaths = [
   mobileModules,
