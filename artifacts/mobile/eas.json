@@ -13,6 +13,7 @@
     },
     "preview": {
       "distribution": "internal",
+      "requireCommit": true,
       "android": {
         "buildType": "apk"
       }
