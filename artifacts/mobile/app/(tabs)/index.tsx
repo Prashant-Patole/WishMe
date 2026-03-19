@@ -239,7 +239,7 @@ export default function HomeScreen() {
   const { toggle } = useDrawer();
   const insets = useSafeAreaInsets();
   const [bannerIndex, setBannerIndex] = useState(0);
-  const [visibleWishIds, setVisibleWishIds] = useState<Set<string>>(new Set(['1']));
+  const [visibleWishIds, setVisibleWishIds] = useState<Set<string>>(new Set());
 
   const wishViewConfig = useRef({ viewAreaCoveragePercentThreshold: 50 });
   const onWishViewable = useCallback(({ viewableItems }: { viewableItems: ViewToken[] }) => {
